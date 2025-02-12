@@ -1,0 +1,38 @@
+import numpy as np
+import matplotlib.pyplot as plt
+from mpl_toolkits.mplot3d import Axes3D
+plt.rc('text', usetex=True)
+
+fig = plt.figure()
+axe1 = fig.add_subplot(221)
+x = np.linspace(-2, 2, 401)
+y = np.linspace(-2, 3, 501)
+x,y = np.meshgrid(x,y)
+z = x*np.exp(-x**2-y**2)
+contour1 = axe1.contour(x,y,z)
+axe1.clabel(contour1,colors="black")
+axe1.set_xlabel('$x$')
+axe1.set_ylabel('$y$',rotation=0)
+axe3 = fig.add_subplot(223, projection='3d')
+axe3.plot_surface(x,y,z,cmap='viridis')
+axe3.set_xlabel('$x$')
+axe3.set_ylabel('$y$')
+axe3.set_zlabel('$z$')
+
+axe2 = fig.add_subplot(222)
+x = np.linspace(-1.5, 2, 351)
+y = np.linspace(-1.5, 2, 351)
+x,y = np.meshgrid(x,y)
+z = (1-x**2-y**2)*np.exp(-y**3/3)
+contour2 = axe2.contour(x,y,z)
+axe2.clabel(contour2,colors="black")
+axe2.set_xlabel('$x$')
+axe2.set_ylabel('$y$',rotation=0)
+axe4 = fig.add_subplot(224, projection='3d')
+axe4.plot_surface(x,y,z,cmap='viridis')
+axe4.set_xlabel('$x$')
+axe4.set_ylabel('$y$')
+axe4.set_zlabel('$z$')
+
+fig.tight_layout()
+plt.show()
