@@ -16,7 +16,7 @@ public:
     ~Widget() override;
 
 private:
-    //称 Ui::myWidget 为窗口Ui类
+    //称 Ui::Widget 为窗口Ui类
     Ui::Widget *ui; //窗口 Ui 类指针，指向可视化设计的窗口界面，要访问界面上的组件，就需要通过该指针实现
 };
 
