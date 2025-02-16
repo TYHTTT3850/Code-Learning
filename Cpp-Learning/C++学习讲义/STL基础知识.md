@@ -553,11 +553,85 @@ string s5 = s2;
 
 基本和 `vector` 一致。
 
-### `stack` 容器
-
 ### `queue` 容器
 
 ### `deque` 容器
+
+### `stack` 容器
+
+`stack` 是一种先进后出的数据结构，只有一个出口，即俗称的栈。
+
+栈**不允许有遍历行为**，只有顶部元素可以使用。
+
+#### `stack` 构造/初始化
+
+##### 1、普通构造
+
+`stack<类型> 容器名` 。
+
+##### 2、拷贝构造
+
+用另一个 `stack` 容器来初始化。
+
+`stack<类型> b(a)` ：要求 `a` 和 `b` 的数据类型必须相同。
+
+`vector<类型> c=a` ：效果和要求同上。
+
+##### 3、使用其他容器来初始化
+
+可以使用 `vector` ，`list` ，`deque` ，来实现初始化，注意数据类型要匹配。
+
+`stack<类型> 容器名(deque型容器)` 。
+
+`stack<类型,vector<类型>> 容器名(vector型容器)` 。
+
+`stack<类型,list<类型>> 容器名(list型容器)` 。
+
+注意 `deque` 和 `vector` 、`list` 的区别
+
+```cpp
+#include <stack>
+#include <vector>
+#include <list>
+#include <deque>
+
+vector<int> v {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+list<int> l {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+deque<int> d {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+
+// 普通构造
+stack<int> s;
+
+// 使用vector容器来初始化
+stack<int,vector<int>> s1(v); //后面的元素在前面的元素的上层，下同
+
+// 使用list容器来初始化
+stack<int,list<int>> s2(l);
+
+// 使用deque容器来初始化
+stack<int> s3(d);
+
+// 拷贝构造
+stack<int> s4(s3);
+```
+
+#### `stack` 常用方法
+
+##### 大小
+
+`容器名.empty()` ：判断堆栈是否为空。
+
+`容器名.size()` ： 返回栈的元素个数。
+
+##### 索引
+
+`容器名.top()` ：返回栈顶元素。
+
+##### 插入和删除
+
+`容器名.pop()` ：删除栈顶元素。
+
+`容器名.push(value)` ：向栈顶压入指定值。
 
 ### `set/multiset` 容器
 
