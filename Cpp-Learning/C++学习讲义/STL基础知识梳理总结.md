@@ -170,6 +170,7 @@ vector<vector<int>> c(5,vector<int>(3,0)) //有5个 vector 容器，每个容器
 
 #### `vector` 常用方法
 
+<a id="`vector`-大小"></a>
 ##### 大小
 
 `容器名.empty()` ：判断是否为空，空则返回真，反之返回假。
@@ -180,6 +181,7 @@ vector<vector<int>> c(5,vector<int>(3,0)) //有5个 vector 容器，每个容器
 
 `容器名.resize(count,value)` ：用指定值填充新的位置。
 
+<a id="`vector`-赋值"></a>
 ##### 赋值
 
 `容器名.assign(begin,end)` ： 将地址区间 `begin` 到 `end` 中的数据拷贝赋值给容器，区间为左闭右开。
@@ -342,6 +344,7 @@ list<int> l7 = l2;
 
 #### `list` 常用方法
 
+<a id="`list`-大小"></a>
 ##### 大小
 
 `容器名.empty()` ：判断是否为空，空则返回真，反之返回假。
@@ -352,6 +355,7 @@ list<int> l7 = l2;
 
 `容器名.resize(count,value)` ：用指定值填充新的位置。
 
+<a id="`list`-赋值"></a>
 ##### 赋值
 
 `容器名.assign(begin,end)` ：将地址区间 `begin` 到 `end` 中的数据拷贝赋值给容器。
@@ -652,11 +656,11 @@ queue<int> q4 = q1;
 
 ##### 大小
 
-与[ `vector` 的大小](#大小)和[ `list` 的大小](#大小-1)基本一致。
+与[ `vector` 的大小](#`vector`-大小)和[ `list` 的大小](#`list`-大小)基本一致。
 
 ##### 赋值
 
-与[ `vector` 的赋值](#赋值)和[ `list` 的赋值](#赋值-1)基本一致。
+与[ `vector` 的赋值](#`vector`-赋值)和[ `list` 的赋值](#`list`-赋值)基本一致。
 
 ### `stack` 容器
 
