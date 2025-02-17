@@ -681,11 +681,11 @@ queue<int> q4 = q1;
 
 ##### 索引
 
-与[ `vector` 索引 ](#`vector`-索引)基本一致。
+与[ `vector` 索引](#`vector`-索引)基本一致。
 
 #### `deque` 遍历
 
-与[ `vector` 遍历 ](#`vector`-遍历)基本一致。
+与[ `vector` 遍历](#`vector`-遍历)基本一致。
 
 ### `stack` 容器
 
