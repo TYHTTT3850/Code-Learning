@@ -644,7 +644,7 @@ queue<int> q4 = q1;
 
 #### `deque` 构造/初始化
 
-与[ `vector` 构造/初始化]([#vector-构造/初始化](https://github.com/TYHTTT3850/Computer-Technology-Learning/blob/main/Cpp-Learning/C++%E5%AD%A6%E4%B9%A0%E8%AE%B2%E4%B9%89/STL%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%E6%A2%B3%E7%90%86%E6%80%BB%E7%BB%93.md#vector-%E6%9E%84%E9%80%A0%E5%88%9D%E5%A7%8B%E5%8C%96))和 [ `list` 构造/初始化](#list-构造/初始化)基本一致。
+与[ `vector` 构造/初始化](#vector-构造/初始化)和 [ `list` 构造/初始化](#list-构造/初始化)基本一致。
 
 #### `deque` 常用方法
 
