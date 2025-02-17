@@ -208,6 +208,16 @@ vector<vector<int>> c(5,vector<int>(3,0)) //有5个 vector 容器，每个容器
 
 `容器名.clear()` ：是清空所有元素。
 
+```cpp
+vector<int> v = {1, 2, 3, 4, 5};
+
+// 删除第二个元素 (值为 2)
+v.erase(v.begin() + 1);
+
+// 删除从第二个元素到第四个元素
+v.erase(v.begin() + 1, v.begin() + 4); // 左闭右开区间
+```
+
 <a id="`vector`-索引"></a>
 ##### 索引
 
@@ -218,16 +228,6 @@ vector<vector<int>> c(5,vector<int>(3,0)) //有5个 vector 容器，每个容器
 `容器名[index]` ：返回对应索引处的值。
 
 `容器名.at(int index)` ：返回索引 `index` 所指的数据。等同于使用运算符 `[]` 索引。
-
-```cpp
-vector<int> v = {1, 2, 3, 4, 5};
-
-// 删除第二个元素 (值为 2)
-v.erase(v.begin() + 1);
-
-// 删除从第二个元素到第四个元素
-v.erase(v.begin() + 1, v.begin() + 4); // 左闭右开区间
-```
 
 #### `vector` 遍历
 
