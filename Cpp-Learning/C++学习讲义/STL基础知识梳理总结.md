@@ -229,6 +229,7 @@ v.erase(v.begin() + 1, v.begin() + 4); // 左闭右开区间
 
 `容器名.at(int index)` ：返回索引 `index` 所指的数据。等同于使用运算符 `[]` 索引。
 
+<a id="`vector`-遍历"></a>
 #### `vector` 遍历
 
 普通的 `for` 循环
@@ -681,6 +682,10 @@ queue<int> q4 = q1;
 ##### 索引
 
 与[ `vector` 索引 ](#`vector`-索引)基本一致。
+
+#### `deque` 遍历
+
+与[ `vector` 遍历 ](#`vector`-遍历)基本一致。
 
 ### `stack` 容器
 
