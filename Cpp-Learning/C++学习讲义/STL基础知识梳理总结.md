@@ -192,13 +192,7 @@ vector<vector<int>> c(5,vector<int>(3,0)) //有5个 vector 容器，每个容器
 
 不能修改元素，其余和普通迭代器一样。
 
-`容器名.cbegin()` 
-
-`容器名.cend()` 
-
-`容器名.rbegin()` 
-
-`容器名.rend()` 
+`容器名.cbegin()` 、 `容器名.cend()` 、 `容器名.rbegin()` 、 `容器名.rend()` 
 
 #### `vector` 常用方法
 
@@ -392,13 +386,7 @@ list<int> l7 = l2;
 
 不能修改元素，其余和普通迭代器一样。
 
-`容器名.cbegin()` 
-
-`容器名.cend()` 
-
-`容器名.rbegin()` 
-
-`容器名.rend()` 
+`容器名.cbegin()` 、 `容器名.cend()` 、 `容器名.rbegin()` 、 `容器名.rend()` 
 
 #### `list` 常用方法
 
