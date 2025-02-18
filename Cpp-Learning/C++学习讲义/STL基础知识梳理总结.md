@@ -138,8 +138,6 @@ STL提供了六大组件，彼此之间可以组合套用。
 
 `vector<类型> b(a)` ：要求 `a` 和 `b` 的数据类型必须相同。
 
-`vector<类型> c=a` ：效果和要求同上。
-
 ```cpp
 #include <vector>
 
@@ -215,6 +213,8 @@ vector<vector<int>> c(5,vector<int>(3,0)) //有5个 vector 容器，每个容器
 `容器名.assign(count,value)` ：将count个指定值拷贝赋值给容器。
 
 `容器名.swap(another_vector)` ：将另一个 `vector` 容器的值与自身的值互换。
+
+`vector<类型> c=a` ：重载 `=` 操作符，将另一个 `vector` 容器的数据复制到自身。
 
 ##### 插入和删除
 
@@ -336,8 +336,6 @@ while (it != v.end())
 
 `list<类型> b(a)` ：要求 `a` 和 `b` 的数据类型必须相同。
 
-`vector<类型> c=a` ：效果和要求同上。
-
 ```cpp
 #include <list>
 
@@ -409,6 +407,8 @@ list<int> l7 = l2;
 `容器名.assign(count,value)` ：将count个value拷贝赋值给容器。
 
 `容器名.swap(another_list)` 将另一个 `list` 容器与自身的值互换。
+
+`list<类型> c=a` ：重载 `=` 操作符，将另一个 `list` 容器的数据复制到自身。
 
 <a id="`list`-插入和删除"></a>
 ##### 插入和删除
@@ -483,8 +483,6 @@ list<int> l7 = l2;
 
 `string b(a)` ：也可以直接 `string b("字符串")`
 
-`string c=a` ：效果同上。
-
 ```cpp
 #include <string>
 
@@ -531,6 +529,10 @@ string s5 = s2;
 `容器名.assign(another_string,n,count)` ：将另一个字符串从**索引n**处取count个字符赋值给此字符串。
 
 `容器名.assign(字符串字面量,count)` ：取字符串字面量的前count个字符赋值给此字符串。
+
+`容器名.swap(another_string)` 将另一个 `string` 容器与自身的值互换。
+
+`string c=a` ：重载 `=` 操作符，将另一个 `string` 容器的数据复制到自身。
 
 ##### 拼接
 
@@ -624,8 +626,6 @@ string s5 = s2;
 
 `queue<类型> b(a)` ：要求 `a` 和 `b` 的数据类型必须相同。
 
-`queue<类型> c=a` ：效果和要求同上。
-
 ##### 3、使用其他容器来初始化
 
 可以使用 `list` ，`deque` ，来实现初始化，注意数据类型要匹配。
@@ -666,6 +666,12 @@ queue<int> q4 = q1;
 `容器名.empty()` ：判断队列是否为空。
 
 `容器名.size()` ： 返回队列的元素个数。
+
+##### 赋值
+
+`容器名.swap(another_queue)` 将另一个 `queue` 容器与自身的值互换。
+
+`queue<类型> c=a` ：重载 `=` 操作符，将另一个 `queue` 容器的数据复制到自身。
 
 ##### 索引
 
@@ -775,8 +781,6 @@ deque<int> d5(d4);
 
 `stack<类型> b(a)` ：要求 `a` 和 `b` 的数据类型必须相同。
 
-`stack<类型> c=a` ：效果和要求同上。
-
 ##### 3、使用其他容器来初始化
 
 可以使用 `vector` ，`list` ，`deque` ，来实现初始化，注意数据类型要匹配。
@@ -825,6 +829,12 @@ stack<int> s5 = s1;
 
 `容器名.size()` ： 返回栈的元素个数。
 
+##### 赋值
+
+`容器名.swap(another_stack)` 将另一个 `stack` 容器与自身的值互换。
+
+`stack<类型> c=a` ：重载 `=` 操作符，将另一个 `stack` 容器的数据复制到自身。
+
 ##### 索引
 
 `容器名.top()` ：返回栈顶元素。
@@ -869,17 +879,11 @@ stack<int> s5 = s1;
 
 ##### 3、拷贝构造
 
-**用另一个 `set` 容器来初始化。**
+**用另一个 `set\multiset` 容器来初始化。**
 
 `set<类型> b(a)` ：要求 `a` 和 `b` 的数据类型必须相同。
 
-`set<类型> c=a` ：效果和要求同上。
-
-**用另一个 `multiset` 容器来初始化。**
-
 `multiset<类型> b(a)` ：要求 `a` 和 `b` 的数据类型必须相同。
-
-`multiset<类型> c=a` ：效果和要求同上。
 
 ```cpp
 #include <vector>
@@ -925,6 +929,10 @@ multiset<int> ms3(ms1);
 `容器名.swap(another_set)` ：将另一个 `set` 容器的值与自身的值互换。
 
 `容器名.swap(another_multiset)` ：将另一个 `multiset` 容器的值与自身的值互换。
+
+`set<类型> c=a` ：重载 `=` 操作符，将另一个 `set` 容器的数据复制到自身。
+
+`multiset<类型> c=a` ：重载 `=` 操作符，将另一个 `multiset` 容器的数据复制到自身。
 
 ##### 插入和删除
 
