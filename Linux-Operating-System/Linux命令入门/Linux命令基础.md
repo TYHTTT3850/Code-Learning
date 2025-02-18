@@ -6,7 +6,7 @@
 
 # Linux命令基础格式
 
-无论什么命令，都有通用格式：`command [-options] [parameter]` ，在语法中 `[]` 表示可选的意思。
+无论什么命令，都有通用格式：`command [-options] [parameter]` ，在语法中 `[]` 表示可选，`{}` 表示必选。
 
 `command` ：命令本身。
 
