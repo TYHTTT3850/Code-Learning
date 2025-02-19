@@ -222,17 +222,17 @@ vector<vector<int>> c(5,vector<int>(3,0)) //有5个 vector 容器，每个容器
 
 `容器名.pop_back()` ：删除最后一个值。
 
-`容器名.insert(iterator position,value)` ：在迭代器指向位置插入指定值。
+`容器名.insert(iterator_position,value)` ：在迭代器指向位置插入指定值。
 
-`容器名.insert(iterator position,int count,value)` ：在迭代器指向位置插入 count 个指定值。
+`容器名.insert(iterator_position,int count,value)` ：在迭代器指向位置插入 count 个指定值。
 
-`容器名.insert(iterator position,begin,end)` ：指定处插入地址区间 `begin` 到 `end` 的值，左闭右开。
+`容器名.insert(iterator_position,begin,end)` ：指定处插入地址区间 `begin` 到 `end` 的值，左闭右开。
 
-`容器名.erase(iterator position)` ：删除迭代器指向的元素。
+`容器名.erase(iterator_position)` ：删除迭代器指向的元素。
 
-`容器名.erase(iterator begin, iterator end)` ：删除迭代器从begin到end之间的元素。
+`容器名.erase(iterator_begin, iterator_end)` ：删除迭代器从begin到end之间的元素。
 
-`容器名.clear()` ：是清空所有元素。
+`容器名.clear()` ：清空所有元素。
 
 ```cpp
 vector<int> v = {1, 2, 3, 4, 5};
@@ -421,19 +421,19 @@ list<int> l7 = l2;
 
 `容器名.pop_front()` ：删除第一个元素。
 
-`容器名.insert(iterator position,value)` ：在迭代器指向位置插入指定值。
+`容器名.insert(iterator_position,value)` ：在迭代器指向位置插入指定值。
 
-`容器名.insert(iterator position,int count,value)` ：在迭代器指向位置插入 count 个指定值。
+`容器名.insert(iterator_position,int count,value)` ：在迭代器指向位置插入 count 个指定值。
 
-`容器名.insert(iterator position,begin,end)` ：指定处插入地址区间 `begin` 到 `end` 的值，左闭右开。
+`容器名.insert(iterator_position,begin,end)` ：指定处插入地址区间 `begin` 到 `end` 的值，左闭右开。
 
-`容器名.erase(iterator position)` ：删除迭代器指向的元素。
+`容器名.erase(iterator_position)` ：删除迭代器指向的元素。
 
-`容器名.erase(iterator begin, iterator end)` ：删除迭代器从begin到end之间的元素。
+`容器名.erase(iterator_begin, iterator_end)` ：删除迭代器从begin到end之间的元素。
 
 `容器名.remove(value)` ：删除容器中所有与指定值匹配的元素。
 
-`容器名.clear()` ：是清空所有元素。
+`容器名.clear()` ：清空所有元素。
 
 ##### 索引
 
@@ -659,6 +659,10 @@ queue<int> q3(q1);
 queue<int> q4 = q1;
 ```
 
+#### `queue` 迭代器
+
+`queue` 本质上是**容器适配器**，没有自己的迭代器。
+
 #### `queue` 常用方法
 
 ##### 大小
@@ -821,6 +825,10 @@ stack<int> s4(s3);
 stack<int> s5 = s1;
 ```
 
+#### `stack` 迭代器
+
+`stack` 本质上是**容器适配器**，没有自己的迭代器。
+
 #### `stack` 常用方法
 
 ##### 大小
@@ -938,23 +946,23 @@ multiset<int> ms3(ms1);
 
 `容器名.insert(value)` ：插入指定值。
 
-`容器名.insert(iterator position,value)` ：在迭代器指向位置插入指定值。
+`容器名.insert(iterator_position,value)` ：在迭代器指向位置插入指定值。
 
-**注意：即使提供迭代器位置，也只是作为性能优化建议，最终仍会按排序规则存储。** 
+**注意：即使提供迭代器位置，也只是作为提示，最终仍会按排序规则存储。** 
 
-`容器名.erase(iterator position)` ：删除迭代器指向的元素。
+`容器名.erase(iterator_position)` ：删除迭代器指向的元素。
 
-`容器名.erase(iterator begin, iterator end)` ：删除迭代器从begin到end之间的元素。
+`容器名.erase(iterator_begin, iterator_end)` ：删除迭代器从begin到end之间的元素。
 
-`容器名.clear()` ：是清空所有元素。
+`容器名.clear()` ：清空所有元素。
 
 ##### 索引
 
 不支持索引。
 
-##### 统计数据
+##### 查找与统计
 
-`容器名.find(value)` ：查找指定值是否存在。若存在，返回该键的元素的迭代器；若不存在，返回end()迭代器。
+`容器名.find(value)` ：查找指定值是否存在。若存在，返回该元素的迭代器；若不存在，则返回end()迭代器。
 
 `容器名.count(value)` ：统计指定值的数量。
 
@@ -962,14 +970,105 @@ multiset<int> ms3(ms1);
 
 #### 介绍
 
+`map/multimap` 都属于**关联式容器**。
 
+**`pair` 对组**：成对出现的数据，利用对组可以返回两个数据。
+
+`pair` 对组有两种创建方式：
+
+`pair<类型,类型> p(value1,value2)` 。
+
+`pair<类型,类型> p = make_pair(value1,value2)` 。
+
+`pair` 对组的数据：
+
+`对组名.first` ：第一个数据。
+
+`对组名.second` ：第二个数据。
+
+在 `map\multimap` 中，所有元素都是 `pair` 对组。`pair` 对组的第一个元素为**key(键值)**,起到**索引作用**，第二个元素为**value(实值)**，所有元素都会根据**元素的键值**自动排序。
+
+**map和multimap区别：**
+
+map不允许容器中有重复key值元素。
+
+multimap允许容器中有重复key值元素。
 
 #### `map/multimap` 构造/初始化
 
+##### 1、普通构造
 
+`map<类型,类型> 容器名` 。
+
+`multimap<类型,类型> 容器名` 。
+
+##### 2、拷贝构造
+
+**用另一个 `map\multimap` 容器来初始化。**
+
+`map<类型,类型> b(a)` ：要求 `a` 和 `b` 的数据类型必须相同。
+
+`multimap<类型,类型> b(a)` ：要求 `a` 和 `b` 的数据类型必须相同。
+
+```cpp
+#include <map>
+
+map<string, int> m;
+multimap<string, int> mm;
+map<string, int> m1(m);
+multimap<string, int> mm1(mm);
+```
 
 #### `map/multimap` 迭代器
 
-
+与 [`vector` 迭代器](#`vector`-迭代器)和 [`list` 迭代器](#`list`-迭代器)一样也有**正反向迭代器**和**常量正反向迭代器**。只不过在使用迭代器访问数据时，要指明 `first` 或 `second` 。
 
 #### `map/multimap` 常用方法
+
+对 `set/multiset` 都适用。
+
+##### 大小
+
+`容器名.empty()` ：判断是否为空，空则返回真，反之返回假。
+
+`容器名.size()` ：返回容器中当前存储的元素个数，即容器中实际包含的元素数量。
+
+##### 赋值
+
+`容器名.swap(another_map)` ：将另一个 `map` 容器的值与自身的值互换。
+
+`容器名.swap(another_multimap)` ：将另一个 `multimap` 容器的值与自身的值互换。
+
+`map<类型,类型> c=a` ：重载 `=` 操作符，将另一个 `map` 容器的数据复制到自身。
+
+`multimap<类型,类型> c=a` ：重载 `=` 操作符，将另一个 `multimap` 容器的数据复制到自身。
+
+##### 插入和删除
+
+**注意**：插入和删除的值都为 `pair` 对组。
+
+`容器名.insert(pair_value)` ：插入指定值。
+
+`容器名.insert(iterator_position,pqir_value)` ：在迭代器指向位置插入指定值。
+
+**注意：即使提供迭代器位置，也只是作为提示，最终仍会键值自动排序存储。**
+
+`容器名.erase(iterator_position)` ：删除迭代器指向的元素。
+
+`容器名.erase(iterator_begin, iterator_end)` ：删除迭代器从begin到end之间的元素。
+
+`容器名.erase(key)` ：删除键值为key的 `pair` 对组。
+
+`容器名.clear()` ：清空所有元素。
+
+##### 索引
+
+`map` 支持 `容器名[key]` 和 `容器名.at(key)` 的索引形式。
+
+`multimap` 不支持索引。
+
+##### 查找与统计
+
+`容器名.find(key)` ：查找指定键值是否存在。若存在，返回该键值的元素的迭代器；若不存在，返回end()迭代器。
+
+`容器名.count(key)` ：统计指定键值的数量。
