@@ -1118,7 +1118,7 @@ name(parameters); //对象已经确定，解析为仿函数调用
 
 1、**普通函数**。
 
-2、[**Lambda 表达式**](Cpp-Learning/C++学习讲义/Lambda匿名函数表达式.md)(常用)。
+2、[**Lambda 表达式**](Lambda匿名函数表达式.md)(常用)。
 
 3、**函数对象(仿函数)**，即通过重载 `operator()` 实现。
 
