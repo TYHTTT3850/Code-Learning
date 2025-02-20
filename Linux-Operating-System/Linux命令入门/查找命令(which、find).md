@@ -13,7 +13,7 @@ which {要查找的命令}
 ```bash
 find {起始路径} -name "被查找的文件名"
 
-find {起始路径} -size {+||-}n[k || M || G || T]
+find {起始路径} -size {+|-}n[k | M | G | T]
 ```
 
 `-name` ：表明以文件名模式查找。
