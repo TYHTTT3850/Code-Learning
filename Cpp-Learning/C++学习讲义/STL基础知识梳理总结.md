@@ -114,6 +114,7 @@ STL提供了六大组件，彼此之间可以组合套用。
 `vector` 尾部添加或移除元素非常快速。但是在中部或头部插入元素或移除元素比较费时。
 
 <a id="`vector`-构造/初始化"></a>
+
 #### `vector` 构造/初始化
 
 ##### 1、普通构造
@@ -1107,21 +1108,31 @@ name(parameters); //对象已经确定，解析为仿函数调用
 
 3.函数对象可以作为参数传递。
 
-### 谓词
+<a id="谓词"></a>
 
-谓词就是返回值类型为 `bool` 类型函数对象。
+## 谓词
 
-参数为1个的 —— **一元谓词**。
+谓词就是返回值类型为 `bool` 类型的函数或函数对象。
 
-参数为2个的 —— **二元谓词**。
+谓词的实现通常使用一下三种方式：
 
-### 标准仿函数
+**普通函数**。
+
+**Lambda 表达式**(常用)。
+
+**函数对象(仿函数)**，即通过重载 `operator()` 实现。
+
+传入参数为1个的 —— **一元谓词**。
+
+传入参数为2个的 —— **二元谓词**。
+
+## 标准仿函数
 
 STL 提供了一些内置的函数对象，需要包含头文件：`#include <functional>` 。
 
 **注意**：这里所有的函数对象、仿函数等概念都是指一个**类**！！！
 
-#### 算数仿函数
+### 算数仿函数
 
 | 仿函数             | 作用         |
 | ------------------ | ------------ |
@@ -1150,7 +1161,7 @@ int main() {
 }
 ```
 
-#### 关系仿函数
+### 关系仿函数
 
 | 仿函数                | 作用             |
 | --------------------- | ---------------- |
@@ -1179,7 +1190,7 @@ int main() {
 }
 ```
 
-#### 逻辑仿函数
+### 逻辑仿函数
 
 | 仿函数              | 作用           |
 | ------------------- | -------------- |
@@ -1222,18 +1233,8 @@ int main() {
 三个参数分别是对应：起始的迭代器，终止迭代器，函数或函数对象(指定操作)。
 
 ```cpp
-#include <iostream>
-#include <vector>
-#include <algorithm>
-using namespace std;
-
-int main() {
-    vector<int> vec = {1, 2, 3, 4, 5};
-    
-    //lambda函数，乘二输出
-    for_each(vec.begin(), vec.end(), [](int x) {cout << x * 2 << " ";}); 
-    return 0;
-}
+//传入lambda函数，乘二输出
+for_each(vec.begin(), vec.end(), [](int x) {cout << x * 2 << " ";}); 
 ```
 
 #### `transform()`
@@ -1245,27 +1246,97 @@ int main() {
 参数分别对应：原容器起始迭代器，原容器终止迭代器，新容器起始迭代器，函数或函数对象(指定操作)。
 
 ```cpp
-#include <iostream>
-#include <vector>
-#include <algorithm>
-using namespace std;
-
-int main() {
-    vector<int> vec = {1, 2, 3, 4, 5};
-    vector<int> result(vec.size());
-
-    // 平方后拷贝至新容器
-    transform(vec.begin(), vec.end(), result.begin(), [](int x) { return x * x; });
-
-    for (int n : result) {
-        cout << n << " ";
-    }
-    return 0;
-}
+// 平方后拷贝至新容器
+transform(vec.begin(), vec.end(), result.begin(), [](int x) { return x * x; });
 ```
 
 ### 查找算法
 
+#### `find()`
+
+查找指定值第一次出现的位置(迭代器)，找不到则返回迭代器end()。
+
+`find(iterator_begin,iterator_end,value)`
+
+参数分别对应着起始迭代器、终止迭代器、指定值。例如：
+
+```cpp
+// 查找3
+auto it = find(vec.begin(), vec.end(), 3);
+```
+
+#### `find_if()`
+
+按条件查找元素，返回第一个满足条件的元素所在位置(迭代器)，找不到则返回迭代器end()。
+
+`find_if(iterator_begin,iterator_end,predicate)`
+
+参数分别为：起始迭代器、终止迭代器、[一元谓词](#谓词)。例如：
+
+```cpp
+// 查找2的倍数
+auto it = find_if(vec.begin(), vec.end(), [](int x) { return x % 2 == 0; });
+```
+
+#### `adjacent_find()`
+
+默认查找相邻且相同元素，返回第一个匹配元素的位置(迭代器)，找不到则返回选代器end();
+
+`adjacent_find(iterator_begin,iterator_end)`
+
+参数分别为：起始迭代器、终止迭代器。例如：
+
+```cpp
+// 查找相邻且相同元素
+auto it = adjacent_find(vec.begin(), vec.end());
+```
+
+也可以传入[二元谓词](#谓词)，自定义比较规则，例如：
+
+```cpp
+// 相邻元素之差不超过 3
+auto it = adjacent_find(vec.begin(),vec.end(),[](int a,int b) {return abs(a - b) <= 3; });
+```
+
+#### `binary_search()`
+
+用于在**已排序的容器中**查找某个值是否存在的算法，存在返回true，否则返回false。
+
+`binary_search(iterator_begin,iterator_end,value)`
+
+参数分别为：起始迭代器、终止迭代器、指定值。例如：
+
+```cpp
+vector<int> vec = {1, 3, 5, 7, 9, 11, 13}; // 已排序容器
+bool found = binary_search(vec.begin(), vec.end(), 5); //查找5
+```
+
+### 统计算法
+
+#### `count()`
+
+统计指定值出现的次数。
+
+`count(iterator_begin,iterator_end,value)`
+
+参数分别为：起始迭代器、终止迭代器、指定值。例如：
+
+```cpp
+int cnt = count(vec.begin(), vec.end(), 2); //统计2出现的次数。
+```
+
+#### `count_if()`
+
+按条件统计元素个数
+
+`count_if(iterator_begin,iterator_end,predicate)`
+
+起始迭代器、终止迭代器、[一元谓词](#谓词)。例如：
+
+```cpp
+// 大于5的元素个数
+int cnt = count_if(vec.begin(), vec.end(), [](int x) { return x > 5; });
+```
 
 
 ### 排序算法
