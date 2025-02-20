@@ -264,7 +264,7 @@ v.erase(v.begin() + 1, v.begin() + 4); // 左闭右开区间
 vector<int> v = {1, 2, 3, 4, 5};
 
 for (size_t i = 0; i < v.size(); ++i) {
-        std::cout << v[i] << " ";
+        cout << v[i] << " ";
     } // size_t 为无符号整数
 ```
 
@@ -1072,3 +1072,212 @@ multimap<string, int> mm1(mm);
 `容器名.find(key)` ：查找指定键值是否存在。若存在，返回该键值的元素的迭代器；若不存在，返回end()迭代器。
 
 `容器名.count(key)` ：统计指定键值的数量。
+
+## 函数对象
+
+### 概念：
+
+一个类重载了函数调用符号 `()` 使得其类对象可以进行类似于函数调用的操作，因此被称为**函数对象**。
+
+函数对象进行调用操作由于比较像函数调用，所以又被称为**仿函数**。
+
+如果一个类既定义了含初始化列表的构造函数，又重载了 `operator()` ，其解析优先级如下：
+
+**第一优先级：解释为变量(对象)定义。**
+
+**第二优先级(如果第一条不适用)：考虑仿函数调用。**
+
+例如：
+
+```cpp
+type name(parameters); //优先解析为变量(对象)定义
+
+name(parameters); //对象已经确定，解析为仿函数调用
+```
+
+**注意**：这里所有的函数对象、仿函数等概念都是指一个**类**！！！
+
+### 区别和共性：
+
+由于函数对象并不是真正的函数调用，因此会有几点区别但也有一样的地方：
+
+1.函数对象可以有自己的属性，而普通函数没有。
+
+2.函数对象可以像普通函数调用一样有参数，有返回值。
+
+3.函数对象可以作为参数传递。
+
+### 谓词
+
+谓词就是返回值类型为 `bool` 类型函数对象。
+
+参数为1个的 —— **一元谓词**。
+
+参数为2个的 —— **二元谓词**。
+
+### 标准仿函数
+
+STL 提供了一些内置的函数对象，需要包含头文件：`#include <functional>` 。
+
+**注意**：这里所有的函数对象、仿函数等概念都是指一个**类**！！！
+
+#### 算数仿函数
+
+| 仿函数             | 作用         |
+| ------------------ | ------------ |
+| `plus<类型>`       | 加法 ( `+` ) |
+| `minus<类型>`      | 减法 ( `-` ) |
+| `multiplies<类型>` | 乘法 ( `*` ) |
+| `divides<类型>`    | 除法 ( `/` ) |
+| `modulus<类型>`    | 取模 ( `%` ) |
+| `negate<类型>`     | 取负 ( `-` ) |
+
+**示例**：
+
+```cpp
+#include <iostream>
+#include <functional>
+using namespace std;
+
+int main() {
+    plus<int> add;  // 加法仿函数
+    cout << "3 + 5 = " << add(3, 5) << endl; // 输出 8
+
+    negate<int> neg;  // 取负仿函数
+    cout << "negate(10) = " << neg(10) << endl; // 输出 -10
+
+    return 0;
+}
+```
+
+#### 关系仿函数
+
+| 仿函数                | 作用             |
+| --------------------- | ---------------- |
+| `equal_to<类型>`      | 判断相等( `==` ) |
+| `not_equal_to<类型>`  | 判断不等( `!=` ) |
+| `greater<类型>`       | 大于( `>` )      |
+| `greater_equal<类型>` | 大于等于( `>=` ) |
+| `less<类型>`          | 小于( `<` )      |
+| `less_equal<类型>`    | 小于等于( `<=` ) |
+
+**示例：**
+
+```cpp
+#include <iostream>
+#include <functional>
+using namespace std;
+
+int main() {
+    greater<int> greater_than;  // 大于仿函数
+    cout << "5 > 3 ? " << greater_than(5, 3) << endl;  // 输出 1 (true)
+
+    equal_to<int> equals;  // 相等仿函数
+    cout << "5 == 5 ? " << equals(5, 5) << endl;  // 输出 1 (true)
+
+    return 0;
+}
+```
+
+#### 逻辑仿函数
+
+| 仿函数              | 作用           |
+| ------------------- | -------------- |
+| `logical_and<类型>` | 逻辑与( `&&` ) |
+| `logical_or<类型>`  | 逻辑或( `||` ) |
+| `logical_not<类型>` | 逻辑非( `!` )  |
+
+**示例：**
+
+```cpp
+#include <iostream>
+#include <functional>
+using namespace std;
+
+int main() {
+    logical_and<bool> land;
+    logical_or<bool> lor;
+    logical_not<bool> lnot;
+
+    cout << "true && false = " << land(true, false) << endl;  // 输出 0
+    cout << "true || false = " << lor(true, false) << endl;  // 输出 1
+    cout << "!true = " << lnot(true) << endl;  // 输出 0
+
+    return 0;
+}
+```
+
+## 常用STL算法
+
+使用STL内置算法一般需要包含头文件是 `#include <algorithm>` 。
+
+### 遍历算法
+
+#### `for_each()` 
+
+对范围内的每个元素执行指定操作。
+
+`for_each(iterator_begin,iterator_end,function)`
+
+三个参数分别是对应：起始的迭代器，终止迭代器，函数或函数对象(指定操作)。
+
+```cpp
+#include <iostream>
+#include <vector>
+#include <algorithm>
+using namespace std;
+
+int main() {
+    vector<int> vec = {1, 2, 3, 4, 5};
+    
+    //lambda函数，乘二输出
+    for_each(vec.begin(), vec.end(), [](int x) {cout << x * 2 << " ";}); 
+    return 0;
+}
+```
+
+#### `transform()`
+
+将一个容器里的内容**经指定操作后**搬运到另一个容器中。
+
+`transform(iterator_begin1,iterator_end1,iterator_begin2,function)`
+
+参数分别对应：原容器起始迭代器，原容器终止迭代器，新容器起始迭代器，函数或函数对象(指定操作)。
+
+```cpp
+#include <iostream>
+#include <vector>
+#include <algorithm>
+using namespace std;
+
+int main() {
+    vector<int> vec = {1, 2, 3, 4, 5};
+    vector<int> result(vec.size());
+
+    // 平方后拷贝至新容器
+    transform(vec.begin(), vec.end(), result.begin(), [](int x) { return x * x; });
+
+    for (int n : result) {
+        cout << n << " ";
+    }
+    return 0;
+}
+```
+
+### 查找算法
+
+
+
+### 排序算法
+
+
+
+### 拷贝和替换函数
+
+
+
+### 算术生成算法
+
+
+
+### 集合算法
