@@ -1220,7 +1220,7 @@ int main() {
 
 ## 常用STL算法
 
-使用STL内置算法一般需要包含头文件是 `#include <algorithm>` 。
+使用STL内置算法需要包含头文件是 `#include <algorithm>` 。
 
 ### 遍历算法
 
@@ -1258,7 +1258,7 @@ transform(vec.begin(), vec.end(), result.begin(), [](int x) { return x * x; });
 
 `find(iterator_begin,iterator_end,value)`
 
-参数分别对应着起始迭代器、终止迭代器、指定值。例如：
+参数分别为：起始迭代器、终止迭代器、指定值。例如：
 
 ```cpp
 // 查找3
@@ -1341,7 +1341,71 @@ int cnt = count_if(vec.begin(), vec.end(), [](int x) { return x > 5; });
 
 ### 排序算法
 
+#### `sort()`
 
+对容器内元素进行排序。
+
+`sort(iterator_begin,iterator_end,predicate)`
+
+ 参数分别为： 起始迭代器、终止迭代器、一元谓词(条件，不填默认是升序)。例如：
+
+```cpp
+sort(vec.begin(), vec.end());  // 升序
+sort(vec.begin(), vec.end(), greater<int>());  // 降序
+```
+
+#### `shuffle()`
+
+随机打乱一个序列。
+
+`shuffle(iterator_begin,iterator_end,random_engine)`
+
+ 参数分别为： 起始迭代器、终止迭代器，随机数引擎。例如：
+
+```cpp
+#include <random> // 包含random头文件以使用随机数引擎
+
+// 创建一个随机设备对象
+random_device rd;  
+
+// 梅森旋转法随机数引擎
+mt19937 g(rd());   //调用rd()获取随机数种子并用于初始化数引擎对象g，从而生成随机数。
+
+// 调用shuffle()算法
+shuffle(vec.begin(), vec.end(), g);
+
+// 大多数现代系统中，rd()每次的结果是不一样的。
+// 随机数引擎对象g除了使用rd()作为种子，还可以手动指定随机数种子(任意整数)。
+// 随机数种子固定，那么结果也是固定的。
+```
+
+#### `merge()`
+
+将两个容器元素合并，并存储到另一个容器中
+
+`merge(iterator_begin1,iterator_end1,iterator_begin2,iterator_end2,result_iterator_begin)`
+
+ 参数分别为： 容器1起始迭代器、 容器1终止迭代器、容器2起始迭代器、容器2终止迭代器、目标范围的起始迭代器。例如：
+
+```cpp
+merge(v1.begin(), v1.end(), v2.begin(), v2.end(), result.begin());
+```
+
+如果两个容器是**有序**的，`merge()` 会根据排序规则(默认为升序)合并这两个容器，并保持结果有序。
+
+如果两个容器是**无序**的，`merge()` 只是简单地将两个无序的容器拼接在一起。
+
+#### `reverse()`
+
+反转容器中的元素
+
+`reverse(iterator_begin,iterator_end)`
+
+ 参数分别为： 起始迭代器、终止迭代器。例如：
+
+```cpp
+reverse(v.begin(), v.end());
+```
 
 ### 拷贝和替换函数
 
