@@ -754,13 +754,13 @@ deque<int> d5(d4);
 
 与[ `vector` 赋值](#`vector`-赋值)和[ `list` 赋值](#`list`-赋值)基本一致。
 
-##### 插入和删除
-
-除 `容器名.remove(value)` 方法外，`deque` 容器没有这种方法，其余和[ `list` 插入和删除](#`list`-插入和删除)基本一致。
-
 ##### 索引
 
 与[ `vector` 索引](#`vector`-索引)基本一致。
+
+##### 插入和删除
+
+除 `容器名.remove(value)` 方法外，`deque` 容器没有这种方法，其余和[ `list` 插入和删除](#`list`-插入和删除)基本一致。
 
 #### `deque` 遍历
 
@@ -1222,35 +1222,68 @@ int main() {
 
 使用STL内置算法需要包含头文件是 `#include <algorithm>` 。
 
-### 遍历算法
+### 排序算法
 
-#### `for_each()` 
+#### `sort()`
 
-对范围内的每个元素执行指定操作。
+对容器内元素进行排序。
 
-`for_each(iterator_begin,iterator_end,function)`
+`sort(iterator_begin,iterator_end,predicate)`
 
-三个参数分别是对应：起始的迭代器，终止迭代器，函数或函数对象(指定操作)。
-
-```cpp
-//传入lambda函数，乘二输出
-for_each(vec.begin(), vec.end(), [](int x) {cout << x * 2 << " ";}); 
-```
-
-#### `transform()`
-
-将一个容器里的内容**经指定操作后**搬运到另一个容器中。
-
-`transform(iterator_begin1,iterator_end1,iterator_begin2,function)`
-
-参数分别对应：原容器起始迭代器，原容器终止迭代器，新容器起始迭代器，函数或函数对象(指定操作)。
+ 参数分别为： 起始迭代器、终止迭代器、[二元谓词](#谓词)(排序规则，不填默认是升序)。例如：
 
 ```cpp
-// 平方后拷贝至新容器
-transform(vec.begin(), vec.end(), result.begin(), [](int x) { return x * x; });
+sort(vec.begin(), vec.end());  // 默认升序
+sort(vec.begin(), vec.end(), greater<int>());  // 降序
 ```
 
-### 查找算法
+#### `stable_sort()`
+
+保证相等元素的**相对顺序不变**的排序算法。和 `sort()` 用法相似。
+
+#### `partial_sort()`
+
+对元素进行部分排序。
+
+`partial_sort(iterator_begin,iterator_middle,iterator_end,predicate)`
+
+将 `[iterator_begin,iterator_middle)` 排序，`[iterator_middle,iterator_end)` 不保证有序。
+
+参数分别为： 起始迭代器、中间迭代器、终止迭代器、[二元谓词](#谓词)(排序规则，不填默认是升序)。例如：
+
+```cpp
+partial_sort(v.begin(), v.begin() + 3, v.end()); // 仅保证前三个升序排序
+partial_sort(v.begin(), v.begin() + 3, v.end(), greater<>()); // 仅保证前三个降序排序
+```
+
+#### `is_sorted()`
+
+检查范围内是否有序。
+
+`is_sorted(iterator_begin, iterator_end, predicate)` 
+
+参数分别为：起始迭代器、终止迭代器、[二元谓词](#谓词)(排序规则，不填默认是升序)。例如：
+
+```cpp
+is_sorted(v1.begin(), v1.end())； // 按升序检查
+is_sorted(v.begin(), v.end(), greater<int>()); // 按降序检查
+```
+
+#### `is_sorted_until()`
+
+返回**第一个未排序的元素**迭代器。
+
+`is_sorted_until(iterator_begin, iterator_end,predicate)`
+
+参数分别为：起始迭代器、终止迭代器、[二元谓词](#谓词)(排序规则，不填默认是升序)。例如：
+
+```cpp
+vector<int> v = {1, 2, 3, 7, 5, 6, 8};
+auto it = is_sorted_until(v.begin(), v.end()); //按照升序
+auto it = is_sorted_until(v.begin(), v.end(), greater<int>()); //按照降序序
+```
+
+### 搜索算法
 
 #### `find()`
 
@@ -1271,11 +1304,24 @@ auto it = find(vec.begin(), vec.end(), 3);
 
 `find_if(iterator_begin,iterator_end,predicate)`
 
-参数分别为：起始迭代器、终止迭代器、[一元谓词](#谓词)。例如：
+参数分别为：起始迭代器、终止迭代器、[一元谓词](#谓词)(搜索条件)。例如：
 
 ```cpp
-// 查找2的倍数
+// 查找第一个为2的倍数的元素
 auto it = find_if(vec.begin(), vec.end(), [](int x) { return x % 2 == 0; });
+```
+
+#### `find_if_not()`
+
+查找第一个**不满足条件**的元素所在位置(迭代器)，找不到则返回迭代器end()。
+
+`find_if_not(iterator_begin,iterator_end,predicate)`
+
+参数分别为：起始迭代器、终止迭代器、[一元谓词](#谓词)(搜索条件)。例如：
+
+```cpp
+// 查找第一个不为2的倍数的元素
+auto it = find_if_not(vec.begin(), vec.end(), [](int x) { return x % 2 == 0; });
 ```
 
 #### `adjacent_find()`
@@ -1300,7 +1346,7 @@ auto it = adjacent_find(vec.begin(),vec.end(),[](int a,int b) {return abs(a - b)
 
 #### `binary_search()`
 
-用于在**已排序的容器中**查找某个值是否存在的算法，存在返回true，否则返回false。
+在**已排序的容器中**查找某个值是否存在，存在返回true，否则返回false。
 
 `binary_search(iterator_begin,iterator_end,value)`
 
@@ -1311,48 +1357,93 @@ vector<int> vec = {1, 3, 5, 7, 9, 11, 13}; // 已排序容器
 bool found = binary_search(vec.begin(), vec.end(), 5); //查找5
 ```
 
-### 统计算法
+#### `lower_bound()` 
 
-#### `count()`
+对升序序列，二分查找第一个 `>= value` 的位置(迭代器)。
 
-统计指定值出现的次数。
+对降序序列，二分查找第一个 `<= value` 的位置(迭代器)。
 
-`count(iterator_begin,iterator_end,value)`
+找不到则返回选代器end();
 
-参数分别为：起始迭代器、终止迭代器、指定值。例如：
+`lower_bound(iterator_begin, iterator_end, value, predicate)` 
 
-```cpp
-int cnt = count(vec.begin(), vec.end(), 2); //统计2出现的次数。
-```
-
-#### `count_if()`
-
-按条件统计元素个数
-
-`count_if(iterator_begin,iterator_end,predicate)`
-
-起始迭代器、终止迭代器、[一元谓词](#谓词)。例如：
+参数分别为：起始迭代器、终止迭代器、指定值，[二元谓词](#谓词)(搜索规则，不填默认按升序搜索)。例如：
 
 ```cpp
-// 大于5的元素个数
-int cnt = count_if(vec.begin(), vec.end(), [](int x) { return x > 5; });
+// 升序序列查找
+vector<int> v1 = {1, 3, 3, 5, 7, 9};
+auto it = lower_bound(v1.begin(), v1.end(), 5);
+
+// 降序序列查找
+vector<int> v2 = {9, 7, 5, 3, 1};  // 降序排列
+auto it = lower_bound(v2.begin(), v2.end(), 5, greater<int>());
 ```
 
+#### `upper_bound()` 
 
-### 排序算法
+对升序序列，二分查找第一个 `> value` 的位置(迭代器)。
 
-#### `sort()`
+对降序序列，二分查找第一个 `< value` 的位置(迭代器)。
 
-对容器内元素进行排序。
+找不到则返回选代器end();
 
-`sort(iterator_begin,iterator_end,predicate)`
+`upper_bound(iterator_begin, iterator_end, value, predicate)` 
 
- 参数分别为： 起始迭代器、终止迭代器、一元谓词(条件，不填默认是升序)。例如：
+参数分别为：起始迭代器、终止迭代器、指定值，[二元谓词](#谓词)(搜索规则，不填默认按升序搜索)。例如：
 
 ```cpp
-sort(vec.begin(), vec.end());  // 升序
-sort(vec.begin(), vec.end(), greater<int>());  // 降序
+// 升序序列查找
+vector<int> v1 = {1, 3, 3, 5, 7, 9};
+auto it = upper_bound(v1.begin(), v1.end(), 5);
+
+// 降序序列查找
+vector<int> v2 = {9, 7, 5, 3, 1};  // 降序排列
+auto it = upper_bound(v2.begin(), v2.end(), 5, greater<int>());
 ```
+
+### 修改算法
+
+#### `fill()`
+
+`fill(iterator_begin, iterator_end, value)` 
+
+用 `value` 填充 `[iterator_begin, iterator_end)`。
+
+#### `replace()`
+
+`replace(iterator_begin, iterator_end, old_value, new_value)` 
+
+替换 `old_value` 为 `new_value`。
+
+#### `replace_if()`
+
+`replace_if(iterator_begin, iterator_end, predicate, new_value)` ：
+
+替换满足 `predicate` 的元素为 `new_value`。
+
+#### `copy()`
+
+`copy(iterator_begin, iterator_end, dest)` ：复制 `[iterator_begin, iterator_end)` 到 `dest`。
+
+#### `copy_if()`
+
+`copy_if(iterator_begin, iterator_end, dest, predicate)` ：复制满足 `predicate` 的元素到 `dest`。
+
+#### `move()`
+
+`move(iterator_begin, iterator_end, dest)` ：移动 `[iterator_begin, iterator_end)` 到 `dest`。
+
+#### `swap()`
+
+`swap(a, b)` ：交换 `a` 和 `b`。
+
+#### `swap_ranges()`
+
+`swap_ranges(iterator_begin1, iterator_end1, iterator_begin2)` 
+
+交换 `[iterator_begin1, iterator_end1)` 和 `[iterator_begin2, iterator_begin2 + (iterator_end1 - iterator_begin1))` 之间的元素。
+
+### 排列算法
 
 #### `shuffle()`
 
@@ -1385,7 +1476,7 @@ shuffle(vec.begin(), vec.end(), g);
 
 `merge(iterator_begin1,iterator_end1,iterator_begin2,iterator_end2,result_iterator_begin)`
 
- 参数分别为： 容器1起始迭代器、 容器1终止迭代器、容器2起始迭代器、容器2终止迭代器、目标范围的起始迭代器。例如：
+ 参数分别为： 容器1起始迭代器、 容器1终止迭代器、容器2起始迭代器、容器2终止迭代器、目标容器的起始迭代器。例如：
 
 ```cpp
 merge(v1.begin(), v1.end(), v2.begin(), v2.end(), result.begin());
@@ -1397,7 +1488,7 @@ merge(v1.begin(), v1.end(), v2.begin(), v2.end(), result.begin());
 
 #### `reverse()`
 
-反转容器中的元素
+反转容器中的元素。
 
 `reverse(iterator_begin,iterator_end)`
 
@@ -1407,12 +1498,155 @@ merge(v1.begin(), v1.end(), v2.begin(), v2.end(), result.begin());
 reverse(v.begin(), v.end());
 ```
 
-### 拷贝和替换函数
+#### `rotate()` 
 
+`rotate(iterator_begin, middle, iterator_end)` 旋转 `[iterator_begin, iterator_end)`，`middle` 变为新 `iterator_begin` 
 
+#### `next_permutation()` 
 
-### 算术生成算法
+`next_permutation(iterator_begin, iterator_end, predicate)` 生成**下一个**字典序排列
 
+#### `prev_permutation()` 
 
+`prev_permutation(iterator_begin, iterator_end, predicate)` 生成**上一个**字典序排列
+
+### 比较算法
+
+#### `equal()` 
+
+检查两段是否相等 
+
+`equal(iterator_begin1, iterator_end1, iterator_begin2, pred)` 
+
+#### `lexicographical_compare()` 
+
+按字典序比较两段数据
+
+`lexicographical_compare(iterator_begin1, iterator_end1, iterator_begin2, iterator_end2, predicate)` 
+
+#### `mismatch()` 
+
+找到第一个不同的元素对
+
+`mismatch(iterator_begin1, iterator_end1, iterator_begin2, pred)` 
+
+### 去重算法
+
+#### `unique()`  
+
+`unique(iterator_begin, iterator_end, pred)`  移除**相邻**重复元素（返回新 `iterator_end`）
+
+#### `unique_copy()` 
+
+`unique_copy(iterator_begin, iterator_end, dest, pred)` 复制去重后的元素到 `dest` 
 
 ### 集合算法
+
+####  `set_union()`
+
+ `set_union(iterator_begin1, iterator_end1, iterator_begin2, iterator_end2, dest, predicate)`  并集 
+
+####  `set_intersection()`  
+
+ `set_intersection(iterator_begin1, iterator_end1, iterator_begin2, iterator_end2, dest, predicate)`  交集 
+
+####  `set_difference()`  
+
+ `set_difference(iterator_begin1, iterator_end1, iterator_begin2, iterator_end2, dest, predicate)`  差集 
+
+####  `set_symmetric_difference()` 
+
+ `set_symmetric_difference(iterator_begin1, iterator_end1, iterator_begin2, iterator_end2, dest, predicate)` 对称差集 
+
+### 最值算法
+
+#### `min()`
+
+返回 `a` 和 `b` 的较小值。
+
+`min(a, b, predicate)` 
+
+#### `max()`
+
+返回 `a` 和 `b` 的较大值。
+
+`max(a, b, predicate)` 
+
+#### `min_element()`
+
+返回范围内的最小元素的迭代器。
+
+`min_element(iterator_begin, iterator_end, predicate)` 
+
+#### `max_element()`
+
+返回范围内的最大元素的迭代器。
+
+`max_element(iterator_begin, iterator_end, predicate)`
+
+#### `minmax()`
+
+返回 `pair{min, max}`。
+
+`minmax(a, b, predicate)`
+
+#### `minmax_element()`
+
+同时返回范围内的最小和最大元素的迭代器。
+
+`minmax_element(iterator_begin, iterator_end, predicate)`
+
+### 遍历算法
+
+#### `for_each()` 
+
+对范围内的每个元素执行指定操作。
+
+`for_each(iterator_begin,iterator_end,function)`
+
+三个参数分别是对应：起始的迭代器，终止迭代器，函数或函数对象(指定操作)。
+
+```cpp
+//传入lambda函数，乘二输出
+for_each(vec.begin(), vec.end(), [](int x) {cout << x * 2 << " ";}); 
+```
+
+#### `transform()`
+
+将一个容器里的元素**经指定操作后**搬运到另一个容器中。
+
+`transform(iterator_begin1,iterator_end1,iterator_begin2,function)`
+
+参数分别对应：原容器起始迭代器，原容器终止迭代器，新容器起始迭代器，函数或函数对象(指定操作)。
+
+```cpp
+// 平方后拷贝至新容器
+transform(vec.begin(), vec.end(), result.begin(), [](int x) { return x * x; });
+```
+
+### 统计算法
+
+#### `count()`
+
+统计指定值出现的次数。
+
+`count(iterator_begin,iterator_end,value)`
+
+参数分别为：起始迭代器、终止迭代器、指定值。例如：
+
+```cpp
+int cnt = count(vec.begin(), vec.end(), 2); //统计2出现的次数。
+```
+
+#### `count_if()`
+
+按条件统计元素个数
+
+`count_if(iterator_begin,iterator_end,predicate)`
+
+起始迭代器、终止迭代器、[一元谓词](#谓词)。例如：
+
+```cpp
+// 大于5的元素个数
+int cnt = count_if(vec.begin(), vec.end(), [](int x) { return x > 5; });
+```
