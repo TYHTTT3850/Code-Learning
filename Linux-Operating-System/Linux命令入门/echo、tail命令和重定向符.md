@@ -29,7 +29,7 @@ echo `pwd` #输出pwd命令的结果
 查看文件的尾部内容，跟踪文件的最新更改。语法：
 
 ```bash
-tail [-f -num] {Linux路径}
+tail [-f] [-num] {Linux路径}
 ```
 
 `-f` ：表示持续跟踪(follow)，一直跟踪，命令不会停止，ctrl+c强制停止命令的运行。
