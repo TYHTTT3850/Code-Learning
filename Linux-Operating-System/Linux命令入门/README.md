@@ -46,15 +46,29 @@ Linux系统中，路径之间的层级关系使用：/ 表示。
 
 ### `cd` 命令
 
+[Change Directory，更改工作目录。](目录切换相关命令(cd与pwd).md)
+
 ### `pwd` 命令
+
+[Print Work Directory，打印当前的工作目录。](目录切换相关命令(cd与pwd).md)
 
 ### `mkdir` 命令
 
+[Make Directory，创建目录。](创建目录命令(mkdir).md)
+
 ### `touch` 命令
+
+[创建文件。](文件操作相关命令1(touch、cat、more).md)
 
 ### `cat` 命令
 
+[查看文件内容(一次性显示全部)。](文件操作相关命令1(touch、cat、more).md)
+
 ### `more` 命令
+
+[查看文件内容(支持翻页显示)。](文件操作相关命令1(touch、cat、more).mdl)
+
+按空格翻页，按b回退到上一页，按q退出查看。
 
 ### `cp` 命令
 
