@@ -29,7 +29,7 @@ move {Linux路径1} {Linux路径2}
 通过 `rm` 命令删除文件\文件夹，来自于单词remove。语法：
 
 ```bash
-rm [-r -f] {Linux路径1} [Linux路径2] ··· [Linux路径N]
+rm [-r] [-f] {Linux路径1} [Linux路径2] ··· [Linux路径N]
 ```
 
 `-r` ：删除文件夹时使用。
