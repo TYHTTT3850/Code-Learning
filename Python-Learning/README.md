@@ -64,7 +64,7 @@ pip install -U pip
 
 ## 多版本 Python 管理
 
-Python 自带 Python 启动器，在 Windows 操作系统上提供了一种方便的方式来运行和管理多个版本的 Python。它是 Python 安装的一部分，特别是在 Windows 上，它使得用户能够在同一台机器上轻松切换和使用不同版本的 Python。
+Python 自带 Python 启动器(命令行对应命令`py`)，在 Windows 操作系统上提供了一种方便的方式来运行和管理多个版本的 Python。它是 Python 安装的一部分，特别是在 Windows 上，它使得用户能够在同一台机器上轻松切换和使用不同版本的 Python。
 
 例如，运行 `py -3.9` 会启动 Python 3.9，运行 `py -3.12` 会启动 Python 3.12。
 
