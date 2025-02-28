@@ -45,4 +45,37 @@ print("根据输入tensor的尺寸创建全 0 tensor",zero_t1,sep="\n",end="\n\n
 full_t = torch.full([3,3],5)
 print("依给定的尺寸和填充值创建张量",full_t,sep="\n",end="\n\n")
 
-# torch.full_like()就是根据输入的 tensor 的尺寸和填充值创建
+# torch.full_like()就是根据输入的 tensor 的尺寸和指定填充值创建张量
+
+# torch.arange()，创建等差的一维张量
+"""
+start：起始值
+end：结束值
+step：步长
+"""
+arange_t1 = torch.arange(start=0,end=6,step=2) # 区间：[0, 6)
+print("创建等差的一维张量",arange_t1,sep="\n",end="\n\n") # [0, 2, 4]，长度=(end-start)/step
+
+# torch.linspace()，创建均匀分布的一维张量
+"""
+start：起始值
+end：结束值
+steps：一维张量长度(元素个数)
+"""
+linspace_t1 = torch.linspace(start=0,end=3,steps=4) # 区间：[0, 3]
+print("创建均匀分布的一维张量",linspace_t1,sep="\n",end="\n\n") # [0, 1, 2, 3]
+
+# torch.logspace()，创建对数均分的一维张量
+"""
+start：起始值(base^start)
+end：结束值(base^end)
+steps：一维张量长度(元素个数)
+base：底数，默认为10
+"""
+logspace_t1 = torch.logspace(start=0,end=3,steps=4,base=10) # 区间：[10^0, 10^3]
+print("创建均匀分布的一维张量",logspace_t1,sep="\n",end="\n\n") # [1, 10, 100, 1000]
+
+# torch.eye()，创建单位对角矩阵
+print("创建单位对角阵")
+print("默认创建方阵：",torch.eye(3),sep="\n",end="\n\n")
+print("3*4矩阵：",torch.eye(3,4),sep="\n",end="\n\n")
