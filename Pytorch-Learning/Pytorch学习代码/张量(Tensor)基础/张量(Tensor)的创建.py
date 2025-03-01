@@ -40,13 +40,13 @@ print("全 0 tensor",zero_t1,sep="\n",end="\n\n")
 zero_t2 = torch.zeros_like(zero_t1) #根据输入的 tensor 的尺寸创建全 0 tensor。
 print("根据输入tensor的尺寸创建全 0 tensor",zero_t1,sep="\n",end="\n\n")
 
-# torch.ones()和torch.ones_like()同理，就是创建全 1 tensor。
+"""torch.ones()和torch.ones_like()同理，就是创建全 1 tensor。"""
 
 # torch.full()，依给定的尺寸和填充值创建张量。
 full_t = torch.full([3,3],5)
 print("依给定的尺寸和填充值创建张量",full_t,sep="\n",end="\n\n")
 
-# torch.full_like()就是根据输入的 tensor 的尺寸和指定填充值创建张量
+"""torch.full_like()就是根据输入的 tensor 的尺寸和指定填充值创建张量"""
 
 # torch.arange()，创建等差的一维张量
 """
