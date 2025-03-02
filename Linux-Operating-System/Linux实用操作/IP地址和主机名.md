@@ -67,6 +67,8 @@ yum -y install net-tools
 
 通过IP地址连接到服务器，也可以通过域名(主机名)连接。
 
-- Windows：在 C:\Windows\System32\drivers\etc\hosts 中配置记录即可。
+- Windows ：在 C:\Windows\System32\drivers\etc\hosts 中配置记录即可。
+
+- Linux ：在 /etc/hosts 中配置记录即可。
 
 
