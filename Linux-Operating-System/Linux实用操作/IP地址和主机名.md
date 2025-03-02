@@ -31,8 +31,16 @@ IPv4版本的地址格式为：a.b.c.d，其中a，b，c，d表示0~255的数字
 yum -y install net-tools
 ```
 
-
-
 # 主机名
+
+每台电脑除了对外联络地址(IP地址)外，还可以有一个名字，称之为主机名。
+
+无论是Windows还是Linux，都可以给系统设置主机名。
+
+### 修改主机名
+
+`hostname` 查看主机名
+
+`hostnamectl set-hostname 主机名` 修改主机名(**需要root**)
 
 # 域名解析
