@@ -46,3 +46,18 @@ yum -y install net-tools
 # 域名解析
 
 实际上我们一直通过字符化的地址去访问服务器，很少指定IP地址，例如：浏览器输入 www.baidu.com 会打开百度，其中 www.baidu.com 是百度的网址，称为：域名。
+
+访问 www.baidu.com 的流程：
+
+1、输入网址后查看本机的记录(私人地址本)：
+
+- Windows ：C:\Windows\System32\drivers\etc\hosts
+
+- Linux ：/etc/hosts
+
+若有，则打开网站。若无，则进行第二步：
+
+2、联网去DNS服务器(如114.114.114.114，8.8.8.8)查询是否有记录 www.baidu.com 的IP地址。
+
+若有，则打开网站。若无，则网址不存在。
+
