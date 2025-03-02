@@ -61,5 +61,6 @@ yum -y install net-tools
 
 若有，则打开网站。若无，则网址不存在(404 NOT FOUND)。
 
+上述步骤就是**域名解析**。
 
 
