@@ -44,3 +44,5 @@ yum -y install net-tools
 `hostnamectl set-hostname 主机名` ：修改主机名(**需要root**)
 
 # 域名解析
+
+实际上我们一直通过字符化的地址去访问服务器，很少指定IP地址，例如：浏览器输入 www.baidu.com 会打开百度，其中 www.baidu.com 是百度的网址，称为：域名。
