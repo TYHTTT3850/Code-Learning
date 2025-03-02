@@ -39,8 +39,8 @@ yum -y install net-tools
 
 ### 修改主机名
 
-`hostname` 查看主机名
+`hostname` ：查看主机名
 
-`hostnamectl set-hostname 主机名` 修改主机名(**需要root**)
+`hostnamectl set-hostname 主机名` ：修改主机名(**需要root**)
 
 # 域名解析
