@@ -89,6 +89,9 @@ yum -y install net-tools
 
 因此，把IP地址固定会方便许多。
 
+配置步骤：
+https://b23.tv/DKrcUSj
+
 
 
 
