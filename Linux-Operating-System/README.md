@@ -1,1 +1,1 @@
-基于centos系统
+基于centos7系统
