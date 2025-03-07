@@ -1,5 +1,7 @@
 # DDL 小结
 
+Data Definition Language，数据定义语言，用来定义数据库对象(数据库，表，字段)。
+
 ## 数据库操作
 
 ```sql
