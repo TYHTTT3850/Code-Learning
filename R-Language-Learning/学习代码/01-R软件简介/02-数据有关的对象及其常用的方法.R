@@ -45,6 +45,7 @@ A <- matrix(1:20,nrow=4,ncol=5)
 B <- matrix(1:20,nrow=4,ncol=5,byrow=TRUE)
 C <- matrix(A[1:3,1:3],3,3)
 D <- matrix(B[,-3],4,4)
+
 dim(m)       #查看维度
 t(m)         #转置
 rowSums(m)   #计算每行的总和
