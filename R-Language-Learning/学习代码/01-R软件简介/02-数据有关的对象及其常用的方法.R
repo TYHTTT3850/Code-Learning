@@ -46,6 +46,10 @@ B <- matrix(1:20,nrow=4,ncol=5,byrow=TRUE)
 C <- matrix(A[1:3,1:3],3,3)
 D <- matrix(B[,-3],4,4)
 
+# 利用向量创建矩阵
+x <- c(1,3,5,7,9)
+X <- matrix(c(rep(1,5),x,x^2),nrow=5,ncol=3) #第一列全为1，第二列为向量x，第三列为x^2
+
 dim(m)       #查看维度
 t(m)         #转置
 rowSums(m)   #计算每行的总和
