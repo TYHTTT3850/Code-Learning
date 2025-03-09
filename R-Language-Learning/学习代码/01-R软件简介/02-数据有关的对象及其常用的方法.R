@@ -2,6 +2,14 @@
 
 v <- c(10, 20, 30, 40, 50)  #创建数值型向量
 v2 <- c("A", "B", "C") #字符型向量
+
+# seq()函数
+v3 <- seq(0,10,by=3) #by表示按照指定间隔生成元素。
+v4 <- seq(0,10,length.out = 4) #length.out表示等间隔地生成指定数量的元素。
+
+# rep()函数
+x <- rep(1,times=5) #指定值重复指定次
+
 length(v)      #获取向量长度
 sum(v)         #计算总和
 mean(v)        #计算均值
@@ -31,6 +39,12 @@ rownames(m) <- c("Row1", "Row2", "Row3")  #设置行名
 colnames(m) <- c("Col1", "Col2", "Col3")  #设置列名
 m3 <- matrix(1:9, nrow = 3, ncol = 3,
              dimnames = list(c("A", "B", "C"), c("X", "Y", "Z"))) #创建矩阵时直接指定行名和列名
+
+# 利用其他矩阵创建矩阵
+A <- matrix(1:20,nrow=4,ncol=5)
+B <- matrix(1:20,nrow=4,ncol=5,byrow=TRUE)
+C <- matrix(A[1:3,1:3],3,3)
+D <- matrix(B[,-3],4,4)
 dim(m)       #查看维度
 t(m)         #转置
 rowSums(m)   #计算每行的总和
