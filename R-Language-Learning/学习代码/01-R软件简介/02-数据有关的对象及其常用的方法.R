@@ -42,6 +42,7 @@ v1 * 3   # 每个元素 *3
 crossprod(v1, v2) #点乘，内积
 outer(v1,v2) #叉乘，外积
 
+# ------------------------------------------------------------------------------------------------ #
 
 ### 因子：用于存储分类数据，存储的值是类别(levels)。
 
@@ -49,6 +50,7 @@ f <- factor(c("Male", "Female", "Male", "Female", "Male"))
 levels(f)   #查看因子的类别
 table(f)    #统计每个类别的频数
 
+# ------------------------------------------------------------------------------------------------ #
 
 ### 矩阵：二维数组，所有元素类型相同。
 
@@ -81,19 +83,24 @@ colnames(m) <- NULL  # 删除列名
 # 矩阵运算
 A <- matrix(1:9, nrow = 3, byrow = TRUE)
 B <- matrix(9:1, nrow = 3, byrow = TRUE)
+
 # 逐元素运算
 A + B  # 逐元素加
 A - B  # 逐元素减
 A * B  # 逐元素乘
 A / B  # 逐元素除
 A ^ 2  # 每个元素平方
+
 # 矩阵乘法
 A %*% B  # 矩阵乘法（行×列）
+
 # 矩阵转置
 t(A)  # 返回转置矩阵
+
 # 矩阵求逆
 M <- matrix(c(2, -1, 0, 1), nrow = 2)
-solve(M)  # 返回逆矩阵
+solve(M)  # 返回逆矩阵，solve(A,b)则表示求解线性方程组 Ax=b
+
 # 行/列求和 & 均值
 rowSums(A)  # 计算每行的和
 colSums(A)  # 计算每列的和
@@ -102,6 +109,7 @@ colMeans(A) # 计算每列的均值
 # 行列式
 det(A)  # 计算行列式
 
+# ------------------------------------------------------------------------------------------------ #
 
 ### 列表：可以存储不同类型的数据对象。键值对的的形式存储，键=值。
 
@@ -111,6 +119,7 @@ lst[["name"]]   #返回 "Alice"
 lst["name"]    #返回一个子列表，而不是字符串 "Alice"
 length(lst)    #列表长度
 
+# ------------------------------------------------------------------------------------------------ #
 
 ### 数据框：类似于表格，每列可以是不同的数据类型。每列都是向量，本质就是每列都是向量的列表，是列表的功能加强。
 
@@ -126,3 +135,158 @@ df[2, 3]      # 访问第2行第3列的值，输出 85
 df[ , "Age"]  # 访问 "Age" 列，返回向量 c(25, 30, 35)
 df[2, ]       # 访问第2行所有数据
 df[, c(1, 3)] # 访问第1列和第3列
+
+# ------------------------------------------------------------------------------------------------ #
+
+### 辨别和转换数据对象
+
+# 创建各种类型的R对象用于演示
+x_numeric <- 10.5
+x_integer <- 10L
+x_character <- "hello"
+x_logical <- TRUE
+x_complex <- 3+4i
+x_vector <- c(1, 2, 3)
+x_matrix <- matrix(1:9, nrow = 3)
+x_dataframe <- data.frame(a = 1:3, b = c("x", "y", "z"))
+x_list <- list(a = 1, b = "text", c = TRUE)
+x_array <- array(1:24, dim = c(2, 3, 4))
+x_factor <- factor(c("low", "medium", "high"))
+x_null <- NULL
+x_with_na <- c(1, 2, NA, 4)
+x_with_nan <- c(1, 2, NaN, 4)
+
+# 1. 检查对象类型的函数
+
+# class() - 返回对象的类
+class(x_numeric)      # [1] "numeric"
+class(x_integer)      # [1] "integer"
+class(x_character)    # [1] "character"
+class(x_logical)      # [1] "logical"
+class(x_complex)      # [1] "complex"
+class(x_vector)       # [1] "numeric"
+class(x_matrix)       # [1] "matrix" "array"
+class(x_dataframe)    # [1] "data.frame"
+class(x_list)         # [1] "list"
+class(x_array)        # [1] "array"
+class(x_factor)       # [1] "factor"
+class(x_null)         # NULL
+
+# typeof() - 返回对象的低级别类型
+typeof(x_numeric)     # [1] "double"
+typeof(x_integer)     # [1] "integer"
+typeof(x_character)   # [1] "character"
+typeof(x_logical)     # [1] "logical"
+typeof(x_complex)     # [1] "complex"
+typeof(x_matrix)      # [1] "integer"
+typeof(x_dataframe)   # [1] "list"
+typeof(x_list)        # [1] "list"
+
+# mode() - 返回对象的模式
+mode(x_numeric)       # [1] "numeric"
+mode(x_integer)       # [1] "numeric"
+mode(x_character)     # [1] "character"
+mode(x_logical)       # [1] "logical"
+mode(x_complex)       # [1] "complex"
+mode(x_matrix)        # [1] "numeric"
+mode(x_dataframe)     # [1] "list"
+mode(x_list)          # [1] "list"
+
+# 2.判断是否为某种对象
+
+is.vector(x_vector)           # [1] TRUE
+is.vector(x_matrix)           # [1] FALSE
+is.matrix(x_matrix)           # [1] TRUE
+is.matrix(x_vector)           # [1] FALSE
+is.data.frame(x_dataframe)    # [1] TRUE
+is.data.frame(x_matrix)       # [1] FALSE
+is.list(x_list)               # [1] TRUE
+is.list(x_dataframe)          # [1] TRUE (数据框也是列表的一种)
+is.list(x_vector)             # [1] FALSE
+is.array(x_array)             # [1] TRUE
+is.array(x_matrix)            # [1] TRUE (矩阵也是数组的一种)
+is.array(x_vector)            # [1] FALSE
+is.numeric(x_numeric)         # [1] TRUE
+is.numeric(x_integer)         # [1] TRUE
+is.numeric(x_character)       # [1] FALSE
+is.integer(x_integer)         # [1] TRUE
+is.integer(x_numeric)         # [1] FALSE
+is.double(x_numeric)          # [1] TRUE
+is.double(x_integer)          # [1] FALSE
+is.character(x_character)     # [1] TRUE
+is.character(x_numeric)       # [1] FALSE
+is.logical(x_logical)         # [1] TRUE
+is.logical(x_numeric)         # [1] FALSE
+is.factor(x_factor)           # [1] TRUE
+is.factor(x_character)        # [1] FALSE
+is.complex(x_complex)         # [1] TRUE
+is.complex(x_numeric)         # [1] FALSE
+is.null(x_null)               # [1] TRUE
+is.null(x_numeric)            # [1] FALSE
+is.na(x_with_na)              # [1] FALSE FALSE  TRUE FALSE
+is.na(x_with_na[3])           # [1] TRUE
+is.nan(x_with_nan)            # [1] FALSE FALSE  TRUE FALSE
+is.nan(x_with_nan[3])         # [1] TRUE
+
+# 3. 转换数据对象的类型，返回新的对象，不改变原对象
+
+# as.vector() - 将对象转换为向量
+as.vector(x_matrix)           # [1] 1 4 7 2 5 8 3 6 9 (按列展开矩阵)
+as.vector(x_factor)           # [1] 1 2 3 (转换为因子的数字表示)
+
+# as.matrix() - 将对象转换为矩阵
+as.matrix(x_vector)           # 转为单列矩阵
+as.matrix(x_dataframe)        # 将数据框转为矩阵
+
+# as.data.frame() - 将对象转换为数据框
+as.data.frame(x_matrix)       # 将矩阵转为数据框
+as.data.frame(x_list)         # 将列表转为数据框
+
+# as.list() - 将对象转换为列表
+as.list(x_vector)             # 将向量转为列表
+as.list(x_dataframe)          # 将数据框转为列表
+
+# as.array() - 将对象转换为数组
+as.array(x_vector)            # 将向量转为一维数组
+as.array(x_matrix)            # 将矩阵转为二维数组
+
+# as.numeric() - 将对象转换为数值型
+as.numeric(x_character)       # 将字符转为数值，若字符非数字则返回NA
+as.numeric(c("1", "2", "3"))  # [1] 1 2 3
+as.numeric(x_logical)         # [1] 1 (TRUE转为1)
+as.numeric(x_factor)          # 将因子转为数值 [1] 1 2 3
+
+# as.integer() - 将对象转换为整数型
+as.integer(x_numeric)         # [1] 10 (截断小数)
+as.integer(x_logical)         # [1] 1
+as.integer("42")              # [1] 42
+
+# as.double() - 将对象转换为双精度型
+as.double(x_integer)          # [1] 10
+as.double(x_logical)          # [1] 1
+as.double("10.5")             # [1] 10.5
+
+# as.character() - 将对象转换为字符型
+as.character(x_numeric)       # [1] "10.5"
+as.character(x_logical)       # [1] "TRUE"
+as.character(x_factor)        # [1] "low" "medium" "high"
+
+# as.logical() - 将对象转换为逻辑型
+as.logical(0)                 # [1] FALSE
+as.logical(1)                 # [1] TRUE
+as.logical(c(0, 1, 2))        # [1] FALSE TRUE TRUE (非0值都转为TRUE)
+as.logical(c("TRUE", "FALSE")) # [1] TRUE FALSE
+
+# as.factor() - 将对象转换为因子型
+as.factor(x_character)        # 将字符转为因子
+as.factor(c(1, 2, 2, 1))      # 将数值转为因子
+
+# as.complex() - 将对象转换为复数型
+as.complex(x_numeric)         # [1] 10.5+0i
+as.complex(c(1, 2))           # [1] 1+0i 2+0i
+as.complex("1+2i")            # [1] 1+2i
+
+# as.null() - 总是返回NULL，不管输入什么
+as.null(x_numeric)  # 返回 NULL，忽略输入
+as.null(x_vector)   # 返回 NULL，忽略输入
+as.null("anything") # 返回 NULL，忽略输入
