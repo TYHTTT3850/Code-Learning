@@ -36,3 +36,7 @@ LIMIT
 排序查询(order by)
 
 分页查询(limit)
+
+### 执行顺序
+
+DQL语句的执行顺序为：from ... where ... group by ... having ... select ... order by ... limit ...
