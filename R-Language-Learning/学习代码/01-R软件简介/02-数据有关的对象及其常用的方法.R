@@ -119,7 +119,6 @@ dim(df)       #获取行列数
 head(df)      #查看前6行
 str(df)       #查看数据结构
 summary(df)   #统计信息
-df$Age        #访问 "Age" 列
 df$Age        # 访问 "Age" 列，返回向量 c(25, 30, 35)
 df[["Age"]]   # 等价于 df$Age
 df["Age"]     # 返回数据框(列名仍保留)
