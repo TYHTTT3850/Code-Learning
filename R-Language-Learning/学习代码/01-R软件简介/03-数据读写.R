@@ -42,6 +42,7 @@ write_json(data, "output.json")
 # 读
 data <- readRDS("data.rds")
 load("data.RData") #会直接加载数据文件中的所有对象，不需要显式赋值。
+
 # 写
 saveRDS(data, "output.rds")
 save(data, file = "output.RData")
