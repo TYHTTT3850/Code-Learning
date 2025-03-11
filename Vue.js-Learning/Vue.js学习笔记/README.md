@@ -14,5 +14,13 @@ npm config get prefix
 
 # 获取 npm 缓存位置
 npm config get cache
+
+# 设置npm安装的地址
+npm config set prefix "D:\programfiles\nodejs\node_global"
+
+# npm缓存位置设置
+npm config set cache "D:\programfiles\nodejs\node_cache"
+
+
 ```
 
