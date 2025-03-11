@@ -4,7 +4,7 @@
 
 就像 Pyhton 的 pip 一样。
 
-## 常用指令
+## 常用指令(vue3 开发)
 
 ### 安装位置和缓存
 
@@ -68,7 +68,7 @@ npm install 包名 --save-dev
    - 使用 `npm install <包名> --save-dev` 安装
    - 包括测试工具、构建工具等。
 
-### 创建项目
+### 创建 vue3 项目
 
 ```cmd
 # 通过create-vue 搭建 vue3 项目
