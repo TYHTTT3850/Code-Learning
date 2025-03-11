@@ -42,12 +42,9 @@ npm config set registry 镜像网址
 npm config get registry
 ```
 
-### 项目初始化和安装
+### 安装依赖
 
 ```cmd
-# 初始化一个新的 npm 项目
-npm init
-
 # 安装 package.json 中的所有依赖
 npm install
 
@@ -71,6 +68,15 @@ npm install 包名 --save-dev
    - 使用 `npm install <包名> --save-dev` 安装
    - 包括测试工具、构建工具等。
 
+### 创建项目
+
+```cmd
+# 通过create-vue 搭建 vue3 项目
+npm init vue@latest # 在当前工作目录下创建，注意切换工作目录
+
+# 通过 vite 搭建 vue3 项目，同样在当前工作目录下创建
+npm init vite@latest my-vue-app -- --template vue
+```
 
 # nrm
 nrm 是一个 npm 源管理器，允许你快速地在 npm 源间切换。
