@@ -63,13 +63,13 @@ npm install 包名 --save-dev
 
 在 package.json 文件中，主要有以下两种依赖：
 
-1. **dependencies**：
-- 项目运行时需要的依赖。
+- **dependencies**：
+   - 项目运行时需要的依赖。
 
-2. **devDependencies**：
-- 在开发时需要的依赖，生产环境不需要。
-- 使用 `npm install <包名> --save-dev` 安装
-- 包括测试工具、构建工具等。
+- **devDependencies**：
+   - 在开发时需要的依赖，生产环境不需要。
+   - 使用 `npm install <包名> --save-dev` 安装
+   - 包括测试工具、构建工具等。
 
 
 # nrm
