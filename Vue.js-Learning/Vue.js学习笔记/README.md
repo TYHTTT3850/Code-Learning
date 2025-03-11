@@ -79,7 +79,7 @@ npm install 包名 --save-dev
 
 npm update # 更新所有依赖包
 
-npm update # 包名更新指定的包
+npm update 包名 # 更新指定的包
 
 npm outdated # 检查过时的包
 
