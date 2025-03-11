@@ -68,6 +68,17 @@ npm install 包名 --save-dev
    - 使用 `npm install <包名> --save-dev` 安装
    - 包括测试工具、构建工具等。
 
+### 依赖管理
+
+```cmd
+npm update #更新所有依赖包
+- `npm update #包名更新指定的包
+- `npm outdated` - 检查过时的包
+- `npm uninstall <包名>` 或 `npm un <包名>` - 卸载指定的包
+- `npm list` - 列出已安装的包
+- `npm list --depth=0` - 列出顶层依赖包
+```
+
 ### 创建 vue3 项目
 
 ```cmd
@@ -80,6 +91,12 @@ npm init vite@latest my-vue-app -- --template vue
 
 说明：`@` 后面可指定vue版本号，latest 表示最新版
 
+### vue3 项目开发
+
+```cmd
+npm run dev` # 启动开发服务器
+`npm run build` # 构建生产版本
+```
 
 # nrm
 nrm 是一个 npm 源管理器，允许你快速地在 npm 源间切换。
