@@ -20,7 +20,41 @@ npm config set prefix "D:\programfiles\nodejs\node_global"
 
 # npm缓存位置设置
 npm config set cache "D:\programfiles\nodejs\node_cache"
-
-
 ```
 
+### 下载源
+
+npm 官方原始镜像网址是：https://registry.npmjs.org/
+
+淘宝 NPM 镜像：http://registry.npmmirror.com
+
+阿里云 NPM 镜像：https://npm.aliyun.com
+
+腾讯云 NPM 镜像：https://mirrors.cloud.tencent.com/npm/
+
+华为云 NPM 镜像：https://mirrors.huaweicloud.com/repository/npm/
+
+```cmd
+# 切换镜像网址
+npm config set registry 镜像网址
+
+# 查看当前镜像网址
+npm config get registry
+```
+
+# nrm
+nrm 是一个 npm 源管理器，允许你快速地在 npm 源间切换。
+
+```cmd
+# 安装nrm
+npm install -g nrm
+
+# 查看可选的源
+nrm ls
+
+# 切换。如果要切换到taobao源，执行命令
+nrm use taobao
+
+# 测试速度
+nrm test
+```
