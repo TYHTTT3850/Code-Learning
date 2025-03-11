@@ -42,6 +42,37 @@ npm config set registry 镜像网址
 npm config get registry
 ```
 
+### 项目初始化和安装
+
+```cmd
+# 初始化一个新的 npm 项目
+npm init
+
+# 安装 package.json 中的所有依赖
+npm install
+
+# 安装指定包
+npm install 包名
+
+# 安装并添加到 dependencies
+npm install 包名 --save
+
+# 安装并添加到 devDependencies
+npm install 包名 --save-dev
+```
+
+1. **dependencies**：
+   - 项目运行时需要的依赖
+   - 使用 `npm install <包名>` 或 `npm install <包名> --save` 安装
+   - 这些包会被打包到生产环境代码中
+
+2. **devDependencies**：
+   - 只在开发时需要的依赖，生产环境不需要
+   - 使用 `npm install <包名> --save-dev` 安装
+   - 包括测试工具、构建工具等
+   - 示例：ESLint、Vite、Jest 等
+
+
 # nrm
 nrm 是一个 npm 源管理器，允许你快速地在 npm 源间切换。
 
