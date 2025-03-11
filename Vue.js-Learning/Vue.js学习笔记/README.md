@@ -85,7 +85,17 @@ npm outdated # 检查过时的包
 
 npm uninstall 包名 # 卸载指定的包
 
-npm list # 列出已安装的包
+npm list # 列出项目中所有已安装的包
+
+npm update -g # 更新所有全局安装的依赖包
+
+npm update -g 包名 # 更新指定的全局安装的包
+
+npm outdated -g # 检查过时的全局安装的包
+
+npm uninstall -g 包名 # 卸载指定的全局安装的包
+
+npm list -g # 列出所有全局安装的的包
 ```
 
 ### 创建 vue3 项目
