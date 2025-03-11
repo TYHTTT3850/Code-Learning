@@ -44,12 +44,17 @@ npm config get registry
 
 ### 安装依赖
 
+在使用 npm 安装依赖时，默认是将依赖安装到当前项目的 node_modules 文件夹中。
+除非你指定全局安装（使用 `-g` 标志）。
+
 ```cmd
 # 安装 package.json 中的所有依赖
 npm install
 
 # 安装指定包
 npm install 包名
+
+npm install -g 包名 # 全局安装
 
 # 安装并添加到 dependencies
 npm install 包名 --save
