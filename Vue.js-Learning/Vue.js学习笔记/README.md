@@ -78,6 +78,9 @@ npm init vue@latest # 在当前工作目录下创建，注意切换工作目录
 npm init vite@latest my-vue-app -- --template vue
 ```
 
+说明：`@` 后面可指定vue版本号，latest 表示最新版
+
+
 # nrm
 nrm 是一个 npm 源管理器，允许你快速地在 npm 源间切换。
 
