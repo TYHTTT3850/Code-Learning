@@ -71,10 +71,15 @@ npm install 包名 --save-dev
 ### 依赖管理
 
 ```cmd
+
 npm update # 更新所有依赖包
+
 npm update # 包名更新指定的包
+
 npm outdated # 检查过时的包
+
 npm uninstall 包名 # 卸载指定的包
+
 npm list # 列出已安装的包
 ```
 
