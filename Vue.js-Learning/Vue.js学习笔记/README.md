@@ -9,10 +9,10 @@
 ### 安装位置和缓存
 
 ```cmd
-1、npm 全局安装地址
+# 获取 npm 全局安装地址
 npm config get prefix
 
-2、npm 缓存位置
+# 获取 npm 缓存位置
 npm config get cache
 ```
 
