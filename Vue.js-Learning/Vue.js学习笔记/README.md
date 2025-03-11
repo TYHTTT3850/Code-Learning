@@ -15,10 +15,10 @@ npm config get prefix
 # 获取 npm 缓存位置
 npm config get cache
 
-# 设置npm安装的地址
+# 设置npm默认的安装位置
 npm config set prefix "D:\programfiles\nodejs\node_global"
 
-# npm缓存位置设置
+# 设置npm默认的缓存位置
 npm config set cache "D:\programfiles\nodejs\node_cache"
 ```
 
@@ -61,16 +61,15 @@ npm install 包名 --save
 npm install 包名 --save-dev
 ```
 
+在 package.json 文件中，主要有以下两种依赖：
+
 1. **dependencies**：
-   - 项目运行时需要的依赖
-   - 使用 `npm install <包名>` 或 `npm install <包名> --save` 安装
-   - 这些包会被打包到生产环境代码中
+   - 项目运行时需要的依赖。
 
 2. **devDependencies**：
-   - 只在开发时需要的依赖，生产环境不需要
+   - 在开发时需要的依赖，生产环境不需要。
    - 使用 `npm install <包名> --save-dev` 安装
-   - 包括测试工具、构建工具等
-   - 示例：ESLint、Vite、Jest 等
+   - 包括测试工具、构建工具等。
 
 
 # nrm
