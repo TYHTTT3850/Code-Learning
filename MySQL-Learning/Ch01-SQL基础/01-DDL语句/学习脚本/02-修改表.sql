@@ -11,6 +11,6 @@ alter table employee drop age; # 删除字段
 
 alter table employee rename employee1; # 修改表名
 
-truncate table employee1;
+truncate table employee1; # 删除表并重新创建
 
-drop table if exists employee1;
+drop table if exists employee1; # 删除表
