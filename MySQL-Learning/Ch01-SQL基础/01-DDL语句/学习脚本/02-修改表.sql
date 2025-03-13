@@ -9,7 +9,7 @@ alter table employee change nickname username varchar(30); # 修改字段名和�
 
 alter table employee drop age; # 删除字段
 
-alter table employee rename employee1; # 修改表名
+alter table employee rename to employee1; # 修改表名
 
 truncate table employee1; # 删除表并重新创建
 
