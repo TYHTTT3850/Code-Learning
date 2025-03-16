@@ -113,7 +113,7 @@ det(A)  # 计算行列式
 
 ### 列表：可以存储不同类型的数据对象。键值对的的形式存储，键=值。
 
-lst <- list(name = "Alice", age = 25, scores = c(90, 85, 88))
+lst <- list("name" = "Alice", "age" = 25, "scores" = c(90, 85, 88))
 lst$name       #访问元素，返回 "Alice"
 lst[["name"]]   #返回 "Alice"
 lst["name"]    #返回一个子列表，而不是字符串 "Alice"
@@ -123,7 +123,7 @@ length(lst)    #列表长度
 
 ### 数据框：类似于表格，每列可以是不同的数据类型。每列都是向量，本质就是每列都是向量的列表，是列表的功能加强。
 
-df <- data.frame(Name = c("A", "B", "C"), Age = c(25, 30, 35), Score = c(80, 90, 85))
+df <- data.frame("Name" = c("A", "B", "C"), "Age" = c(25, 30, 35), "Score" = c(80, 90, 85))
 dim(df)       #获取行列数
 head(df)      #查看前6行
 str(df)       #查看数据结构
