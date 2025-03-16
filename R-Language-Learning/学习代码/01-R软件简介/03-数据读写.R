@@ -46,3 +46,12 @@ load("data.RData") #会直接加载数据文件中的所有对象，不需要显
 # 写
 saveRDS(data, "output.rds")
 save(data, file = "output.RData")
+
+
+### 读写R对象文件(data)
+
+# 读
+load("output.data")
+
+# 写
+save(df, file = "output.data")
