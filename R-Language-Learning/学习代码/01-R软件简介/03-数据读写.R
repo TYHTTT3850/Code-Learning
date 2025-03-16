@@ -15,6 +15,7 @@ data <- read.table("data.txt", header = TRUE, sep = "\t", stringsAsFactors = FAL
 #写
 write.table(data, "output.txt", sep = "\t", row.names = FALSE, quote = FALSE)
 
+# 也可以用来读写 .data 文件。
 
 ### 读写Excel文件
 
@@ -46,12 +47,3 @@ load("data.RData") #会直接加载数据文件中的所有对象，不需要显
 # 写
 saveRDS(data, "output.rds")
 save(data, file = "output.RData")
-
-
-### 读写R对象文件(data)
-
-# 读
-load("output.data")
-
-# 写
-save(df, file = "output.data")
