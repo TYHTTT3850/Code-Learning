@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>表单控件-按钮</title>
+</head>
+<body>
+   <p>使用 button 标签定义一个按钮，有 type 属性，type属性不一样，功能就不一样。type 常用值如下：</p>
+   <table border="1">
+      <thead>
+         <tr>
+            <th>type 属性值</th>
+            <th>作用</th>
+         </tr>
+      </thead>
+      <tbody>
+         <tr>
+            <td>submit</td>
+            <td>提交按钮，点击后将数据提交到后台(默认功能)</td>
+         </tr>
+         <tr>
+            <td>reset</td>
+            <td>重置按钮，点击后表单控件恢复默认</td>
+         </tr>
+         <tr>
+            <td>button</td>
+            <td>普通按钮，没有默认功能，一般配合 JavaScript 使用</td>
+         </tr>
+      </tbody>
+   </table>
+   <p>使用示例：</p>
+   <p>
+      <label>用户名：<input type="text"></label>
+   </p>
+   <p>
+      <label>密码：<input type="password"></label>
+   </p>
+   <p>
+      <!-- 如果省略 type 的值，则默认是 submit -->
+      <button type="submit">提交</button>
+      <button type="reset">重置</button>
+   </p>
+   <p>此时，按钮其实都没有实际功能，使用 form 标签将表单控件包裹住，对表单控件统一管理，按钮才会有实际功能。例如：</p>
+   <form action=""> <!-- action 属性是发送数据的地址-->
+      <p>
+         <label>用户名：<input type="text"></label>
+      </p>
+      <p>
+         <label>密码：<input type="password"></label>
+      </p>
+      <p>
+         <button type="submit">提交</button>
+         <button type="reset">重置</button>
+      </p>
+   </form>
+</body>
+</html>
