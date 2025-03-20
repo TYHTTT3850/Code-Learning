@@ -1,5 +1,3 @@
-[笔记配套视频](https://www.bilibili.com/video/BV1HV4y1a7n4/?p=3&share_source=copy_web&vd_source=5d1a88af6b151c4524e2e0393d9d7b02)，day 11开始为 vue3，往前为 vue2。这里只学习 vue3。
-
 # 什么是 vue3
 
 vue3 是一个开发框架，就像 pytorch 之于 python 。
