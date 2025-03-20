@@ -20,10 +20,10 @@ npm config get prefix
 npm config get cache
 
 # 设置npm默认的安装位置
-npm config set prefix "D:\programfiles\nodejs\node_global"
+npm config set prefix "D:\nodejs\node_global"
 
 # 设置npm默认的缓存位置
-npm config set cache "D:\programfiles\nodejs\node_cache"
+npm config set cache "D:\nodejs\node_cache"
 ```
 
 ### 下载源
