@@ -109,7 +109,7 @@ npm list -g # 列出所有全局安装的的包
 npm init vue@latest # 在当前工作目录下创建，注意切换工作目录
 
 # 通过 vite 搭建 vue3 项目，同样在当前工作目录下创建
-npm create vite@latest my-vue-app -- --template vue
+npm create vite@latest my-vue-app
 ```
 
 说明：`@` 后面可指定vue版本号，latest 表示最新版
