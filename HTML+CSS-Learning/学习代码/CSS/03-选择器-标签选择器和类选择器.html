@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>选择器-标签选择器和类选择器</title>
+    <style>
+        /* p{color: red;} */
+        .red{
+            color: red;
+        }
+
+        .fontsize{
+            font-size: 30px;
+        }
+    </style>
+</head>
+<body>
+    <p>选择器的作用：查找标签，设置样式</p>
+    <p>
+        基础选择器：
+        <ul>
+            <li>
+                标签选择器
+            </li>
+            <li>
+                类选择器
+            </li>
+            <li>
+                id 选择器
+            </li>
+            <li>
+                通配符选择器
+            </li>
+        </ul>
+    </p>
+    <h3>标签选择器</h3>
+    <p>
+        使用标签名作为选择器 -> 选择同名标签设置相同样式。<br>
+        例如：p、h1、div、a、img。<br>
+        特点：选中同名标签设置相同的样式，无法差异化同名标签的样式。
+    </p>
+    <h3>类选择器</h3>
+    <p>
+        差异化设置标签的显示效果。<br>
+    </p>
+    <p class="red">
+        步骤：<br>
+        定义类选择器 -> .类名<br>
+        使用类选择器 -> class="类名"
+    </p>
+    <p class="red fontsize">
+        一个标签可以指定多个类名，类名与类名之间使用空格隔开。
+    </p>
+</body>
+</html>
