@@ -48,6 +48,23 @@ dataset = MyDataset(x_train, y_train)
 
 from torch.utils.data import DataLoader
 train_loader = DataLoader(dataset, batch_size=2, shuffle=True)# batch_size 设置每次加载的样本数量
+"""
+DataLoader工作原理：
+1、DataLoader 本身不保存数据，它只是一个包装器，围绕你提供的 Dataset ，按你的设定来访问、打乱、分批、加载数据。
+2、取出数据流程图：
+    [CSVDataset (N个样本)]
+        ↓
+    shuffle=True → 打乱索引 → 比如 [3, 7, 0, 1, 6, ...]
+        ↓
+    batch_size=5 → 分成 batch → [[3,7,0,1,6], [2,4,5,8,9], ...]
+        ↓
+    __getitem__ 被调用 → 每个 idx 获取数据
+        ↓
+    collate_fn → 把这些样本合成一个 batch 张量
+        ↓
+    yield 给你 (features, labels)
+
+"""
 
 # 打印加载的数据
 for batch_idx, (inputs, labels) in enumerate(train_loader):
