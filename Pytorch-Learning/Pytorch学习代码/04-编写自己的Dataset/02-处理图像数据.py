@@ -14,7 +14,7 @@ transform1 = transforms.Compose([
     transforms.Normalize(mean=[0.485, 0.456, 0.406],std=[0.229, 0.224, 0.225]) # 标准化
     ])
 
-# 加载图像
+# 示例图片，实际开发中图片是从文件夹中加载而来
 image = Image.open("image.jpeg")
 
 # 应用预处理
