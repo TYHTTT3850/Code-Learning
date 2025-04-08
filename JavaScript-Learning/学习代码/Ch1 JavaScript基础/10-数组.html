@@ -46,9 +46,10 @@
     arr.unshift('VS Code')
     console.log(arr)
 
-    // 3. splice 动态删除任意单元
+    // 3. splice 添加或删除数组中的元素。删除：splice(起始位置， 删除的个数)。添加：splice(起始位置，删除个数，添加数组元素)
     arr.splice(2, 1) // 从索引值为2的位置开始删除1个单元
     console.log(arr)
+    arr.splice(1, 0, 'pink', 'hotpink') // 在索引号是1的位置添加 pink  hotpink，删除0个就相当于没删除
 
     // 4. pop 删除最后一个单元
     arr.pop()
