@@ -52,7 +52,7 @@ train_loader = DataLoader(dataset, batch_size=2, shuffle=True)# batch_size 设�
 DataLoader工作原理：
 1、DataLoader 本身不保存数据，它只是一个包装器，围绕你提供的 Dataset ，按你的设定来访问、打乱、分批、加载数据。
 2、加载数据的流程图：
-    [CSVDataset (N个样本)]
+    CSVDataset(N个样本)
         ↓
     shuffle=True → 打乱索引 → 比如 [3, 7, 0, 1, 6, ...]
         ↓
