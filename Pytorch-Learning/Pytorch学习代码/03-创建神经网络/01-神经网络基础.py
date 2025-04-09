@@ -12,7 +12,7 @@ class SimpleNN(torch.nn.Module):
     """
     torch.nn.Module 是所有神经网络模块的基类，你需要定义以下两个部分：
     __init__()：构造函数，定义网络层。
-    forward()：定义数据的前向传播过程。
+    forward()：定义数据的前向传播过程。为训练时使用模型输出预测值提供支持。
     PyTorch 提供了许多常见的神经网络层，以下是几个常见的：
         1、torch.nn.Linear(in_features, out_features)：全连接层，输入 in_features 个特征，输出 out_features 个特征。
         2、nn.Conv2d(in_channels, out_channels, kernel_size)：2D 卷积层，用于图像处理。
