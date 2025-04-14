@@ -9,7 +9,7 @@ torch.autograd.grad(
     only_inputs=True,
     allow_unused=False
 )
-outputs	        通常是一个标量或者张量的序列(例如 loss)
+outputs	        要从它开始反向传播的结果表达式(就是要求导的表达式)
 inputs	        你希望求梯度的变量，必须是 requires_grad=True 的张量
 grad_outputs	指定外部梯度(即复合函数求导的外部导数值)
 retain_graph	是否保留计算图(默认释放)
