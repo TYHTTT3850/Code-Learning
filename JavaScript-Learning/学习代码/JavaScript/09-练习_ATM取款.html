@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<script>
+    let money = 100;
+    while(true){
+        let operation = Number(prompt(`请选择你的操作：
+            1、取款
+            2、存款
+            3、余额
+            4、退出
+        `))
+
+        if(operation == 4){
+            break
+        }
+
+        switch(operation){
+            case 1:
+                let out = Number(prompt("取多少？"))
+                if(out > money){
+                    alert("钱不够")
+                    break
+                }
+                else{
+                    alert("成功取出")
+                    money -= out
+                    break
+                }
+            case 2:
+                let save =Number(prompt("存多少"))
+                money += save
+                break
+            case 3:
+                alert("还剩：" + String(money))
+                break
+
+        }        
+    }
+</script>
+
+<body>
+    <p>成功退出</p>
+</body>
+</html>
