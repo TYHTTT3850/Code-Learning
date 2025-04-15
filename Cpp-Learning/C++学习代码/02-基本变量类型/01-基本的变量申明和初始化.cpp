@@ -20,4 +20,6 @@ int main() {
     cout << "变量 x 的内存占用大小" << sizeof(x) << endl;
     long long bigint{0};
     cout <<"long long 类型内存占用:"<<sizeof(bigint)<<endl;
+
+    return 0;
 }
