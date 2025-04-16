@@ -4,7 +4,7 @@ using namespace std;
 
 int main() {
     //定义一个 int 类型的变量
-    int x{100}; // 为x变量设置初始值
+    int x{100}; // 为x变量设置初始值，建议使用这种初始化格式，因为会这样进行"类型审查"。int x{1.3}会报错。
     //int y; // 如果不设置初始值，编译器报错(MSVC2022)
     cout << "x的值：" << x << endl;
 
