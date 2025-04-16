@@ -1,128 +1,93 @@
 """
-以一维热传导方程：u_t-u_xx = 0为例
+神经网络类型
+1、前馈神经网络（Feedforward Neural Networks）：数据单向流动，从输入层到输出层，无反馈连接。
+2、卷积神经网络（Convolutional Neural Networks, CNNs）：适用于图像处理，使用卷积层提取空间特征。
+3、循环神经网络（Recurrent Neural Networks, RNNs）：适用于序列数据，如时间序列分析和自然语言处理，允许信息反馈循环。
+4、长短期记忆网络（Long Short-Term Memory, LSTM）：一种特殊的RNN，能够学习长期依赖关系。
 """
 
 import torch
-import numpy as np
-import matplotlib.pyplot as plt
 
-class PINN(torch.nn.Module):
-    def __init__(self,layers):
-        """
-        参数:
-        layers: 一个包含每一层神经元个数的列表，例如 [2, 20, 20, 1]表示输入层有2个神经元(x, t)，两个隐藏层各20个神经元，输出层1个神经元(预测的 u)
-        """
-        super().__init__()
-        self.layers = torch.nn.ModuleList() # ModuleList是专门用来存放神经网络的层的列表
+# 简单的全连接神经网络
+class SimpleNN(torch.nn.Module):
+    """
+    torch.nn.Module 是所有神经网络模块的基类，你需要定义以下两个部分：
+    __init__()：构造函数，定义网络层。
+    forward()：定义数据的前向传播过程。为训练时使用模型输出预测值提供支持。
+    PyTorch 提供了许多常见的神经网络层，以下是几个常见的：
+        1、torch.nn.Linear(in_features, out_features)：全连接层，输入 in_features 个特征，输出 out_features 个特征。
+        2、nn.Conv2d(in_channels, out_channels, kernel_size)：2D 卷积层，用于图像处理。
+        3、torch.nn.MaxPool2d(kernel_size)：2D 最大池化层，用于降维。
+    """
+    def __init__(self):
+        super().__init__() # 调用父类构造函数
+        # 定义一个输入层到隐藏层的全连接层
+        self.fc1 = torch.nn.Linear(2, 2)  # 输入 2 个特征，输出 2 个特征
+        # 定义一个隐藏层到输出层的全连接层
+        self.fc2 = torch.nn.Linear(2, 1)  # 输入 2 个特征，输出 1 个预测值
 
-        # 设置前 n-1 层之间的连接，并激活。最后一层输出不需要激活
-        # 前 n-1 层
-        for i in range(len(layers)-2):
-            self.layers.append(
-                torch.nn.Sequential(torch.nn.Linear(layers[i], layers[i+1]),
-                                    torch.nn.Tanh())
-            ) # 构建前 n-1 层的每层之间的链接
-
-        # 最后一层无需激活
-        self.layers.append(
-            torch.nn.Sequential(torch.nn.Linear(layers[-2], layers[-1]))
-        )
-
-    def forward(self, x):
-        for layer in self.layers:
-            x = layer(x)
+    def forward(self,x):
+        x = torch.nn.functional.relu(self.fc1(x)) #使用ReLU激活函数
+        x = self.fc2(x)
         return x
 
-def physics_residual(model,x,t): #计算物理残差：u_t - u_xx
-    x.requires_grad=True
-    t.requires_grad=True
-    u = model(torch.cat([x,t],dim=1)) #传入(x,t)，输出u(x,t)
-    u_t = torch.autograd.grad(u,t,grad_outputs=torch.ones_like(u),create_graph=True,retain_graph=True)[0] #计算u对t偏导
-    u_x = torch.autograd.grad(u,x,grad_outputs=torch.ones_like(u),create_graph=True,retain_graph=True)[0] #u对x偏导
-    u_xx = torch.autograd.grad(u_x,x,grad_outputs=torch.ones_like(u),create_graph=True,retain_graph=True)[0] #u对x二阶偏导
-    return u_t-u_xx
+model = SimpleNN.nn() # 创建模型实例
+print(model)
 
-def loss_fn(model,X_ic,T_ic,U_ic,X_bc,T_bc,U_bc,X_f,T_f): #定义损失函数：物理残差+边值条件+初值条件
-    """
-    :param model:定义的神经网络
-    :param X_ic: 初值条件下的x的值
-    :param T_ic: 初值条件下的t值
-    :param U_ic: 初值条件下的真实函数值
-    :param X_bc: 边值条件下的x值
-    :param T_bc: 边值条件下的t值
-    :param U_bc: 边值条件下的真实函数值
-    :param X_f: 计算物理残差的x值采样点
-    :param T_f: 计算物理残差的t值采样点
-    :return: 损失函数
-    """
+"""
+激活函数（Activation Function）
+激活函数决定了神经元是否应该被激活。它们是非线性函数，使得神经网络能够学习和执行更复杂的任务。常见的激活函数包括：
+1、Sigmoid：用于二分类问题，输出值在 0 和 1 之间。
+2、Tanh：输出值在 -1 和 1 之间，常用于输出层之前。
+3、ReLU（Rectified Linear Unit）：目前最流行的激活函数之一，定义为 f(x) = max(0, x)，有助于解决梯度消失问题。
+4、Softmax：常用于多分类问题的输出层，将输出转换为概率分布。
+"""
 
-    #初值条件下的预测函数值
-    u_ic_pred = model(torch.cat([X_ic,T_ic],dim=1))
+input_tensor = torch.tensor([-2.0, -1.0, 0.0, 1.0, 2.0])
 
-    #边值条件下的预测函数值
-    u_bc_pred = model(torch.cat([X_bc,T_bc],dim=1))
+# 模块式
+module_output1 = torch.nn.ReLU()
+module_output2 = torch.nn.Tanh()
+module_output3 = torch.nn.Sigmoid()
 
-    # 残差项(预测的 ut-uxx 的值)
-    f_pred = physics_residual(model,X_f,T_f)
+# 函数式
+output1 = torch.nn.functional.relu(input_tensor)# ReLU 激活
+output2 = torch.nn.functional.sigmoid(input_tensor)# Sigmoid 激活
+output3 = torch.nn.functional.tanh(input_tensor)# Tanh 激活
 
-    # 边值和初值条件损失的计算准则
-    criterion = torch.nn.MSELoss()
-    return criterion(u_ic_pred,U_ic) + criterion(u_bc_pred,U_bc) + torch.mean(f_pred**2)
+"""
+损失函数（Loss Function）
+损失函数用于衡量模型的预测值与真实值之间的差异。
+常见的损失函数包括：
+1、均方误差（MSELoss）：回归问题常用，计算输出与目标值的平方差。
+2、交叉熵损失（CrossEntropyLoss）：分类问题常用，计算输出和真实标签之间的交叉熵。
+3、BCEWithLogitsLoss：二分类问题，结合了 Sigmoid 激活和二元交叉熵损失。
+"""
 
-# 生成训练数据，求解区域为 [0,1] × [0,1]
+# 模块式
+module_criterion1 = torch.nn.MSELoss()
+module_criterion2 = torch.nn.CrossEntropyLoss()
+module_criterion3 = torch.nn.BCEWithLogitsLoss()
 
-# 初值条件采样100个点，初值条件u(x,0) = sin(pi*x)
-x_ic = torch.linspace(0,1,100).view(-1,1) # 更改形状为 100 * 1
-t_ic = torch.zeros_like(x_ic) # t=0
-u_ic = torch.sin(np.pi*x_ic)
+# 函数式
+y_pred = torch.tensor([1.0])
+y_true = torch.tensor([0.0])
 
-# 边值条件采样100个点，边值条件u(0,t) = u(1,t) = 0
-t_bc = torch.linspace(0,1,100).view(-1,1) # 更改形状为 100 * 1
-x0 = torch.zeros_like(t_bc) # 左端点 x = 0
-x1 = torch.ones_like(t_bc) # 右端点 x = 1
-x_bc = torch.cat([x0,x1],dim=0)
-t_bc = torch.cat([t_bc, t_bc],dim=0)
-u_bc = torch.zeros_like(t_bc)
 
-# 残差计算采样5000个点
-torch.manual_seed(42)
-eps = 1e-5
-# x_f = torch.rand(size=(5000,1)) #会取到0，而边界条件已给定，所以尽量不要取到0
-# t_f = torch.rand(size=(5000,1)) # 同理
-x_f = (1 - 2 * eps) * torch.rand((5000, 1)) + eps  # x ∈ (eps, 1 - eps)
-t_f = (1 - 2 * eps) * torch.rand((5000, 1)) + eps  # t 同理
+loss1 = torch.nn.functional.mse_loss(y_pred, y_true)
+loss2 = torch.nn.functional.cross_entropy(y_pred, y_true)
+loss3 = torch.nn.functional.binary_cross_entropy_with_logits(y_pred, y_true)
 
-# 创建模型实例并设置优化器
-model = PINN([2,40,40,1])
-optimizer = torch.optim.Adam(model.parameters(), lr=0.001)
+"""
+优化器（Optimizer）
+优化器负责在训练过程中更新网络的权重和偏置。
+常见的优化器包括：
+SGD（随机梯度下降）
+Adam（自适应矩估计）
+RMSprop（均方根传播）
+"""
+# 使用 SGD 优化器
+optimizer1 = torch.optim.SGD(model.parameters(), lr=0.01)
 
-for epoch in range(2000):
-    model.train()
-    optimizer.zero_grad()
-    loss = loss_fn(model,x_ic,t_ic,u_ic,x_bc,t_bc,u_bc,x_f,t_f)
-    loss.backward()
-    optimizer.step()
-    if epoch % 100 == 0:
-        print(f"epoch:{epoch},loss:{loss.item()}")
-
-# 评估
-with torch.no_grad():
-    model.eval()
-    x_test = torch.linspace(0,1,51).view(-1,1)
-    t_test = 0.5*torch.ones_like(x_test)
-    u_pred = model(torch.cat([x_test,t_test],dim=1))
-# 绘图
-fig = plt.figure()
-ax1 = fig.add_subplot(111)
-ax1.set_title("solution at t = 0.5")
-ax1.scatter(x_test,u_pred,color='blue',label='pred')
-ax1.plot(np.linspace(0,1,51),
-         np.sin(np.pi*np.linspace(0,1,51))*np.exp(-np.pi**2*0.5),
-         color='red',linestyle='--',alpha=0.5,label='exact'
-        )
-ax1.set_xlabel("x")
-ax1.set_ylabel("u",rotation=0)
-ax1.set_xlim(0,1)
-ax1.set_ylim(-0.1,0.1)
-ax1.legend()
-plt.show()
+# 使用 Adam 优化器
+optimizer2 = torch.optim.Adam(model.parameters(), lr=0.001)
