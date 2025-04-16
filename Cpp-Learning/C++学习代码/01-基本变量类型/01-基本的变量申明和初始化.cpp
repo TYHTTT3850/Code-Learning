@@ -1,8 +1,6 @@
 #include <iostream>
 
-using namespace std; // 使用std命名空间
-
-// 注释
+using namespace std;
 
 int main() {
     //定义一个 int 类型的变量
