@@ -45,7 +45,9 @@
         <ul>
             <li>element.textContent：设置或获取元素的文本内容。例如：element.textContent = "新文本";</li>
             
-            <li>element.innerHTML：设置或获取元素的 HTML 内容。例如：element.innerHTML = "<b>新HTML</b>";</li>
+            <li>element.innerHTML：设置或获取元素内部的 HTML 内容(不包括当前标签本身)。例如：element.innerHTML = "<b>新HTML</b>";</li>
+
+            <li>element.outerHTML：设置或获取元素的 HTML 内容(包括当前标签本身)。例如：element.outerHTML = "<section><p>New Block</p></section>"</li>
         </ul>
     </p>
 
