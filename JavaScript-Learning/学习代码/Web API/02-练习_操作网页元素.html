@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DOM Selection Methods Example</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            line-height: 1.6;
+        }
+        .container {
+            display: flex; /* 显示模式调整为 flex */
+            gap: 20px;
+        }
+        .sample-content {
+            flex: 1;
+            border: 1px solid #ddd;
+            padding: 15px;
+            border-radius: 5px;
+        }
+        .results {
+            flex: 1;
+            border: 1px solid #ddd;
+            padding: 15px;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+        .btn {
+            padding: 5px 10px;
+            margin: 5px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .nav-item {
+            list-style-type: none;
+            padding: 8px;
+            margin: 2px 0;
+            background-color: #f1f1f1;
+        }
+        #output {
+            background-color: #f0f0f0;
+            padding: 10px;
+            border-radius: 4px;
+            font-family: monospace;
+            white-space: pre-wrap;
+        }
+        .highlight {
+            background-color: yellow;
+            transition: background-color 0.5s;
+        }
+    </style>
+</head>
+<body>
+    <h1 id="header">DOM获取元素的方式</h1>
+    
+    <div class="container">
+        <div class="sample-content">
+            <h2>HTML 示例文本</h2>
+            
+            <p class="intro">类名为 intro 的段落</p>
+            <p>第二段</p>
+            
+            <div id="buttons-container">
+                <button class="btn">第一个按钮</button>
+                <button class="btn">第二个按钮</button>
+                <button class="btn">第三个按钮</button>
+            </div>
+            
+            <h3>导航</h3>
+            <ul class="menu">
+                <li class="nav-item">主页</li>
+                <li class="nav-item">关于</li>
+                <li class="nav-item">服务</li>
+                <li class="nav-item">联系</li>
+            </ul>
+        </div>
+        
+        <div class="results">
+            <h2>测试获取元素的方式</h2>
+            
+            <div>
+                <button onclick="testGetElementById()">通过元素id查找</button>
+                <button onclick="testQuerySelector()">通过css选择器查找第一个匹配的元素</button>
+                <button onclick="testQuerySelectorAll()">通过css选择器查找所有匹配的元素</button>
+                <button onclick="testGetElementsByClassName()">获取指定类名的元素集合</button>
+                <button onclick="testGetElementsByTagName()">获取指定标签名的元素集合</button>
+            </div>
+            
+            <h3>输出</h3>
+            <pre id="output"></pre>
+        </div>
+    </div>
+
+    <script>
+        function highlightElement(element) {
+            if (!element) return; // 没有获取到元素，立即终止
+            
+            // 如果是一个元素集合
+            if (element.length !== undefined && typeof(element) !== 'string') {
+                for (let i = 0; i < element.length; i++) {
+                    element[i].classList.add('highlight'); // 为元素添加一个类名：highlight
+                    setTimeout(() => {element[i].classList.remove('highlight');}, 1500); // 1.5秒后执行指定操作
+                }
+            } 
+            else {
+                // 一个元素的情况
+                element.classList.add('highlight');
+                setTimeout(() => {element.classList.remove('highlight');}, 1500);
+            }
+        }
+
+        function displayOutput(title, element) {
+            const output = document.getElementById('output');
+            
+            // 创建输出文本
+            let outputText = `${title}:\n`;
+            
+            if (element === null) {
+                outputText += "null (No element found)";
+            } 
+            else if (element.length !== undefined && typeof element !== 'string') {
+                // 如果是元素集合
+                outputText += `Found ${element.length} element(s):\n`;
+                for (let i = 0; i < element.length; i++) {
+                    outputText += `- ${element[i].outerHTML}\n`;
+                }
+            } 
+            else {
+                // 单个元素的情况
+                outputText += element.outerHTML; //outerHTML表示元素的HTML语句
+            }
+            
+            output.textContent = outputText; // 设置输出内容
+        }
+
+        function testGetElementById() {
+            const element = document.getElementById('header'); //获取 id 为 header 的元素
+            highlightElement(element);
+            displayOutput("document.getElementById('header')", element);
+        }
+
+        function testQuerySelector() {
+            const element = document.querySelector('.btn'); //按照css选择器查找第匹配的元素
+            highlightElement(element);
+            displayOutput("document.querySelector('.btn')", element);
+        }
+
+        function testQuerySelectorAll() {
+            const elements = document.querySelectorAll('.btn'); //按照css选择器查找所有匹配的元素
+            highlightElement(elements);
+            displayOutput("document.querySelectorAll('.btn')", elements);
+        }
+
+        function testGetElementsByClassName() {
+            const elements = document.getElementsByClassName('nav-item'); 
+            highlightElement(elements);
+            displayOutput("document.getElementsByClassName('nav-item')", elements);
+        }
+
+        function testGetElementsByTagName() {
+            const elements = document.getElementsByTagName('p');
+            highlightElement(elements);
+            displayOutput("document.getElementsByTagName('p')", elements);
+        }
+    </script>
+</body>
+</html>
