@@ -24,7 +24,7 @@ int main() {
         GREEN
     };
 
-    TrafficLightNew newLight = TrafficLightNew::GREEN; //通过作用域访问
+    TrafficLightNew newLight = TrafficLightNew::GREEN; //通过 :: 访问
     int newValue = static_cast<int>(newLight);  // 必须显式转换
     cout << "New as int: " << newValue << endl;  // 输出 2
 
