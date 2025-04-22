@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<style>
+    .highlight {
+      color: red;
+      font-weight: bold;
+    }
+    #box {
+      width: 100px;
+      height: 100px;
+      background-color: lightgray;
+      margin-top: 10px;
+    }
+</style>
+
+<body>
+    <h2>1.什么是 DOM？</h2>
+    <p>
+        DOM 是浏览器将 HTML 转换为 JavaScript 可操作对象的模型。你可以像操作树形结构一样读取、修改、删除页面内容。
+    </p>
+
+    <h2>2.获取元素的方式</h2>
+    <p>
+        <ul>
+            <li>document.getElementById(id)：通过 ID 获取单个元素</li>
+            
+            <li>document.querySelector(selector)：通过 CSS 选择器获取第一个匹配的元素</li>
+            
+            <li>document.querySelectorAll(selector)：获取所有匹配元素，返回 NodeList</li>
+            
+            <li>document.getElementsByClassName(name)：获取指定类名的元素集合</li>
+            
+            <li>document.getElementsByTagName(name)	获取指定标签名的元素集合</li>
+        </ul>
+    </p>
+
+    <h2>2.修改文本内容</h2>
+    <p>
+        <ul>
+            <li>element.textContent：设置或获取元素的文本内容。例如：element.textContent = "新文本";</li>
+            
+            <li>element.innerHTML：设置或获取元素的 HTML 内容。例如：element.innerHTML = "<b>新HTML</b>";</li>
+        </ul>
+    </p>
+
+    <h2>3.修改样式</h2>
+    <p>
+        <ul>
+            <li>element.style.css属性：设置单个 CSS 属性。例如：element.style.color = "blue";</li>
+            
+            <li>element.style.cssText：设置多个 CSS 属性。例如element.style.cssText = "color: red;";</li>
+        </ul>
+    </p>
+
+    <h2>4.操作类名</h2>
+    <p>
+        <ul>
+            <li>element.classList.add(className)：添加一个或多个类名。例如：element.classList.add("active");</li>
+            
+            <li>element.classList.remove(className)：移除指定的类名。例如：element.classList.remove("active");</li>
+            
+            <li>element.classList.toggle(className)：切换类名，若存在则移除，否则添加。例如：element.classList.toggle
+            ("highlight");</li>
+            
+            <li>element.classList.contains(className)：检查是否包含指定类	element.classList.contains("active");</li>
+        </ul>
+    </p>
+
+    <h2>5.操作结构</h2>
+    <p>
+        <ul>
+            <li>document.createElement(tagName)：创建一个新的 HTML 元素。例如：const newDiv = document.createElement("div");</li>
+            
+            <li>element.appendChild(child)：将子元素添加到指定元素的末尾。例如：element.appendChild(newDiv);</li>
+            
+            <li>element.insertBefore(newNode, referenceNode)：在指定元素前插入新元素。例如：element.insertBefore(newDiv, referenceElement);</li>
+            
+            <li>element.removeChild(child)：删除指定的子元素。例如：element.removeChild(newDiv);</li>
+            
+            <li>element.replaceChild(newNode, oldNode)：替换子元素。例如：element.replaceChild(newDiv, oldDiv);</li>
+        </ul>
+    </p>
+
+    <h2>6.操作属性</h2>
+    <p>
+        <ul>
+            <li>element.setAttribute(name, value)：设置指定元素的属性。例如：element.setAttribute("id", "newId");</li>
+            
+            <li>element.getAttribute(name)：获取指定元素的属性值。例如：element.getAttribute("id");</li>
+            
+            <li>element.removeAttribute(name)：移除指定元素的属性。例如：element.removeAttribute("id");</li>
+        </ul>
+    </p>
+
+    <h2>使用实例：</h2>
+
+    <h3 id="title">id为title的h3标签</h3>
+
+    <p class="desc">类为desc的p标签1</p>
+    
+    <p class="desc">类为desc的p标签2</p>
+
+    <button id="btn">id为btn的button标签</button>
+
+    <div id="box">id为box的div标签</div>
+
+</body>
+
+<script>
+    // 获取元素
+    const title = document.getElementById("title");
+    const button = document.querySelector("#btn");
+    const paragraphs = document.querySelectorAll(".desc");
+    const box = document.getElementById("box");
+
+    // 修改文本内容
+    title.textContent = "标题已被修改";
+
+    // 修改样式
+    title.style.color = "blue";
+    box.style.border = "2px solid black";
+
+    // 操作类名
+    title.classList.add("highlight");      // 添加类
+    title.classList.remove("highlight");   // 移除类
+    title.classList.toggle("highlight");   // 有就去掉，没有就加上
+
+    // 设置和移除属性
+    button.setAttribute("disabled", "");
+    setTimeout(() => {
+      button.removeAttribute("disabled"); // 2秒后解除禁用
+    }, 2000);
+
+    // 添加元素
+    const newPara = document.createElement("p");
+    newPara.textContent = "我是新创建的段落";
+    document.body.appendChild(newPara);
+
+    // 删除元素
+    setTimeout(() => {
+      newPara.remove();
+    }, 4000);
+
+    // 替换元素
+    const newH1 = document.createElement("h1");
+    newH1.textContent = "新标题元素";
+    document.body.replaceChild(newH1, title);
+
+    // 点击按钮时修改段落内容
+    button.addEventListener("click", () => {
+      paragraphs.forEach((p, i) => {
+        p.textContent = `第 ${i + 1} 个段落已被点击修改`;
+      });
+      box.style.backgroundColor = "skyblue";
+    });
+</script>
+
+</html>
