@@ -20,11 +20,10 @@ model.eval()
 
 # 定义预处理
 transform = transforms.Compose([
-    transforms.Resize(256),
-    transforms.CenterCrop(224),
+    transforms.Grayscale(num_output_channels=3),
+    transforms.Resize((288, 288)),
     transforms.ToTensor(),
-    transforms.Normalize(mean=[0.485, 0.456, 0.406],
-                         std=[0.229, 0.224, 0.225])
+    transforms.Normalize(mean=[0.5]*3, std=[0.5]*3)
 ])
 
 # 收集所有图片路径
@@ -41,7 +40,7 @@ for filename in filenames:
 images = []
 
 for path in img_paths:
-    img = Image.open(path).convert('RGB')
+    img = Image.open(path)
     img = transform(img)
     images.append(img)
 
@@ -54,7 +53,8 @@ with torch.no_grad():
     _, preds = torch.max(outputs, dim=1)
 
 # 打印结果
+classes = ["COVID","LungOpacity","Normal","ViralPneumonia"]
 for i in range(len(img_paths)):
     filename = os.path.basename(img_paths[i])
     pred_class = preds[i].item()
-    print(f"{filename} -> 类别: {pred_class}")
+    print(f"{filename} -> 类别: {classes[pred_class]}")
