@@ -17,7 +17,7 @@ int main() {
     cin >> input;
 
     OrderStatus status;
-
+    // switch适合于任何整型和枚举类型或者可以转换为整型或枚举类型的表达式
     switch (input) {
         case 1: status = OrderStatus::Pending; break;
         case 2: status = OrderStatus::Processing; break;
