@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>事件的类型</h1>
+    <h2>鼠标事件</h2>
+    <p>
+        定义：用户通过鼠标设备与页面进行交互时触发的事件，包括点击、移动、进入、离开、按下、释放等操作。<br>
+    </p>
+    <p>    
+        常见的事件：<br>
+        <ul>
+            <li>click：点击(按下再释放)元素时触发。</li>
+            <li>dblclick：快速双击触发。</li>
+            <li>mousedown / mouseup：按下 / 释放鼠标按钮时触发。</li>
+            <li>mouseover / mouseout：鼠标指针进入 / 离开元素时触发。</li>
+            <li>mousemove：鼠标在元素上移动时持续触发。</li>
+            <li>contextmenu：右键点击(通常用于弹出菜单)。</li>
+        </ul>
+    </p>
+    <p>
+        使用示例：
+        <div id="box" style="width:100px;height:100px;background:#ccc;"></div>
+        <script>
+            const box = document.getElementById('box');
+            // 当鼠标进入元素区域时触发
+            box.addEventListener('mouseover', () => {
+              box.style.backgroundColor = '#8f8'; // 改变背景，提供视觉反馈
+            });
+            // 当鼠标离开元素区域时触发
+            box.addEventListener('mouseout', () => {
+              box.style.backgroundColor = '#ccc'; // 恢复初始状态
+            });
+        </script>
+    </p>
+    <h2>键盘事件</h2>
+    <p>
+        定义：键盘事件用于监听用户对键盘的操作，主要包括按下、释放等动作，适用于表单输入、快捷键响应等场景。
+    </p>
+    <p>
+        常见的事件：<br>
+        <ul>
+            <li>keydown：某个键被按下时触发(可能重复触发)。</li>
+            <li>keyup：键被释放时触发。</li>
+        </ul>
+        常见的属性：<br>
+        <ul>
+            <li>e.key：返回被按下的字符(如 "Enter"、"a")</li>
+            <li>e.code：返回物理键位(如 "KeyA"、"ArrowUp")</li>
+        </ul>
+    </p>
+    <p>
+        使用示例：
+        <input id="input" placeholder="在此输入" />
+        <script>
+            const input = document.getElementById('input');
+            // 监听任意按键按下
+            input.addEventListener('keydown', (e) => {
+            console.log('按下的键：', e.key); // 输出按键名称
+                });
+        </script>
+    </p>
+    <h2>焦点事件</h2>
+    <p>
+        定义：页面元素(通常是输入框、按钮等)获得或失去输入焦点时发生的事件。
+    </p>
+    <p>
+        常见的事件：
+        <ul>
+            <li>focus：元素获得焦点时触发。</li>
+            <li>blur：元素失去焦点时触发。</li>
+        </ul>
+        注意：这些事件不会冒泡，但有对应的冒泡版本 focusin 和 focusout。
+    </p>
+    <p>
+        使用示例：
+        <input id="f1" placeholder="点击聚焦试试" />
+        <script>
+            const f1 = document.getElementById('f1');
+            f1.addEventListener('focus', () => {
+            console.log('输入框获得焦点');
+                });
+            f1.addEventListener('blur', () => {
+            console.log('输入框失去焦点');
+                });
+        </script>
+    </p>
+    <h2>文本框输入事件</h2>
+    <p>
+        定义：用户对输入框、文本框等可编辑区域输入内容时所触发的事件。
+    </p>
+    <p>
+        常见的事件：
+        <ul>
+            <li>input：用户输入内容时实时触发(比 change 更即时)。</li>
+            <li>change：当输入内容发生改变并失去焦点时触发。</li>
+            <li>compositionstart / compositionend：中文拼音输入过程中的事件。</li>
+        </ul>
+    </p>
+    <p>
+        使用示例：
+        <textarea id="txt" rows="3"></textarea>
+        <script>
+            const txt = document.getElementById('txt');
+            // 实时监听用户输入
+            txt.addEventListener('input', (e) => {
+            console.log('当前内容：', e.target.value); // 获取最新输入值
+                });
+        </script>
+    </p>
+</body>
+</html>
