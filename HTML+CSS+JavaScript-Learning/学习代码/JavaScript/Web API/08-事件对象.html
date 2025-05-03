@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>事件对象</h1>
+    <p>
+        任意事件类型被触发时与事件相关的信息会被以对象的形式记录下来，我们称这个对象为事件对象。<br>
+        浏览器在触发事件时，自动创建并传递给处理程序的参数(事件处理函数的第一个参数)，封装事件信息。
+    </p>
+    <p>
+        常用属性和方法：
+        <ul>
+            <li>e.type：事件类型(如 "click")</li>
+            <li>e.target：事件源元素</li>
+            <li>e.currentTarget：当前绑定元素</li>
+            <li>e.preventDefault()：阻止默认行为</li>
+            <li>e.stopPropagation()：阻止事件冒泡</li>
+        </ul>
+    </p>
+
+    <p>
+        使用示例：
+        <button id="button">点击我</button>
+    </p>
+
+</body>
+
+<script>
+    const btn = document.getElementById("button") 
+    btn.addEventListener('click', (e) => {
+    console.log('事件类型：', e.type);
+    console.log('触发元素：', e.target.tagName);
+    e.preventDefault();      // 阻止默认导航、提交等
+    e.stopPropagation();     // 阻止向父级冒泡
+    });
+</script>
+
+</html>
