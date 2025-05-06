@@ -12,7 +12,7 @@ transform = transforms.Compose([transforms.ToTensor(),
                                 ])
 
 # 使用 torchvision 提供的 MNIST 数据集，加载和预处理数据。
-train_dataset = datasets.MNIST(root='./data', train=True, transform=transform, download=True)
+train_dataset = datasets.MNIST(root='./data', train=True, transform=transform, download=True) #root：保存的目录
 test_dataset = datasets.MNIST(root='./data', train=False, transform=transform, download=True)
 train_loader = DataLoader(train_dataset, batch_size=64, shuffle=True)
 test_loader = DataLoader(test_dataset, batch_size=1000, shuffle=False)
@@ -66,17 +66,18 @@ optimizer = torch.optim.Adam(model.parameters(), lr=0.001)
 # 定义如何训练
 def train(Model,Device,Train_Loader,Optimizer,Epoch):
     Model.train()
-    for batch_idx, (data, target) in enumerate(Train_Loader):
-        data, target = data.to(Device), target.to(Device)
-        Optimizer.zero_grad()
-        output = Model(data) # 预测值
-        loss = criterion(output, target)
-        loss.backward()
-        Optimizer.step()
-        if batch_idx % 100 == 0:
-            print(f"训练轮数：{Epoch}",end=' ')
-            print(f"已处理数据：{batch_idx*len(data)}/{len(Train_Loader.dataset)}",end=' ')
-            print(f"({100.*batch_idx/len(Train_Loader):.0f}%) \tloss:{loss.item():.6f}")
+    for epoch in range(Epoch):
+        for batch_idx, (data, target) in enumerate(Train_Loader):
+            data, target = data.to(Device), target.to(Device)
+            Optimizer.zero_grad()
+            output = Model(data) # 预测值
+            loss = criterion(output, target)
+            loss.backward()
+            Optimizer.step()
+            if batch_idx % 100 == 0:
+                print(f"训练轮数：{epoch}",end=' ')
+                print(f"已处理数据：{batch_idx*len(data)}/{len(Train_Loader.dataset)}",end=' ')
+                print(f"({100.*batch_idx/len(Train_Loader):.0f}%) \tloss:{loss.item():.6f}")
 
 # 定义如何测试
 def test(Model,Device,Test_Loader):
@@ -95,7 +96,6 @@ def test(Model,Device,Test_Loader):
     print(f"Test set Average loss:{test_loss:.6f}, Accuracy:{accuracy:.6f}")
 
 # 训练并测试
-for epoch in range(1,6):
-    train(model, device, train_loader, optimizer, epoch)
+train(model, device, train_loader, optimizer, Epoch=6)
 
 test(model, device, test_loader)
