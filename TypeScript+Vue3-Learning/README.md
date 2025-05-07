@@ -137,3 +137,27 @@ nrm use taobao
 # 测试速度
 nrm test
 ```
+
+# 什么是 TypeScript
+
+TypeScript 本质上就是 JavaScript 的“带静态类型系统的超集”。(TypeScript is a typed superset of JavaScript that compiles to plain JavaScript.)
+
+TypeScript = JavaScript + 类型系统 + 一些语言增强
+
+类型检查只在开发阶段和编译阶段发生，运行时不会存在类型信息。编译之后，所有的类型信息都会被全部擦除，不会留在产出的 .js 文件中。
+
+除了类型，TypeScript 还增强了语言能力，例如：
+
+1、接口(interface)、类型别名(type)
+
+2、枚举(enum)
+
+3、泛型(generics)
+
+4、元组(tuple)
+
+5、访问修饰符(public/private/protected)
+
+6、装饰器(decorator)支持
+
+7、类型推断、条件类型、映射类型等高级类型系统功能
