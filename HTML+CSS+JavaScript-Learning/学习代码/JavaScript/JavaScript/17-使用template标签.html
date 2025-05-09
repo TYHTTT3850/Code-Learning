@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <p>
+        template 标签专门用于定义可复用的 HTML 结构，但不会立即渲染在页面上。它通常与 JavaScript 搭配使用，用于延迟渲染、动态渲染或克隆某段 HTML 内容。<br>
+        <ul>
+            <li>不渲染，页面加载时，template 的内容不会显示。</li>
+            <li>延迟渲染，可以通过 JavaScript 读取和插入模板内容。</li>
+            <li>可克隆，可以多次克隆模板，实现列表、组件的复用。</li>
+            <li>支持所有 HTML 结构，模板中可以包含任意合法的 HTML 结构。</li>
+        </ul>
+    </p>
+    <p>使用示例：</p>
+</body>
+
+<template id="my-template">
+  <div class="item">
+    <h3 class="title"></h3>
+    <p class="desc"></p>
+  </div>
+</template>
+
+<div id="container"></div>
+
+<script>
+  const template = document.getElementById('my-template');
+  const container = document.getElementById('container');
+
+  // 克隆内容
+  const clone = template.content.cloneNode(true);
+  clone.querySelector('.title').textContent = "标题文本";
+  clone.querySelector('.desc').textContent = "描述内容";
+
+  // 插入页面
+  container.appendChild(clone);
+</script>
+</html>
