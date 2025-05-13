@@ -6,7 +6,7 @@ import torch
 import numpy as np
 import matplotlib.pyplot as plt
 
-class FCN(torch.nn.Module):
+class PINN(torch.nn.Module):
     def __init__(self,layers):
         """
         参数:
@@ -93,7 +93,7 @@ x_f = (1 - 2 * eps) * torch.rand((5000, 1)) + eps  # x ∈ (eps, 1 - eps)
 t_f = (1 - 2 * eps) * torch.rand((5000, 1)) + eps  # t 同理
 
 # 创建模型实例并设置优化器
-model = FCN([2,40,40,1])
+model = PINN([2,40,40,1])
 optimizer = torch.optim.Adam(model.parameters(), lr=0.001)
 
 for epoch in range(2000):
