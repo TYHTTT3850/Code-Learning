@@ -33,18 +33,18 @@ class PINN(torch.nn.Module):
             x = layer(x)
         return x
 
-def physics_residual(model,x,t): #计算物理残差：u_t - u_xx
+def physics_residual(Model,x,t): #计算物理残差：u_t - u_xx
     x.requires_grad=True
     t.requires_grad=True
-    u = model(torch.cat([x,t],dim=1)) #传入(x,t)，输出u(x,t)
+    u = Model(torch.cat([x,t],dim=1)) #传入(x,t)，输出u(x,t)
     u_t = torch.autograd.grad(u,t,grad_outputs=torch.ones_like(u),create_graph=True,retain_graph=True)[0] #计算u对t偏导
     u_x = torch.autograd.grad(u,x,grad_outputs=torch.ones_like(u),create_graph=True,retain_graph=True)[0] #u对x偏导
     u_xx = torch.autograd.grad(u_x,x,grad_outputs=torch.ones_like(u),create_graph=True,retain_graph=True)[0] #u对x二阶偏导
     return u_t-u_xx
 
-def loss_fn(model,X_ic,T_ic,U_ic,X_bc,T_bc,U_bc,X_f,T_f): #定义损失函数：物理残差+边值条件+初值条件
+def loss_fn(Model,X_ic,T_ic,U_ic,X_bc,T_bc,U_bc,X_f,T_f): #定义损失函数：物理残差+边值条件+初值条件
     """
-    :param model:定义的神经网络
+    :param Model:定义的神经网络
     :param X_ic: 初值条件下的x的值
     :param T_ic: 初值条件下的t值
     :param U_ic: 初值条件下的真实函数值
@@ -57,13 +57,13 @@ def loss_fn(model,X_ic,T_ic,U_ic,X_bc,T_bc,U_bc,X_f,T_f): #定义损失函数：
     """
 
     #初值条件下的预测函数值
-    u_ic_pred = model(torch.cat([X_ic,T_ic],dim=1))
+    u_ic_pred = Model(torch.cat([X_ic,T_ic],dim=1))
 
     #边值条件下的预测函数值
-    u_bc_pred = model(torch.cat([X_bc,T_bc],dim=1))
+    u_bc_pred = Model(torch.cat([X_bc,T_bc],dim=1))
 
     # 残差项(预测的 ut-uxx 的值)
-    f_pred = physics_residual(model,X_f,T_f)
+    f_pred = physics_residual(Model,X_f,T_f)
 
     # 边值和初值条件损失的计算准则
     criterion = torch.nn.MSELoss()
