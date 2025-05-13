@@ -32,6 +32,8 @@ cmd 输入 `nvidia-smi` ，结果如下：
 
 ## 3、安装CuDNN(加速器)
 
+其实没什么用，因为 PyTorch 不会使用系统上安装的 cuDNN，它只使用 编译时内嵌进来的 cuDNN 版本，除非你走的是非常特殊的路径，比如源码编译 PyTorch 或手动写 CUDA C/C++ 程序。
+
 官网：[cuDNN 9.10.0 Downloads | NVIDIA Developer](https://developer.nvidia.com/cudnn-downloads)
 
 直接下载最新版的 exe 安装器就好
