@@ -73,11 +73,11 @@ print("CUDA available:", torch.cuda.is_available())
 print("CUDA version in PyTorch:", torch.version.cuda)
 print("Torch compiled with CUDA:", torch.backends.cuda.is_built())
 
-print(torch.backends.cudnn.version())# 能够正确返回8200
+print(torch.backends.cudnn.version())# 能够正确返回一串数字
 from torch.backends import cudnn  # 若正常则静默
-cudnn.is_available() # 若正常返回True
+print(cudnn.is_available()) # 若正常返回True
 a = torch.tensor(1.)
-cudnn.is_acceptable(a.cuda()) # 若正常返回True
+print(cudnn.is_acceptable(a.cuda())) # 若正常返回True
 ```
 
 **测试代码2：**
