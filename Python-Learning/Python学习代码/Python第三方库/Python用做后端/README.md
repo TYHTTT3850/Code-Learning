@@ -110,4 +110,4 @@ def hello(name):
 
 打开浏览器，输入 localhost/xxx 运行结果如下：
 
-![运行结果](./运行结果.png)
+![运行结果](./Pictures/运行结果.png)
