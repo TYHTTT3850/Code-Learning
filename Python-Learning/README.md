@@ -42,12 +42,16 @@ pip list -o
 pip install -U <库名>
 ```
 
-
-
 升级pip
 
 ```cmd
 pip install -U pip
+```
+
+清除缓存
+
+```cmd
+pip cache purge
 ```
 
 ## Python模块、包、库、框架的区别和联系
