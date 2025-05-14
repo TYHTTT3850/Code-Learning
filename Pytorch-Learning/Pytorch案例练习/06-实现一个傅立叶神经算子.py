@@ -186,7 +186,6 @@ for epoch in range(epochs):
             print(f"已处理数据：{batch_idx * batch_size}/{train_size}", end=' ')
             print(f"({100. * batch_idx / len(train_loader):.0f}%) \tloss:{loss.item():.6f}")
 
-
 # ------------------------------
 # 可视化某个样本结果
 # ------------------------------
