@@ -9,7 +9,7 @@ import numpy as np
 # ===========================================
 def generate_dataset(n_samples=1000, Resolution=128, T=1.0):
     """
-    基于解析解 u(x,t) = 0.2 * exp(-|x - 0.2t|) 构造数据集。
+    基于初值条件 u(x,t) = 0.2 * exp(-|x|) 构造数据集。
     每个样本使用固定 t=0 作为输入，t=1 作为输出。
     """
     data_U0 = []  # 输入函数 u(x, 0)
