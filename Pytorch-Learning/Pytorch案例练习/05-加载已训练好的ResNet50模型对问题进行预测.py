@@ -3,6 +3,7 @@ import os
 from PIL import Image
 from torchvision.models import resnet50
 from torchvision import transforms
+import matplotlib.pyplot as plt
 
 # 基本配置
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
@@ -58,3 +59,23 @@ for i in range(len(img_paths)):
     filename = os.path.basename(img_paths[i])
     pred_class = preds[i].item()
     print(f"{filename} -> 类别: {classes[pred_class]}")
+
+# 图像总数
+n_images = len(images)
+cols = 4  # 每行显示的图片数
+rows = (n_images + cols - 1) // cols  # 自动计算行数
+
+plt.figure(figsize=(cols * 4, rows * 4))
+
+for i in range(n_images):
+    img = images[i].cpu().permute(1, 2, 0)  # 将张量转换为 HWC 格式
+    img = img * 0.5 + 0.5  # 反归一化
+
+    plt.subplot(rows, cols, i + 1)
+    plt.imshow(img.numpy())
+    plt.title(f"{classes[preds[i].item()]}", fontsize=10)
+    plt.axis('off')
+
+plt.tight_layout()
+plt.savefig("肺炎识别预测结果")
+plt.show()
