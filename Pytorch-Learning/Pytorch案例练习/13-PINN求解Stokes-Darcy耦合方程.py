@@ -377,7 +377,7 @@ im = axs[0, 1].contourf(X_d_plot, Y_d_plot, phi_true_val, 50, cmap='rainbow')
 fig.colorbar(im, ax=axs[0, 1])
 axs[0, 1].set_title("Exact φ (Darcy)")
 
-im = axs[0, 2].contourf(X_d_plot, Y_d_plot, phi_err, 50, cmap='rainbow')
+im = axs[0, 2].contourf(X_d_plot, Y_d_plot, phi_err, 50, cmap='coolwarm')
 fig.colorbar(im, ax=axs[0, 2])
 axs[0, 2].set_title("Absolute Error φ (Darcy)")
 
@@ -390,7 +390,7 @@ im = axs[1, 1].contourf(X_s_plot, Y_s_plot, u1_true_val, 50, cmap='rainbow')
 fig.colorbar(im, ax=axs[1, 1])
 axs[1, 1].set_title("Exact u1 (Stokes)")
 
-im = axs[1, 2].contourf(X_s_plot, Y_s_plot, u1_err, 50, cmap='rainbow')
+im = axs[1, 2].contourf(X_s_plot, Y_s_plot, u1_err, 50, cmap='coolwarm')
 fig.colorbar(im, ax=axs[1, 2])
 axs[1, 2].set_title("Absolute Error u1 (Stokes)")
 
@@ -403,7 +403,7 @@ im = axs[2, 1].contourf(X_s_plot, Y_s_plot, u2_true_val, 50, cmap='rainbow')
 fig.colorbar(im, ax=axs[2, 1])
 axs[2, 1].set_title("Exact u2 (Stokes)")
 
-im = axs[2, 2].contourf(X_s_plot, Y_s_plot, u2_err, 50, cmap='rainbow')
+im = axs[2, 2].contourf(X_s_plot, Y_s_plot, u2_err, 50, cmap='coolwarm')
 fig.colorbar(im, ax=axs[2, 2])
 axs[2, 2].set_title("Absolute Error u2 (Stokes)")
 
@@ -416,7 +416,7 @@ im = axs[3, 1].contourf(X_s_plot, Y_s_plot, p_true_val, 50, cmap='rainbow')
 fig.colorbar(im, ax=axs[3, 1])
 axs[3, 1].set_title("Exact p (Stokes)")
 
-im = axs[3, 2].contourf(X_s_plot, Y_s_plot, p_err, 50, cmap='rainbow')
+im = axs[3, 2].contourf(X_s_plot, Y_s_plot, p_err, 50, cmap='coolwarm')
 fig.colorbar(im, ax=axs[3, 2])
 axs[3, 2].set_title("Absolute Error p (Stokes)")
 
