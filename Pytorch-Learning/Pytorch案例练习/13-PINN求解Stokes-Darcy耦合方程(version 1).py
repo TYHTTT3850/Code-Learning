@@ -36,11 +36,10 @@ model_stokes = MLP(input_dim=3, output_dim=3, hidden_layers=4, neurons=50).to(de
 
 
 # ======================================================================
-# 2. 定义解析解（仅用于边界/初始条件监督，作为示例，此处不再用于 residual 计算）
+# 2. 定义解析解
 # ======================================================================
 def phi_D_exact(x, y, t):
     return (torch.exp(y) - torch.exp(-y)) * torch.sin(x) * torch.exp(t)
-
 
 def u_stokes_exact(x, y, t):
     u1 = 1/torch.pi*torch.sin(2*torch.pi * y) * torch.cos(x) * torch.exp(t)
@@ -51,7 +50,7 @@ def p_stokes_exact(x, y, t):
     return torch.zeros_like(x)
 
 # ======================================================================
-# 3. 采样函数
+# 3. 采样方案
 # ======================================================================
 def sampler(n, domain):
     # domain = [xmin, xmax, ymin, ymax, tmin, tmax]
@@ -120,68 +119,83 @@ def sampler_interface(n):
 
 # 达西区域 PDE
 def darcy_residual(model, x, y, t):
+    # 拼接输入，注意 x, y, t 均应具有 requires_grad=True
     X = torch.cat([x, y, t], dim=1)
     phi = model(X)
 
-    grad_phi = torch.autograd.grad(phi, [x, y],
-                                   grad_outputs=torch.ones_like(phi),
-                                   create_graph=True)[0:2]
-    phi_x = grad_phi[0]
-    phi_y = grad_phi[1]
+    # 计算时间导数 phi_t
+    phi_t = torch.autograd.grad(
+        phi, t,
+        grad_outputs=torch.ones_like(phi),
+        create_graph=True
+    )[0]
 
-    phi_xx = torch.autograd.grad(phi_x, x, grad_outputs=torch.ones_like(phi_x), create_graph=True)[0]
-    phi_yy = torch.autograd.grad(phi_y, y, grad_outputs=torch.ones_like(phi_y), create_graph=True)[0]
-    laplacian = phi_xx + phi_yy
+    # 计算空间一阶导数
+    grad_phi = torch.autograd.grad(
+        phi, [x, y],
+        grad_outputs=torch.ones_like(phi),
+        create_graph=True
+    )
+    phi_x, phi_y = grad_phi[0], grad_phi[1]
+
+    # 计算二阶空间导数
+    phi_xx = torch.autograd.grad(
+        phi_x, x,
+        grad_outputs=torch.ones_like(phi_x),
+        create_graph=True
+    )[0]
+    phi_yy = torch.autograd.grad(
+        phi_y, y,
+        grad_outputs=torch.ones_like(phi_y),
+        create_graph=True
+    )[0]
 
     # 右端项 f_D
     f_D = (torch.exp(y) - torch.exp(-y)) * torch.sin(x) * torch.exp(t)
-    res = -laplacian - f_D
+
+    # 构造严格残差：phi_t - (phi_xx+phi_yy) - f_D = 0
+    res = phi_t - phi_xx - phi_yy - f_D
     return res
 
 # 斯托克斯区域 PDE
 def stokes_residual(model, x, y, t):
+    # 拼接输入
     X = torch.cat([x, y, t], dim=1)
     pred = model(X)
-    u1 = pred[:, 0:1]
-    u2 = pred[:, 1:2]
+    u = pred[:, 0:1]
+    v = pred[:, 1:2]
     p = pred[:, 2:3]
 
-    u1_t = torch.autograd.grad(u1, t, grad_outputs=torch.ones_like(u1), create_graph=True)[0]
-    u2_t = torch.autograd.grad(u2, t, grad_outputs=torch.ones_like(u2), create_graph=True)[0]
+    # 计算时间导数
+    u_t = torch.autograd.grad(u, t, grad_outputs=torch.ones_like(u), create_graph=True)[0]
+    v_t = torch.autograd.grad(v, t, grad_outputs=torch.ones_like(v), create_graph=True)[0]
 
-    u1_x = torch.autograd.grad(u1, x, grad_outputs=torch.ones_like(u1), create_graph=True)[0]
-    u1_y = torch.autograd.grad(u1, y, grad_outputs=torch.ones_like(u1), create_graph=True)[0]
-    u2_x = torch.autograd.grad(u2, x, grad_outputs=torch.ones_like(u2), create_graph=True)[0]
-    u2_y = torch.autograd.grad(u2, y, grad_outputs=torch.ones_like(u2), create_graph=True)[0]
+    # 计算一阶和二阶空间导数 (对于 u)
+    u_x = torch.autograd.grad(u, x, grad_outputs=torch.ones_like(u), create_graph=True)[0]
+    u_xx = torch.autograd.grad(u_x, x, grad_outputs=torch.ones_like(u_x), create_graph=True)[0]
+    u_y = torch.autograd.grad(u, y, grad_outputs=torch.ones_like(u), create_graph=True)[0]
+    u_yy = torch.autograd.grad(u_y, y, grad_outputs=torch.ones_like(u_y), create_graph=True)[0]
 
-    # 计算应变率张量
-    D11 = u1_x
-    D22 = u2_y
-    D12 = 0.5 * (u1_y + u2_x)
+    # 计算一阶和二阶空间导数 (对于 v)
+    v_x = torch.autograd.grad(v, x, grad_outputs=torch.ones_like(v), create_graph=True)[0]
+    v_xx = torch.autograd.grad(v_x, x, grad_outputs=torch.ones_like(v_x), create_graph=True)[0]
+    v_y = torch.autograd.grad(v, y, grad_outputs=torch.ones_like(v), create_graph=True)[0]
+    v_yy = torch.autograd.grad(v_y, y, grad_outputs=torch.ones_like(v_y), create_graph=True)[0]
 
-    # 应力张量，设 v=1： T = 2D(u) - pI
-    T11 = 2.0 * D11 - p
-    T22 = 2.0 * D22 - p
-    T12 = 2.0 * D12
+    # 计算一阶压力梯度
+    p_x = torch.autograd.grad(p, x, grad_outputs=torch.ones_like(p), create_graph=True)[0]
+    p_y = torch.autograd.grad(p, y, grad_outputs=torch.ones_like(p), create_graph=True)[0]
 
-    T11_x = torch.autograd.grad(T11, x, grad_outputs=torch.ones_like(T11), create_graph=True)[0]
-    T12_y = torch.autograd.grad(T12, y, grad_outputs=torch.ones_like(T12), create_graph=True)[0]
-    T12_x = torch.autograd.grad(T12, x, grad_outputs=torch.ones_like(T12), create_graph=True)[0]
-    T22_y = torch.autograd.grad(T22, y, grad_outputs=torch.ones_like(T22), create_graph=True)[0]
+    # 根据公式给出右端项 f1 与 f2
+    f1 = (2 / np.pi + 4 * np.pi ) * torch.sin(2 * np.pi * y) * torch.cos(x) * torch.exp(t)
+    f2 = 2 * (-2 + (1 / (np.pi ** 2)) * (torch.sin(np.pi * y)) ** 2 - torch.cos(2 * np.pi * y)) * torch.sin(x) * torch.exp(t)
 
-    divT1 = T11_x + T12_y
-    divT2 = T12_x + T22_y
+    r1 = u_t + p_x - (u_xx + u_yy) - f1
+    r2 = v_t + p_y - (v_xx + v_yy) - f2
 
-    # 右端项 f1 和 f2 (注意此处使用 np.pi 转为浮点数)
-    f1 = (2 / np.pi) * torch.sin(2 * np.pi * y) * torch.cos(x) * torch.exp(t) + 4 * np.pi * torch.sin(
-        2 * np.pi * y) * torch.cos(x) * torch.exp(t)
-    f2 = 2 * (-2 + (1 / (np.pi ** 2)) * (torch.sin(np.pi * y)) ** 2) * torch.sin(x) * torch.exp(t) - 2 * torch.cos(
-        2 * np.pi * y) * torch.sin(x) * torch.exp(t)
+    # 无散条件残差
+    incompress = u_x + v_y
 
-    r1 = u1_t - divT1 - f1
-    r2 = u2_t - divT2 - f2
-
-    incompress = u1_x + u2_y
     return r1, r2, incompress
 
 # 接口残差
@@ -200,8 +214,7 @@ def interface_residual(model_stokes, model_darcy, x, t):
 
     r_normal = u2 + phi_y
     u2_y = torch.autograd.grad(u2, y, grad_outputs=torch.ones_like(u2), create_graph=True)[0]
-    T_yy = 2 * u2_y - p
-    r_force = -T_yy - phi
+    r_force = 2 * u2_y - p + phi
     r_tangent = u1
     return r_normal, r_force, r_tangent
 
