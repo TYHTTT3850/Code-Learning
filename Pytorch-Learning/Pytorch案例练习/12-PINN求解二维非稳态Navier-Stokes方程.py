@@ -199,8 +199,8 @@ class Solution(nn.Module):
         return total_loss
 
 # 生成训练数据
-# 物理残差
-# 示例：使用网格采样生成物理残差点
+# ----------物理残差----------------
+# 使用网格采样生成物理残差点
 nx, ny, nt = 50, 50, 10  # 根据需要设置网格的密度
 x_vals = torch.linspace(0, 1, nx).reshape(-1, 1).to(device)
 y_vals = torch.linspace(-0.25, 0, ny).reshape(-1, 1).to(device)
@@ -224,7 +224,7 @@ x_f = torch.cat(x_f, dim=0)
 y_f = torch.cat(y_f, dim=0)
 t_f = torch.cat(t_f, dim=0)
 
-# 初值条件
+# -----------初值条件---------------
 x_ic_vals = torch.linspace(0, 1, 80).to(device)
 y_ic_vals = torch.linspace(-0.25, 0, 50).to(device)
 x_ic, y_ic = torch.meshgrid(x_ic_vals, y_ic_vals, indexing='ij')
@@ -232,7 +232,7 @@ x_ic = x_ic.reshape(-1, 1)
 y_ic = y_ic.reshape(-1, 1)
 t_ic = torch.zeros_like(x_ic).to(device)  # 初始时刻为0
 
-# 边界条件(每个时间点采样整个边界线)
+# ----------边界条件(每个时间点采样整个边界线)------------
 n_bc_spatial = 50  # 每个边界线的空间点数
 n_bc_time = 20     # 时间点数
 # 左边界 x=0
@@ -325,8 +325,8 @@ with torch.no_grad():
         cf = ax.contourf(x_mesh, y_mesh, data[idx], levels=100, cmap=cmap_choice)
         fig.colorbar(cf, ax=ax)
         ax.set_title(titles[idx])
-    
+
     # 调整图片布局
     plt.tight_layout()
     plt.subplots_adjust(wspace=0.3, hspace=0.3)
-    plt.savefig("2阶非稳态Navier-Stokes方程.pdf", format="pdf")
+    plt.savefig("二阶非稳态Navier-Stokes方程.pdf", format="pdf")
