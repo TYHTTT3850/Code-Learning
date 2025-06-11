@@ -121,7 +121,7 @@ class Solution(nn.Module):
         }
         self.init_weights()
 
-    # 权重初始化
+    # 模型参数初始化
     def init_weights(self):
         for layer in self.layers:
             if isinstance(layer, nn.Linear):
@@ -276,20 +276,20 @@ for epoch in range(1, 10501):
         current_lr = optimizer.param_groups[0]['lr']
         print(f"epoch:{epoch},loss:{loss:.4f},lr:{current_lr:.6f}")
 
-# 测试代码：在 x ∈ [0,1] 和 y ∈ [-0.25, 0] 上选取一个网格，并固定 t=1
+# 评估代码：在 x ∈ [0,1] 和 y ∈ [-0.25, 0] 上选取一个网格，并固定 t = 1
 model.eval()  # 设置模型为评估模式
 with torch.no_grad():
     # 构建新的网格点，用于测试
     nx, ny = 100, 100  # 网格划分数
     x = np.linspace(0, 1, nx)
     y = np.linspace(-0.25, 0, ny)
-    # 注意使用 "ij" 排序
+    # 使用 "ij" 排序构造网格
     x_mesh, y_mesh = np.meshgrid(x, y, indexing="ij")
 
     # 转换为 torch 张量，并调整为 (N, 1)
     x_test = torch.tensor(x_mesh, dtype=torch.float32).reshape(-1, 1).to(device)
     y_test = torch.tensor(y_mesh, dtype=torch.float32).reshape(-1, 1).to(device)
-    t_val = 1.0  # 固定时刻 t=1
+    t_val = 1.0  # 固定时刻 t = 1
     t_test = torch.full((x_test.size(0), 1), t_val, dtype=torch.float32, device=device)
 
     # 计算模型预测值
@@ -309,16 +309,24 @@ with torch.no_grad():
     error_v = np.abs(v_true_np - v_pred_np)
     error_p = np.abs(p_true_np - p_pred_np)
 
-    # 绘图对比：对于每个物理量，展示真实解与预测解的等高线图
+    # 绘图对比：采用 3 行 3 列布局，每个物理量设置为:
     fig, axs = plt.subplots(3, 3, figsize=(16, 16))
-    titles = ['Exact u', 'Predicted u','error u', 'Exact v', 'Predicted v','error v', 'Exact p', 'Predicted p','error p']
-    data = [u_true_np, u_pred_np, error_u, v_true_np, v_pred_np, error_v, p_true_np, p_pred_np, error_p]
-    for index, ax in enumerate(axs.flat):
-        cf = ax.contourf(x_mesh, y_mesh, data[index], levels=100, cmap='viridis')
-        fig.colorbar(cf, ax=ax)
-        ax.set_title(titles[index])
+    titles = ['Exact u', 'Predicted u', 'Error u',
+              'Exact v', 'Predicted v', 'Error v',
+              'Exact p', 'Predicted p', 'Error p']
+    data = [u_true_np, u_pred_np, error_u,
+            v_true_np, v_pred_np, error_v,
+            p_true_np, p_pred_np, error_p]
 
+    for idx, ax in enumerate(axs.flat):
+        # 如果在第三列（误差图），选择 cmap='coolwarm'，否则使用 'rainbow'
+        col = idx % 3
+        cmap_choice = 'coolwarm' if col == 2 else 'rainbow'
+        cf = ax.contourf(x_mesh, y_mesh, data[idx], levels=100, cmap=cmap_choice)
+        fig.colorbar(cf, ax=ax)
+        ax.set_title(titles[idx])
+    
     # 调整图片布局
     plt.tight_layout()
     plt.subplots_adjust(wspace=0.3, hspace=0.3)
-    plt.savefig("二维PINN求解结果.pdf", format="pdf")
+    plt.savefig("2阶非稳态Navier-Stokes方程.pdf", format="pdf")
