@@ -1,5 +1,6 @@
 import torch
 import torch.nn as nn
+import torch.optim as optim
 import numpy as np
 import matplotlib.pyplot as plt
 
@@ -265,7 +266,7 @@ optimizer = torch.optim.AdamW(model.parameters(), lr=0.001,weight_decay=1e-5)
 scheduler = torch.optim.lr_scheduler.StepLR(optimizer, step_size=2000, gamma=0.9)
 
 # 训练
-for epoch in range(1, 10501):
+for epoch in range(1, 6501):
     model.train()
     optimizer.zero_grad()
     loss = model.loss_fn(x_f,y_f,t_f,x_bc,y_bc,t_bc,x_ic,y_ic,t_ic)
@@ -275,6 +276,22 @@ for epoch in range(1, 10501):
     if epoch % 500 == 0:
         current_lr = optimizer.param_groups[0]['lr']
         print(f"epoch:{epoch},loss:{loss:.4f},lr:{current_lr:.6f}")
+
+# -------------------- 第二阶段精细优化：使用 LBFGS ----------------------
+# 当 AdamW 达到初步收敛后，切换至 LBFGS 进行精细调优
+optimizer_lbfgs = optim.LBFGS(model.parameters(),
+                              lr=1.0, max_iter=1000, max_eval=1000,
+                              tolerance_grad=1e-6, tolerance_change=1e-10, history_size=100)
+
+def closure():
+    optimizer_lbfgs.zero_grad()
+    loss_lbfgs = model.loss_fn(x_f,y_f,t_f,x_bc,y_bc,t_bc,x_ic,y_ic,t_ic)
+    loss_lbfgs.backward()
+    return loss_lbfgs
+
+print("Starting LBFGS optimization ...")
+optimizer_lbfgs.step(closure)
+print("LBFGS optimization finished.")
 
 # 评估代码：在 x ∈ [0,1] 和 y ∈ [-0.25, 0] 上选取一个网格，并固定 t = 1
 model.eval()  # 设置模型为评估模式
