@@ -17,13 +17,38 @@ class MLP(nn.Module):
     def __init__(self, input_dim, output_dim, hidden_layers=4, neurons=64):
         super(MLP, self).__init__()
         layers = []
+        # 第一层：输入层到隐藏层
         layers.append(nn.Linear(input_dim, neurons))
         layers.append(nn.Tanh())
+        # 构建多个隐藏层
         for _ in range(hidden_layers - 1):
             layers.append(nn.Linear(neurons, neurons))
             layers.append(nn.Tanh())
+        # 输出层
         layers.append(nn.Linear(neurons, output_dim))
         self.network = nn.Sequential(*layers)
+
+        # 创建自适应权重（例如用于多任务损失加权）
+        self.loss_weights = {
+            'initial': nn.Parameter(torch.tensor(1.0)),
+            'boundary': nn.Parameter(torch.tensor(1.0)),
+            'residual': nn.Parameter(torch.tensor(1.0)),
+            'interface': nn.Parameter(torch.tensor(1.0)),
+        }
+
+        # 调用参数初始化
+        self.init_weights()
+
+    def init_weights(self):
+        """
+        对模型中所有 Linear 层进行 Xavier 初始化，
+        并将对应的 bias 初始化为 0。
+        """
+        for layer in self.network:
+            if isinstance(layer, nn.Linear):
+                nn.init.xavier_normal_(layer.weight)
+                if layer.bias is not None:
+                    nn.init.zeros_(layer.bias)
 
     def forward(self, x):
         return self.network(x)
@@ -79,7 +104,7 @@ def adaptive_sampler(n, domain, adapt_fraction=1,adapt_x_range=(0.5, 2.5), adapt
     t_total = np.vstack([t_uniform, t_adapt])
     return x_total, y_total, t_total
 
-def sampler_boundary(n, domain):
+def sampler_initial(n, domain):
     xmin, xmax, ymin, ymax, tmin, tmax = domain
     Xs, Ys, Ts = [], [], []
 
@@ -87,10 +112,11 @@ def sampler_boundary(n, domain):
     x0 = np.random.uniform(xmin, xmax, (n, 1))
     y0 = np.random.uniform(ymin, ymax, (n, 1))
     t0 = tmin * np.ones((n, 1))
-    Xs.append(x0);
-    Ys.append(y0);
-    Ts.append(t0)
+    return x0,y0,t0
 
+def sampler_boundary(n, domain):
+    xmin, xmax, ymin, ymax, tmin, tmax = domain
+    Xs, Ys, Ts = [], [], []
     # x = xmin 与 x = xmax
     x_left = xmin * np.ones((n, 1))
     y_left = np.random.uniform(ymin, ymax, (n, 1))
@@ -250,51 +276,62 @@ domain_stokes = [0.0, np.pi, -1.0, 0.0, 0.0, T_final]
 # 采样个数（可根据实际情况调整）
 N_interior_darcy = 1000
 N_interior_stokes = 1000
+N_ic_darcy = 200
 N_bd_darcy = 200
+N_ic_stokes = 200
 N_bd_stokes = 200
 N_interface = 200
 
-# 内部采样点
+"""内部采样点"""
+# 达西区域
 x_d_np, y_d_np, t_d_np = adaptive_sampler(N_interior_darcy, domain_darcy)
-x_s_np, y_s_np, t_s_np = adaptive_sampler(N_interior_stokes, domain_stokes)
-
 x_d = torch.tensor(x_d_np, dtype=torch.float32, device=device, requires_grad=True)
 y_d = torch.tensor(y_d_np, dtype=torch.float32, device=device, requires_grad=True)
 t_d = torch.tensor(t_d_np, dtype=torch.float32, device=device, requires_grad=True)
 
+# 斯托克斯区域
+x_s_np, y_s_np, t_s_np = adaptive_sampler(N_interior_stokes, domain_stokes)
 x_s = torch.tensor(x_s_np, dtype=torch.float32, device=device, requires_grad=True)
 y_s = torch.tensor(y_s_np, dtype=torch.float32, device=device, requires_grad=True)
 t_s = torch.tensor(t_s_np, dtype=torch.float32, device=device, requires_grad=True)
 
-# 边界/初始采样点
+"""初值条件采样"""
+# 达西区域
+x_ic_d_np, y_ic_d_np, t_ic_d_np = sampler_initial(N_ic_darcy, domain_darcy)
+x_ic_d = torch.tensor(x_ic_d_np, dtype=torch.float32, device=device)
+y_ic_d = torch.tensor(y_ic_d_np, dtype=torch.float32, device=device)
+t_ic_d = torch.tensor(t_ic_d_np, dtype=torch.float32, device=device)
+
+# 斯托克斯区域
+x_ic_s_np, y_ic_s_np, t_ic_s_np = sampler_initial(N_ic_stokes, domain_stokes)
+x_ic_s = torch.tensor(x_ic_s_np, dtype=torch.float32, device=device)
+y_ic_s = torch.tensor(y_ic_s_np, dtype=torch.float32, device=device)
+t_ic_s = torch.tensor(t_ic_s_np, dtype=torch.float32, device=device)
+
+"""边界采样点"""
+# 达西区域
 x_bd_d_np, y_bd_d_np, t_bd_d_np = sampler_boundary(N_bd_darcy, domain_darcy)
 x_bd_d = torch.tensor(x_bd_d_np, dtype=torch.float32, device=device)
 y_bd_d = torch.tensor(y_bd_d_np, dtype=torch.float32, device=device)
 t_bd_d = torch.tensor(t_bd_d_np, dtype=torch.float32, device=device)
 
+# 斯托克斯区域
 x_bd_s_np, y_bd_s_np, t_bd_s_np = sampler_boundary(N_bd_stokes, domain_stokes)
 x_bd_s = torch.tensor(x_bd_s_np, dtype=torch.float32, device=device)
 y_bd_s = torch.tensor(y_bd_s_np, dtype=torch.float32, device=device)
 t_bd_s = torch.tensor(t_bd_s_np, dtype=torch.float32, device=device)
 
-# 接口采样点（注意这里仅采样 x 与 t，接口处 y 固定为 0）
+"""接口采样点（注意这里仅采样 x 与 t，接口处 y 固定为 0）"""
 x_itf_np, y_itf_np, t_itf_np = sampler_interface(N_interface)
 x_itf = torch.tensor(x_itf_np, dtype=torch.float32, device=device, requires_grad=True)
 t_itf = torch.tensor(t_itf_np, dtype=torch.float32, device=device, requires_grad=True)
 
-# 定义优化器（同时更新两个模型参数）
+"""定义优化器（同时更新两个模型参数）"""
 optimizer = optim.Adam(list(model_darcy.parameters()) + list(model_stokes.parameters()), lr=1e-3)
-scheduler = torch.optim.lr_scheduler.StepLR(optimizer, step_size=500, gamma=0.8)
+scheduler = torch.optim.lr_scheduler.StepLR(optimizer, step_size=750, gamma=0.85)
 
-# ======================================================================
-# 6. 训练循环
-# ======================================================================
-nIter = 6501
-print_every = 500
 
-for it in range(1,nIter):
-    optimizer.zero_grad()
-
+def compute_total_loss():
     # 达西区域残差及损失
     res_d = darcy_residual(model_darcy, x_d, y_d, t_d)
     loss_darcy_PDE = torch.mean(res_d ** 2)
@@ -303,13 +340,31 @@ for it in range(1,nIter):
     r1, r2, incompress = stokes_residual(model_stokes, x_s, y_s, t_s)
     loss_stokes_PDE = torch.mean(r1 ** 2) + torch.mean(r2 ** 2) + torch.mean(incompress ** 2)
 
-    # 边界/初始条件损失（达西区域）
+    # 初值条件损失（达西区域）
+    X_ic_d = torch.cat([x_ic_d, y_ic_d, t_ic_d], dim=1)
+    phi_ic_pred = model_darcy(X_ic_d)
+    phi_ic_true = phi_D_exact(x_ic_d, y_ic_d, t_ic_d)
+    loss_ic_darcy = torch.mean((phi_ic_pred - phi_ic_true) ** 2)
+
+    # 初值条件损失（斯托克斯区域）
+    X_ic_s = torch.cat([x_ic_s, y_ic_s, t_ic_s], dim=1)
+    pred_ic_s = model_stokes(X_ic_s)
+    u1_ic_pred = pred_ic_s[:, 0:1]
+    u2_ic_pred = pred_ic_s[:, 1:2]
+    p_ic_pred = pred_ic_s[:, 2:3]
+    u1_ic_true, u2_ic_true = u_stokes_exact(x_ic_s, y_ic_s, t_ic_s)
+    p_ic_true = p_stokes_exact(x_ic_s, y_ic_s, t_ic_s)
+    loss_ic_stokes = torch.mean((u1_ic_pred - u1_ic_true) ** 2) + \
+                     torch.mean((u2_ic_pred - u2_ic_true) ** 2) + \
+                     torch.mean((p_ic_pred - p_ic_true) ** 2)
+
+    # 边界条件损失（达西区域）
     X_bd_d = torch.cat([x_bd_d, y_bd_d, t_bd_d], dim=1)
     phi_bd_pred = model_darcy(X_bd_d)
     phi_bd_true = phi_D_exact(x_bd_d, y_bd_d, t_bd_d)
     loss_bd_darcy = torch.mean((phi_bd_pred - phi_bd_true) ** 2)
 
-    # 边界/初始条件损失（斯托克斯区域）
+    # 边界条件损失（斯托克斯区域）
     X_bd_s = torch.cat([x_bd_s, y_bd_s, t_bd_s], dim=1)
     pred_bd_s = model_stokes(X_bd_s)
     u1_bd_pred = pred_bd_s[:, 0:1]
@@ -325,19 +380,56 @@ for it in range(1,nIter):
     r_normal, r_force, r_tangent = interface_residual(model_stokes, model_darcy, x_itf, t_itf)
     loss_interface = torch.mean(r_normal ** 2) + torch.mean(r_force ** 2) + torch.mean(r_tangent ** 2)
 
-    loss = loss_darcy_PDE + loss_stokes_PDE + loss_bd_darcy + loss_bd_stokes + loss_interface
+    total_loss = (model_darcy.loss_weights['residual'] * loss_darcy_PDE +
+                  model_stokes.loss_weights['residual'] * loss_stokes_PDE +
+                  model_darcy.loss_weights['initial'] * loss_ic_darcy +
+                  model_stokes.loss_weights['initial'] * loss_ic_stokes +
+                  model_darcy.loss_weights['boundary'] * loss_bd_darcy +
+                  model_stokes.loss_weights['boundary'] * loss_bd_stokes +
+                  model_darcy.loss_weights['interface'] * model_stokes.loss_weights['interface'] * loss_interface)
+    return total_loss, loss_darcy_PDE, loss_stokes_PDE, loss_ic_darcy, loss_ic_stokes, loss_bd_darcy, loss_bd_stokes, loss_interface
+
+
+# -------------------- 第一阶段训练：使用 Adam ----------------------
+nIter = 6001
+print_every = 500
+
+for it in range(1, nIter):
+    optimizer.zero_grad()
+
+    loss, loss_darcy_PDE, loss_stokes_PDE, loss_ic_darcy, loss_ic_stokes, loss_bd_darcy, loss_bd_stokes, loss_interface = compute_total_loss()
     loss.backward()
     optimizer.step()
     scheduler.step()
 
     if it % print_every == 0:
-        print(f"Iter {it:05d}, Total Loss: {loss.item():.3e}, "
+        current_lr = optimizer.param_groups[0]['lr']
+        print(f"Iter {it}, Total Loss: {loss.item():.3e}, "
               f"Darcy PDE: {loss_darcy_PDE.item():.3e}, "
               f"Stokes PDE: {loss_stokes_PDE.item():.3e}, "
+              f"IC Darcy: {loss_ic_darcy.item():.3e}, "
+              f"IC Stokes: {loss_ic_stokes.item():.3e}, "
               f"BC Darcy: {loss_bd_darcy.item():.3e}, "
               f"BC Stokes: {loss_bd_stokes.item():.3e}, "
-              f"Interface: {loss_interface.item():.3e}，"
-              f"current learning rate:{optimizer.param_groups[0]['lr']}")
+              f"Interface: {loss_interface.item():.3e}, "
+              f"LR: {current_lr:.1e}")
+        print("\n")
+
+# -------------------- 第二阶段精细优化：使用 LBFGS ----------------------
+# 当 Adam 达到初步收敛后，切换至 LBFGS 进行精细调优
+optimizer_lbfgs = optim.LBFGS(list(model_darcy.parameters()) + list(model_stokes.parameters()),
+                              lr=1.0, max_iter=1000, max_eval=1000,
+                              tolerance_grad=1e-6, tolerance_change=1e-10, history_size=100)
+
+def closure():
+    optimizer_lbfgs.zero_grad()
+    loss_lbfgs, _, _, _, _, _, _, _ = compute_total_loss()
+    loss_lbfgs.backward()
+    return loss_lbfgs
+
+print("Starting LBFGS optimization ...")
+optimizer_lbfgs.step(closure)
+print("LBFGS optimization finished.")
 
 # ======================================================================
 # 7. 可视化：所有子图放在同一张图中显示
