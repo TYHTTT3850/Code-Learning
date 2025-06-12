@@ -5,8 +5,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 # 设置随机种子
-torch.manual_seed(1234)
-np.random.seed(1234)
+torch.manual_seed(42)
+np.random.seed(42)
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 print("using device:",device)
 
@@ -14,7 +14,7 @@ print("using device:",device)
 # 1. 定义 MLP 网络
 # ======================================================================
 class MLP(nn.Module):
-    def __init__(self, input_dim, output_dim, hidden_layers=4, neurons=50):
+    def __init__(self, input_dim, output_dim, hidden_layers=4, neurons=64):
         super(MLP, self).__init__()
         layers = []
         layers.append(nn.Linear(input_dim, neurons))
@@ -30,10 +30,9 @@ class MLP(nn.Module):
 
 
 # 网络1：达西区域（输出标量 φ）
-model_darcy = MLP(input_dim=3, output_dim=1, hidden_layers=4, neurons=50).to(device)
+model_darcy = MLP(input_dim=3, output_dim=1, hidden_layers=5, neurons=64).to(device)
 # 网络2：斯托克斯区域（输出 u1, u2, p）
-model_stokes = MLP(input_dim=3, output_dim=3, hidden_layers=4, neurons=50).to(device)
-
+model_stokes = MLP(input_dim=3, output_dim=3, hidden_layers=5, neurons=64).to(device)
 
 # ======================================================================
 # 2. 定义解析解
@@ -52,12 +51,33 @@ def p_stokes_exact(x, y, t):
 # ======================================================================
 # 3. 采样方案
 # ======================================================================
-def sampler(n, domain):
-    # domain = [xmin, xmax, ymin, ymax, tmin, tmax]
-    x = np.random.uniform(domain[0], domain[1], (n, 1))
-    y = np.random.uniform(domain[2], domain[3], (n, 1))
-    t = np.random.uniform(domain[4], domain[5], (n, 1))
-    return x, y, t
+
+def adaptive_sampler(n, domain, adapt_fraction=1,adapt_x_range=(0.5, 2.5), adapt_y_range=(-0.7, -0.2)):
+    """
+    生成内部采样点，其中：
+    - domain = [xmin, xmax, ymin, ymax, tmin, tmax] 定义整体采样区域；
+    - adapt_fraction 表示在额外采样中占总点数的比例，用于误差较大的区域（u₂高误差区域）；
+    - adapt_y_range 为针对 u₂ 误差高的区域在 y 方向的子区间。
+    返回采样点 x, y, t 均为 numpy 数组。
+    """
+    n_adapt = int(n * adapt_fraction)   # 自适应区域内采样点数
+    n_uniform = n # 整体区域内均匀采样的点数
+
+    # 生成均匀采样点（覆盖整个区域）
+    x_uniform = np.random.uniform(domain[0], domain[1], (n_uniform, 1))
+    y_uniform = np.random.uniform(domain[2], domain[3], (n_uniform, 1))
+    t_uniform = np.random.uniform(domain[4], domain[5], (n_uniform, 1))
+
+    # 自适应采样：在全 x、全 t 范围内，但 y 仅在 adapt_y_range 内采样
+    x_adapt = np.random.uniform(adapt_x_range[0], adapt_x_range[1], (n_adapt, 1))
+    y_adapt = np.random.uniform(adapt_y_range[0], adapt_y_range[1], (n_adapt, 1))
+    t_adapt = np.random.uniform(domain[4], domain[5], (n_adapt, 1))
+
+    # 合并均匀采样和自适应采样得到总点集
+    x_total = np.vstack([x_uniform, x_adapt])
+    y_total = np.vstack([y_uniform, y_adapt])
+    t_total = np.vstack([t_uniform, t_adapt])
+    return x_total, y_total, t_total
 
 def sampler_boundary(n, domain):
     xmin, xmax, ymin, ymax, tmin, tmax = domain
@@ -153,7 +173,7 @@ def darcy_residual(model, x, y, t):
     # 右端项 f_D
     f_D = (torch.exp(y) - torch.exp(-y)) * torch.sin(x) * torch.exp(t)
 
-    # 构造严格残差：phi_t - (phi_xx+phi_yy) - f_D = 0
+    # 构造残差：phi_t - (phi_xx+phi_yy) - f_D = 0
     res = phi_t - phi_xx - phi_yy - f_D
     return res
 
@@ -235,8 +255,8 @@ N_bd_stokes = 200
 N_interface = 200
 
 # 内部采样点
-x_d_np, y_d_np, t_d_np = sampler(N_interior_darcy, domain_darcy)
-x_s_np, y_s_np, t_s_np = sampler(N_interior_stokes, domain_stokes)
+x_d_np, y_d_np, t_d_np = adaptive_sampler(N_interior_darcy, domain_darcy)
+x_s_np, y_s_np, t_s_np = adaptive_sampler(N_interior_stokes, domain_stokes)
 
 x_d = torch.tensor(x_d_np, dtype=torch.float32, device=device, requires_grad=True)
 y_d = torch.tensor(y_d_np, dtype=torch.float32, device=device, requires_grad=True)
@@ -264,11 +284,12 @@ t_itf = torch.tensor(t_itf_np, dtype=torch.float32, device=device, requires_grad
 
 # 定义优化器（同时更新两个模型参数）
 optimizer = optim.Adam(list(model_darcy.parameters()) + list(model_stokes.parameters()), lr=1e-3)
+scheduler = torch.optim.lr_scheduler.StepLR(optimizer, step_size=500, gamma=0.8)
 
 # ======================================================================
 # 6. 训练循环
 # ======================================================================
-nIter = 7501
+nIter = 6501
 print_every = 500
 
 for it in range(1,nIter):
@@ -307,6 +328,7 @@ for it in range(1,nIter):
     loss = loss_darcy_PDE + loss_stokes_PDE + loss_bd_darcy + loss_bd_stokes + loss_interface
     loss.backward()
     optimizer.step()
+    scheduler.step()
 
     if it % print_every == 0:
         print(f"Iter {it:05d}, Total Loss: {loss.item():.3e}, "
@@ -314,7 +336,8 @@ for it in range(1,nIter):
               f"Stokes PDE: {loss_stokes_PDE.item():.3e}, "
               f"BC Darcy: {loss_bd_darcy.item():.3e}, "
               f"BC Stokes: {loss_bd_stokes.item():.3e}, "
-              f"Interface: {loss_interface.item():.3e}")
+              f"Interface: {loss_interface.item():.3e}，"
+              f"current learning rate:{optimizer.param_groups[0]['lr']}")
 
 # ======================================================================
 # 7. 可视化：所有子图放在同一张图中显示
