@@ -27,5 +27,5 @@
 3. **网络层** 再封装为 IP 包，打上**源 IP**和**目的 IP**
 4. **链路层** 把 IP 包封装成帧（以太网帧等），准备在本地网络中发送
 
-<embed src="D:\Code-Learning\ComputerNetwork\Ch01The Internet and IP Introduction\pictures\通信过程.pdf" width="600" height="400">
+![通信过程](./pictures/通信过程.svg)
 
