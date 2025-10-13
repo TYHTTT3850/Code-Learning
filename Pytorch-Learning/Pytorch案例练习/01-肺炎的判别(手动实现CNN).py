@@ -39,7 +39,7 @@ class CNN(nn.Module):
     def __init__(self, num_classes=4):
         super().__init__()
         self.conv_layers = nn.Sequential(
-            nn.Conv2d(3, 32, kernel_size=3, padding=1),  # 输入通道是1
+            nn.Conv2d(3, 32, kernel_size=3, padding=1),  # 输入通道数3(RGB),输出通道数32(32种不同特征)
             nn.BatchNorm2d(32),
             nn.ReLU(),
             nn.MaxPool2d(kernel_size=2), #默认 stride = kernel_size
