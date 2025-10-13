@@ -16,7 +16,8 @@
 
 5. 假设发现2018年7月26日数据记录过程中存在错误。应如何处理？ 
 
-6. 欧洲疾病预防控制中心（ECDC）提供了一个关于新冠状病毒病例的公开数据集，名为“全球按国家划分的新冠状病毒新报告病例数”（https://www.ecdc.europa.eu/en/publications-data/download-todays-data-geographic-distribution-covid-19-cases-worldwide）。我们使用一个数据子集，包含2020年1月1日至2020年9月18日的数据。清理并转换数据，使其处于宽格式： 
+6. 欧洲疾病预防控制中心（ECDC）提供了一个关于新冠状病毒病例的公开数据集，名为“全球按国家划分的新冠状病毒新报告病例数”（https://www.ecdc.europa.eu/en/publications-data/download-todays-data-geographic-distribution-covid-19-cases-worldwide）。
+我们使用一个数据子集，包含2020年1月1日至2020年9月18日的数据。清理并转换数据，使其处于宽格式： 
 
     a) 读取covid19_cases.csv文件。 
 
