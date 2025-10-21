@@ -13,6 +13,15 @@ public class Function {
         return a + b + c;
     }
 
+    //通过return提前结束方法的执行
+    public static int division(int a,int b){
+        if(b==0){
+            System.out.println("除数不能为0");
+            return;
+        }
+        return a/b;
+    }
+
     public static void main(String []args) {
         int s = sum(3,5);
 		      System.out.println(s);
