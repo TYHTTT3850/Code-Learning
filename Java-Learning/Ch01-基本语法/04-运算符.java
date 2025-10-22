@@ -5,7 +5,7 @@ public class AllOperators {
         //算术运算符
         int a = 10, b = 3;
         System.out.println("=== 算术运算符 ===");
-        System.out.println("a + b = " + (a + b));//此时+是连接符，字符串之间的+也是连接符(能算则算，不能算即为连接)
+        System.out.println("a + b = " + (a + b));//此时+是连接符，字符串之间的+也是连接符(能算则算，不能算即为连接，注意单个字符和整数之间是加法运算，因为单个字符本质上是ASCII码值)
         System.out.println("a - b = " + (a - b));
         System.out.println("a * b = " + (a * b));
         System.out.println("a / b = " + (a / b));  // 整数除法，浮点类型即为正常的除法
