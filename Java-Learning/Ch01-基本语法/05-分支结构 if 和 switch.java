@@ -26,7 +26,7 @@ public class BranchExample {
         System.out.print("请输入今天是星期几（1-7）：");
         int day = input.nextInt();
 
-        switch (day) {
+        switch (day) {//switch只支持整数判断
             case 1:
                 System.out.println("今天是星期一");
                 break;
