@@ -1,3 +1,5 @@
+## 基本说明
+
 jdk版本：jdk25(LST)。开发环境：Intellij IDEA
 
 建议在环境变量中新建`JAVA_HOME`变量，里面的路径即为`jdk`安装路径。
@@ -13,3 +15,17 @@ Java项目构成：工程(Project)，模块(Module)，包(Package)，类(Class)�
 运行程序后，会自动编译并把结果存入工程的`out`目录下。
 
 Java声明变量时需要加上类型，和C++一样
+
+## 使用Maven构建项目
+
+在IDEA创建项目时，选择使用Maven构建系统。
+
+创建项目后，最主要的是`src`目录、`pom.xml`文件。
+
+1、`pom.xml`是项目的配置文件。
+
+2、`src`目录存放程序源代码，其下有`main`目录和`test`目录。
+
+3、`test`用于写测试程序，其下有`java`目录和`resources`目录，`java`存放代码，`resources`存放配置文件
+
+4、`main`用于写程序源码，其下有`java`目录和`resources`目录，`java`存放代码，`resources`存放配置文件
