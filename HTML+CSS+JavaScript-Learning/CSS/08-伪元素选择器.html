@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<style>
+    /*
+    用来选择元素的一部分，比如文本的第一行或在元素前后插入内容。
+
+    E::before：在E元素的内容前插入内容，必须设置content属性，如果没有内容，则引号留空即可
+
+    E::after：在E元素的内容后插入内容，必须设置content属性，如果没有内容，则引号留空即可
+
+    E::first-letter：选择E元素的第一个字母
+
+    E::first-line：选择E元素的第一行文字
+
+    E::selection：选择E元素的被用户高亮选中的文本部分
+    */
+
+    p::before {
+    content: "👉 ";
+  }
+
+  p::after {
+    content: " 👋";
+  }
+
+  p::first-letter {
+    font-size: 2em;
+    color: red;
+  }
+
+  p::selection {
+    background-color: yellow;
+    color: black;
+  }
+</style>
+
+<body>
+    <p>示例内容</p>
+</body>
+</html>

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>复合选择器</title>
+</head>
+<style>
+    div span{
+        color:red
+    }
+
+    strong > div{
+        color: blue;
+    }
+
+    ins,
+    del,
+    em{
+        color: red;
+    }
+
+    p.box{
+        color: blue;
+    }
+</style>
+<body>
+    <p>复合选择器适用于网页有多个同名标签，每个标签都要差异化设置样式的情况</p>
+
+    <h1>后代选择器</h1>
+
+    <p>选择某元素的后代元素(所有后代，如儿子级别，孙子级别)</p>
+    <p>选择器写法：父选择器 子选择器{CSS属性}</p>
+    <p>示例：</p>
+    <span>这是span标签</span>
+    <div>
+        <span>这是div的儿子span</span>
+        <p>
+            <span>
+                这是孙子span
+            </span>
+        </p>
+    </div>
+
+    <h1>子代选择器</h1>
+
+    <p>只选择儿子这一级，不选择孙子及更后一级</p>
+    <p>写法：父选择器 > 子选择器{CSS 属性}</p>
+    <p>示例：</p>
+    <strong>
+        <div>这是strong的儿子div</div>
+        <span><div>这是strong的孙子div</div></span>
+    </strong>
+
+    <h1>并集选择器</h1>
+
+    <p>选中多组标签设置同一个样式</p>
+    <p>
+        写法：选择器1 , 选择器2 , ... , 选择器N{CSS属性}
+        <div>注意最有一个选择器后无逗号。</div>
+    </p>
+    <p>示例：</p>
+    <p>
+        <ins>下划线</ins>，<del>删除线</del>，<em>倾斜</em>
+    </p>
+
+    <h1>交集选择器</h1>
+    <p>选中同时满足多个条件的标签</p>
+    <p>
+        写法：选择器1选择器2
+        <div>选择器之间直接连写，无任何符号。</div>
+        <div>如果选择器之间有标签选择器，则标签选择器要在最前面</div>
+    </p>
+    <p>示例：</p>
+    <p class="box">既是p标签，又是类box</p>
+</body>
+</html>
