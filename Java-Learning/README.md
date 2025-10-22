@@ -22,10 +22,12 @@ Java声明变量时需要加上类型，和C++一样
 
 创建项目后，最主要的是`src`目录、`pom.xml`文件。
 
-1、`pom.xml`是项目的配置文件。
+​	1、`pom.xml`是项目的配置文件。
 
-2、`src`目录存放程序源代码，其下有`main`目录和`test`目录。
+​	2、`src`目录存放程序源代码，其下有`main`目录和`test`目录。
 
-3、`test`用于写测试程序，其下有`java`目录和`resources`目录，`java`存放代码，`resources`存放配置文件
+​	3、`test`用于写测试程序，其下有`java`目录和`resources`目录，`java`存放代码，`resources`存放配		置文件
 
-4、`main`用于写程序源码，其下有`java`目录和`resources`目录，`java`存放代码，`resources`存放配置文件
+​	4、`main`用于写程序源码，其下有`java`目录和`resources`目录，`java`存放代码，`resources`存放配		置文件
+
+编译后的结果在`target`目录下。
