@@ -6,7 +6,7 @@ vue3 是一个开发框架，就像 pytorch 之于 python 。
 
 # npm 包管理器
 
-就像 Pyhton 的 pip 一样。
+node.js的包管理器，就像 Pyhton 的 pip 一样。
 
 ## 常用指令(vue3 开发)
 
