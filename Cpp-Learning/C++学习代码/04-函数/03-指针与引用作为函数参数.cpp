@@ -34,4 +34,6 @@ int main() {
     ChangeValRef(x, y);//引用传递也会改变原变量的值
     cout << "x: " << x << ", y: " << y << endl;
     return 0;
+
+    //引用和指针作为参数可以减少复制
 }
