@@ -1,5 +1,5 @@
 //保证单个cpp中只会引用一次，支持MSVC GCC CLANG
-#pragma once//编译效率更高
+#pragma once //编译效率更高
 #ifndef BASE16_H//兼容性更好
 #define BASE16_H
 //声明全局变量
