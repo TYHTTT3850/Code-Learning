@@ -22,5 +22,9 @@ int main() {
     cout.write(str.c_str(),str.size());
 
     cout<<flush;//刷新输出缓冲区
+
+    //cerr标准错误输出无缓冲
+    cerr<< "test cerr 01\n";
+    cerr << "test cerr 02\n";
     return 0;
 }
