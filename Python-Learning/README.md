@@ -104,7 +104,7 @@ py -<版本> -m pip install <库名>[==<版本号>] [-i <镜像源地址>]
 
 卸载和更新也同理。
 
-### Python创建项目虚拟环境
+## Python创建项目虚拟环境
 
 首先进入项目根目录，然后在终端中输入：
 
@@ -114,10 +114,18 @@ python -m venv .venv
 
 就在项目根目录下创建了.venv目录，虚拟环境就在其中
 
-然后输入：
+然后在powershell中输入：
 
-```cmd
+```powershell
 .\.venv\Scripts\Activate.ps1
 ```
 
 即可激活虚拟环境
+
+若报错，还有cmd备用方案：
+
+```cmd
+.\.venv\Scripts\activate.bat
+```
+
+成功激活后，终端前面会看到`(.venv)`
