@@ -129,3 +129,9 @@ python -m venv .venv
 ```
 
 成功激活后，终端前面会看到`(.venv)`
+
+若要退出虚拟环境，则在终端中输入：
+
+```powershell
+deactivate
+```
