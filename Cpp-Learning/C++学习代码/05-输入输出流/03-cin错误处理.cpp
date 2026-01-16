@@ -20,7 +20,16 @@ int main() {
         //     break;
         // }
         cout << "x=" << x << endl;
-
+        // C++ 流状态(std::ios_base::iostate)说明：
+        // - goodbit : 流状态正常
+        // - eofbit  : 已到达输入序列末尾
+        // - failbit : 格式化输入失败
+        // - badbit  : 严重底层 I/O 错误
+        // 常用检测接口：
+        // - good() : 仅当未置位 eofbit / failbit / badbit 时返回 true
+        // - eof()  : eofbit 被置位
+        // - fail() : failbit 或 badbit 被置位
+        // - bad()  : badbit 被置位(最严重)
     }
     return 0;
 }
