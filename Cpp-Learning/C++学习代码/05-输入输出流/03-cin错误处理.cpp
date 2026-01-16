@@ -26,10 +26,10 @@ int main() {
         // - failbit : 格式化输入失败
         // - badbit  : 严重底层 I/O 错误
         // 常用检测接口：
-        // - good() : 仅当未置位 eofbit / failbit / badbit 时返回 true
-        // - eof()  : eofbit 被置位
-        // - fail() : failbit 或 badbit 被置位
-        // - bad()  : badbit 被置位(最严重)
+        // - good() : 仅当未达到 eofbit / failbit / badbit 状态时返回 true
+        // - eof()  : 达到 eofbit 状态时返回 true
+        // - fail() : 达到 failbit 或 badbit 状态时返回 true
+        // - bad()  : 达到 badbit 状态时返回 true
     }
     return 0;
 }
