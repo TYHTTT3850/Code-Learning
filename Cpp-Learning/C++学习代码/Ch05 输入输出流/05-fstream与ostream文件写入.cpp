@@ -9,7 +9,6 @@ int main() {
     const string filename="test_file.txt";
 
     //fstream
-    
     fstream write_file_1(filename, ios::out|ios::binary); // 打开文件用于写入，默认会清空原内容
     //另一种打开方式
     // write_file.open("test_file.txt", ios::out|ios::binary);
