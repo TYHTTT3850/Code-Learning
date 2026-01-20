@@ -29,7 +29,7 @@ void* p = &a;       // 指向 int
 p = &b;             // 指向 double
 ```
 
-JavaScript弱类型示例
+JavaScript弱类型示例：
 
 ```javascript
 let a = 10;
