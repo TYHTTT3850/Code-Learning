@@ -12,7 +12,7 @@
 
 ![](./0.Figures/分类图.jpg)
 
-python强类型示例：
+python强类型示例代码：
 
 ```python
 a = 10
@@ -20,7 +20,7 @@ b = "20"
 c = a + b       # TypeError，不允许隐式转换
 ```
 
-C++弱类型示例：
+C++弱类型示例代码：
 
 ```cpp
 int a = 10;
@@ -29,7 +29,7 @@ void* p = &a;       // 指向 int
 p = &b;             // 指向 double
 ```
 
-JavaScript弱类型示例：
+JavaScript弱类型示例代码：
 
 ```javascript
 let a = 10;
