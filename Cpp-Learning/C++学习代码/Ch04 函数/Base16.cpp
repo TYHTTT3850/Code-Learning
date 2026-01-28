@@ -9,6 +9,9 @@ int FunctionExample(int a, int b) {
 //定义C语言函数
 extern "C" void C_FunctionExample() {
     //C语言函数实现
+    //可以使用C++特性
+    //函数对外暴露为C函数而不是C++函数
+    //通常用于多语言联合编程，为其他语言提供C接口
 }
 
 //定义一组C语言函数
