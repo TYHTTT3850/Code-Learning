@@ -1,5 +1,5 @@
 """
-函数装饰器本质上是一个高阶函数，它接收一个函数作为参数，返回一个新的函数，该新函数通常在调用原函数前后增加一些逻辑。
+函数装饰器本质上是一个闭包函数，它接收一个函数作为参数，返回一个新的函数，该新函数通常在调用原函数前后增加一些逻辑。
 """
 def my_wrapper(func):
     """
@@ -26,12 +26,12 @@ import functools
 
 def my_decorator(func):
     @functools.wraps(func)
-    def wrapper(*args, **kwargs):
+    def wrapper(*args, **kwargs):# 有嵌套(闭包结构1)
         print("Before calling function.") #拓展原函数的功能
-        result = func(*args, **kwargs)
+        result = func(*args, **kwargs) #有引用(闭包结构2)
         print("After calling function.")
         return result
-    return wrapper
+    return wrapper # 有返回(闭包结构3)
 
 @my_decorator
 def greet():
