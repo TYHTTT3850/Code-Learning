@@ -1,4 +1,4 @@
-public class test {
+public class test {// test的字节码文件进入方法区
     public static void swap(int a, int b){
         int temp = a;
         a = b;
