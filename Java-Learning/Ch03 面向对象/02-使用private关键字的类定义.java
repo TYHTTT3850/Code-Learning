@@ -1,6 +1,6 @@
 public class Dog {
     //为了解决面向对象中的数据安全问题，所有的成员变量都要设置为私有的(private关键字)
-    private String name;
+    private String name;// 此时无法直接使用 dog.name 这种形式直接获取名字，因为只能在类内部使用，而不能在外部访问
     private int age;
 
     //提供一个公共的(public)成员方法来访问私有的成员变量
