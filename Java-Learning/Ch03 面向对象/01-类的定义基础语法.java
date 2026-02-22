@@ -1,4 +1,4 @@
-public class Person{//创建一个类，单独定义在Person.java文件中
+public class Person{//创建一个类，单独定义在Person.java文件中，不和 main 函数写一起
     String name;
     int age;
 
