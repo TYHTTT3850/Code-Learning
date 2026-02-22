@@ -1,4 +1,4 @@
-public class Person{//创建一个类
+public class Person{//创建一个类，单独定义在Person.java文件中
     String name;
     int age;
 
