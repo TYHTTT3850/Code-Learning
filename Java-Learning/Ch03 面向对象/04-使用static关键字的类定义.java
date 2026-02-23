@@ -9,4 +9,5 @@ public class Student{
     String name;
     int age;
     static String teacher;//所有学生共享一个老师
+    // 静态变量随着类的加载而加载，先于对象而存在
 }
