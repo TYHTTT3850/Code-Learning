@@ -9,27 +9,33 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>org.example</groupId>
-    <artifactId>01-FirstSpringBootProject</artifactId>
+    <artifactId>BasicSpringBootProject</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>01-FirstSpringBootProject</name>
-    <description>01-FirstSpringBootProject</description>
+    <name>BasicSpringBootProject</name>
+    <description>BasicSpringBootProject</description>
     <url/>
+
     <licenses>
         <license/>
     </licenses>
+
     <developers>
         <developer/>
     </developers>
+
     <scm>
         <connection/>
         <developerConnection/>
         <tag/>
         <url/>
     </scm>
+
     <properties>
         <java.version>25</java.version>
     </properties>
+
     <dependencies>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter</artifactId>
@@ -40,6 +46,7 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
+
     </dependencies>
 
     <build>
