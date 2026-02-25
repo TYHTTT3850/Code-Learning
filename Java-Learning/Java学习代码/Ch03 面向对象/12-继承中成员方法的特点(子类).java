@@ -3,7 +3,7 @@ public class ThirdGenerationPhone extends SecondGenerationPhone {
     @Override//这个注解意思是：这个方法是重写父类的方法，如果没有重写成功，编译器会报错
     public void call() {//方法声明保持一致，方法体可以改变
         System.out.println("利用手机视频通话");
-        System.out.println("利用手机打电话");
+        super.call();//直接调用父类方法
     }
 
     public void playGame() {
