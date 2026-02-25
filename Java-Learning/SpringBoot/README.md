@@ -52,3 +52,21 @@ Spring MVC 是 Spring Framework 中用于构建 Web 应用的一套 MVC(Model-Vi
 
 此目录（运行构建后创建）包含编译后的字节码(`.class` 文件)、打包后的 JAR/WAR 文件和其他构建产物，通常在版本控制中被忽略。
 
+## 三层架构
+
+在Spring Boot项目中，典型的三层架构可以按 **Controller、Service、Mapper** 理解：
+
+- **Controller 层**：负责接收客户端请求(GET、POST、PUT、DELETE等)，处理请求参数，并调用 Service 层的代码完成业务处理，最后返回响应结果。
+- **Service 层**：封装具体的业务逻辑和规则，协调不同 Mapper 或其他服务完成操作，同时可以处理事务管理、缓存等逻辑。
+- **Mapper 层**：直接与数据库交互，通常使用 MyBatis，通过接口方法映射 SQL 语句，实现对数据的增删改查操作。
+
+这种分层保证了各层职责清晰：Controller 不直接访问数据库，Service 不处理 HTTP 请求，Mapper 专注于数据操作，便于维护、测试和扩展。
+
+这三个曾的工作逻辑是自上而下的：客户端请求首先由 **Controller** 接收，Controller 对请求进行解析和初步校验后，将业务操作委托给 **Service** 层；Service 层根据业务规则处理逻辑，并调用一个或多个 **Mapper** 执行数据库操作；Mapper 负责具体的数据增删改查，将结果返回给 Service，Service 再处理结果后返回给 Controller，最终由 Controller 封装成响应返回给客户端，实现请求到数据操作的完整流程。
+
+SpringBoot项目中体现这三个层的方式是在源代码目录下创建这三个包。例如：
+
+![](./.Figures/三层架构的软件包.jpg)
+
+**注意：**controller 层下创建的类都以 controller 结尾，其他两个包也一样。
+
