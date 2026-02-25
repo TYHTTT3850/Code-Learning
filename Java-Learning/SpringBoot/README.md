@@ -68,5 +68,5 @@ SpringBoot项目中体现这三个层的方式是在源代码目录下创建这�
 
 ![](./.Figures/三层架构的软件包.jpg)
 
-**注意：**controller 层下创建的类都以 controller 结尾，其他两个包也一样。
+**注意**：controller 层下创建的类都以 controller 结尾，其他两个包也一样。
 
