@@ -24,7 +24,7 @@ cmd 输入 `nvidia-smi` ，结果如下：
 
 ![选择自定义安装模式](./.Pictures/选择自定义安装模式.png)
 
-![选择安装组件](./Pictures/选择安装组件.png)
+![选择安装组件](./.Pictures/选择安装组件.png)
 
 等待安装完成，然后再 cmd 中输入 `nvcc -V` 查看是否安装成功
 
