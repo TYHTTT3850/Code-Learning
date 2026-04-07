@@ -18,6 +18,8 @@ Java声明变量时需要加上类型，和C++一样
 
 ## 使用Maven构建项目
 
+建议也在环境变量中新建`MAVEN_HOME`变量，里面的路径即为`MAVEN`安装路径。然后在`path`环境变量中添加一个路径为`%MAVEN_HOME%\bin`
+
 在IDEA创建项目时，选择使用Maven构建系统。
 
 创建项目后，最主要的是`src`目录、`pom.xml`文件。
