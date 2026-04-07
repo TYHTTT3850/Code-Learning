@@ -4,7 +4,7 @@ jdk版本：jdk25(LST)。开发环境：Intellij IDEA
 
 建议在环境变量中新建`JAVA_HOME`变量，里面的路径即为`jdk`安装路径。
 
-然后在`path`环境变量中添加一个路径为`%JAVA_HOME\bin%`
+然后在`path`环境变量中添加一个路径为`%JAVA_HOME%\bin`
 
 Java项目构成：工程(Project)，模块(Module)，包(Package)，类(Class)。关系为：层层递进，层层包含
 
