@@ -39,7 +39,7 @@ domain shift 意思为训练数据跟测试数据的分布不一样：
 
 基本的想法是：训练一个叫做 feature extractor 的模型，由 feature extractor 提取 source domain 和 target domain 上数据的特征，让提取的特征具有相同的分布。
 
-![](./.Figures/Feature Extractor基本思想.svg)
+![](./.Figures/FeatureExtractor基本思想.svg)
 
 那么模型的结构就可以分成 feature extractor 及 label predictor 两个部分。例如：前 5 层是 feature extractor，后 5 层是 label predictor 。
 
@@ -47,7 +47,7 @@ domain shift 意思为训练数据跟测试数据的分布不一样：
 
 类似于 GAN，新增一个 domain classifier 作为判别器 $D$ ，判断输入来自哪个 domain，feature extractor 如同生成器 $G$ ，要想办法骗过 domain classifier 。
 
-![](./.Figures/Domain Adversarial Training训练思路.svg)
+![](./.Figures/DomainAdversarialTraining训练思路.svg)
 
 设：
 
