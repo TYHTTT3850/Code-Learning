@@ -29,7 +29,7 @@ Actor 就是一个神经网络，称为 Policy Network。
 
 在测试和推理阶段，为了追求稳定性和收益最大化，这时模型会直接选择概率最大的那个 Action。
 
-### Step 2. 定义损失
+### Step 2. 定义目标函数
 
 Actor 在时刻 $t$ 接收到的关于 Environment 当前情况的 Observation 记为 $s_t$，并在状态 $s_t$ 下做出 Action 记为 $a_t$ ，Environment 在 Actor 执行动作 $a_t$ 并转移到新状态 $s_{t+1}$ 后，给 Actor 一个 Reward 记为 $r_t$ 。
 
@@ -39,7 +39,7 @@ $$
 \tau = (s_1, a_1, r_1, s_2, a_2, r_2, \dots, s_T).
 $$
 
-当这个序列到达一个终止状态时，这一个完整的序列就称为一个 Episode。把所有的 Reward 相加得到整个 Episode 的 Total Reward，又称为 Return 。目标是最大化 Return，所以 loss 即为 $-\text{Return}$ 。
+当这个序列到达一个终止状态时，这一个完整的序列就称为一个 Episode。把所有的 Reward 相加得到整个 Episode 的 Total Reward，又称为 Return 。目标是最大化 Return，所以目标函数即为 -Return 。
 
 ### Step 3. 最优化
 
@@ -59,7 +59,9 @@ Reward 是一个函数，输入是 $s_i$ 和 $a_i$ ，输出 $r_i$ 。
 | 相同 | 训练 generator 时，会把 generator 跟 discriminator 接在一起，调整 generator 的参数让 discriminator 的输出越大越好 | RL 中，actor 如同 generator，environment 跟 reward 如同 discriminator，调整 actor 的参数，让 environment 跟 reward 的输出越大越好 |
 | 相异 | GAN 的 discriminator 是一个 neural network | reward 跟 environment 不是 network，是一个黑盒，无法用一般梯度下降法来调整参数，来得到最大的输出 |
 
-# Policy Gradient
+# 优化方法：策略梯度(Policy Gradient)
+
+由于环境和奖励的随机性，强化学习的优化问题不是一般的优化的问题，所以在优化的步骤跟一般的方法不同，其会使用策略梯度等优化方法。
 
 ## 如何控制 Actor
 
