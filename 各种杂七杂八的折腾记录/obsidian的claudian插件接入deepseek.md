@@ -3,7 +3,7 @@
 Claude Code CLI 的下载服务器在国内是无法直接访问的，即使已经打开了代理软件，Windows 的 PowerShell 默认情况下也不会自动走代理，导致直接裸连服务器并被防火墙拦截，所以安装时需要先在 PowerShell 中设置临时代理：
 
 ```powershell
-# 依次输入
+# 依次输入，注意把冒号后面的端口号换成实际运行时的
 $env:HTTP_PROXY="http://127.0.0.1:7890"
 $env:HTTPS_PROXY="http://127.0.0.1:7890"
 ```
