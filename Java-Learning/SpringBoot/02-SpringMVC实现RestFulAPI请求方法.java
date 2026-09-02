@@ -28,12 +28,12 @@ public class Application {
 //        return "GET无参请求API";
 //    }
 
-    @GetMapping("{id}")//RestFul请求，参数通过路径的方式传递，路径中的参数用{}包裹起来
+    @GetMapping("{id}")//RestFul请求，参数通过路径的方式传递，路径中的参数用{}包裹起来。例如/index/100(此时形参 id = "100")
     public String index(@PathVariable String id) {//想要读前端传过来的参数，必须加上@PathVariable注解修饰方法中的形参
         return "GET RestFul请求API，参数id=" + id;
     }
 
-    @GetMapping//普通请求。?用于开始查询参数(分隔路径与参数)，&用于分隔多个参数，例如 /index?id=1&name=Tom
+    @GetMapping//普通请求。?用于开始查询参数(分隔路径与参数)，&用于分隔多个参数，例如 /index?id=1&name=Tom(此时 id = "1"，name = "Tom")
     public String index2(@RequestParam String id, @RequestParam String name) {//想要读前端传过来的参数，必须加上@RequestParam注解修饰方法中的形参
         return "GET普通请求API，参数id=" + id + "，参数name=" + name;
     }//相同的注解，方法必须加上不同的请求路径，否则会报错，所以第一个无参请求要注释掉。
