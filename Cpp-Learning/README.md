@@ -1,4 +1,4 @@
-## C++常见关键字
+# C++常见关键字
 
 | 0      |     1      |      2       |        3         |      4      |    5     |
 | ------ | :--------: | :----------: | :--------------: | :---------: | :------: |
@@ -16,7 +16,7 @@
 | **12** |  default   |    friend    |     register     |    true     |          |
 | **13** |   delete   |     goto     | reinterpret_cast |     try     |          |
 
-## ASCII码表
+# ASCII码表
 
 | **ASCII**值 | **控制字符** | **ASCII**值 | **字符** | **ASCII**值 | **字符** | **ASCII**值 | **字符** |
 | ----------- | ------------ | ----------- | -------- | ----------- | -------- | ----------- | -------- |
@@ -53,7 +53,7 @@
 | 30          | RS           | 62          | >        | 94          | ^        | 126         | `        |
 | 31          | US           | 63          | ?        | 95          | _        | 127         | DEL      |
 
-## C++通过源码安装第三方库(MinGW)
+# C++通过源码安装第三方库(MinGW)
 
 使用的构建系统为：CMake。使用的编译器为：MinGW64。
 
@@ -108,3 +108,129 @@ cmake --install .
 
 编译库并将其安装到 `D:/CppThirdPartyLib` 目录下。
 `cmake --install .` 会把库的文件(如头文件和库文件)复制到指定的安装目录。
+
+# VS Code 配置普通 Cpp 编程
+
+编程环境：
+
+```
+MSVC 编译器
+Ninja
+CMake
+```
+
+VS Code 要安装的插件：
+
+```
+1. C/C++
+   Publisher: Microsoft
+   Extension ID: ms-vscode.cpptools
+
+2. CMake Tools
+   Publisher: Microsoft
+   Extension ID: ms-vscode.cmake-tools
+
+3. clangd
+   Publisher: LLVM
+   Extension ID: llvm-vs-code-extensions.vscode-clangd
+```
+
+## 安装 Ninja 并配置
+
+安装地址：https://github.com/ninja-build/ninja 。Windows 版本通常下载：
+
+```
+ninja-win.zip
+```
+
+下载好后，比如解压到：`D:\Ninja\` ，其中会有：`D:\Ninja\ninja.exe` 。
+
+把 `D:\Ninja\` 加入到环境变量 `PATH` 中。
+
+然后打开 CMD 验证：
+
+```cmd
+ninja --version #安装成功会显示版本号
+```
+
+在项目中创建 `CMakePresets.json` 并配置为：
+
+```json
+{
+    "version": 6,
+    "configurePresets": [
+        {
+            "name": "windows-msvc",
+            "displayName": "Windows MSVC + Ninja",
+            "generator": "Ninja",
+            "binaryDir": "${sourceDir}/build",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Debug",
+                "CMAKE_EXPORT_COMPILE_COMMANDS": "ON",
+                "CMAKE_CXX_COMPILER": "cl.exe"
+            }
+        }
+    ],
+    "buildPresets": [
+        {
+            "name": "windows-msvc-debug",
+            "configurePreset": "windows-msvc"
+        }
+    ]
+}
+```
+
+`generator` 指定构建工具为 Ninja。
+
+## 安装 clangd 并配置
+
+安装 clangd，不需要安装完整 LLVM。
+
+下载地址：https://github.com/clangd/clangd/releases 。Windows 版本的下载如：
+
+```
+clangd-windows-23.1.0.zip
+```
+
+下载好后，比如解压到 `D:\clangd_23.1.0` ，其中会有 `D:\clangd_23.1.0\bin\clangd.exe` 。
+
+把 `D:\clangd_23.1.0\bin` 加入到环境变量 `PATH` 中。
+
+然后打开 CMD 验证：
+
+```cmd
+clangd --version #安装成功会显示版本号
+```
+
+然后再在 VS Code 扩展市场安装 `clangd, Publisher: LLVM` ，然后禁用 Microsoft C/C++ 插件的代码检查和补全 IntelliSense ，否则会和 clangd 冲突，禁用方式：
+
+在 VS Code 全局 `settings.json` 中加入：
+
+```json
+{
+    "C_Cpp.intelliSenseEngine": "disabled",
+
+    "clangd.arguments": [
+        "--background-index",
+        "--clang-tidy",
+        "--completion-style=detailed"
+    ],
+}
+```
+
+这样做的话，clangd负责补全、诊断、跳转、索引；Microsoft C/C++ 可以继续保留，用于调试等功能。
+
+因为这部分已经写在全局用户设置中，所以项目内不再需要项目设置文件 `.vscode/settings.json` 。
+
+## CMakeLists.txt 配置
+
+项目使用 CMake 管理。
+
+示例：
+
+```cmake
+project(ProjectName LANGUAGES CXX)
+
+set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+```
