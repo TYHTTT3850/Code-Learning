@@ -1,0 +1,4 @@
+CompileFlags:
+  Add:
+    - -xcuda
+    - --cuda-path=C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v13.0

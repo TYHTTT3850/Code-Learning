@@ -1,0 +1,24 @@
+{
+    "version": 6,
+    "configurePresets": [
+        {
+            "name": "windows-msvc-cuda",
+            "displayName": "Windows MSVC + CUDA + Ninja",
+            "generator": "Ninja",
+            "binaryDir": "${sourceDir}/build",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Debug",
+                "CMAKE_EXPORT_COMPILE_COMMANDS": "ON",
+                "CMAKE_CXX_COMPILER": "cl.exe",
+                "CMAKE_CUDA_COMPILER": "C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v13.0/bin/nvcc.exe",
+                "CMAKE_CUDA_HOST_COMPILER": "D:/Microsoft Visual Studio/2022/BuildTools/VC/Tools/MSVC/14.44.35207/bin/Hostx64/x64/cl.exe"
+            }
+        }
+    ],
+    "buildPresets": [
+        {
+            "name": "windows-msvc-cuda-debug",
+            "configurePreset": "windows-msvc-cuda"
+        }
+    ]
+}
