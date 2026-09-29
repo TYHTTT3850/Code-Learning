@@ -38,3 +38,8 @@ out/
 
 # Built Visual Studio Code Extensions
 *.vsix
+
+### CMake / CUDA
+build/
+.cache/
+compile_commands.json
