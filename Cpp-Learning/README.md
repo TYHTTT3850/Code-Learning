@@ -224,13 +224,19 @@ clangd --version #安装成功会显示版本号
 
 ## CMakeLists.txt 配置
 
-项目使用 CMake 管理。
+项目使用 CMake 构建系统生成器来进行管理。
 
 示例：
 
 ```cmake
-project(ProjectName LANGUAGES CXX)
+cmake_minimum_required(VERSION 3.24)
+
+project(CppLearning LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+add_executable(CppLearning
+    main.cpp
+)
 ```
