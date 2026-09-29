@@ -76,6 +76,8 @@ ninja --version #安装成功会显示版本号
 
 `CMAKE_CUDA_COMPILER` 和 `CMAKE_CUDA_HOST_COMPILER` 修改为实际路径。
 
+关键的是 `"CMAKE_EXPORT_COMPILE_COMMANDS": "ON"` ，它会生成：`build/compile_commands.json`，clangd 会通过这个文件获取真实编译参数。
+
 ## 安装 clangd 并配置
 
 安装 clangd，不需要安装完整 LLVM。
@@ -142,14 +144,10 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CUDA_STANDARD 20)
 set(CMAKE_CUDA_STANDARD_REQUIRED ON)
 
-set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
-
 add_executable(CudaLearning
     main.cu
 )
 ```
-
-最关键的是 `set(CMAKE_EXPORT_COMPILE_COMMANDS ON)` ，它会生成：`build/compile_commands.json`，clangd 会通过这个文件获取真实编译参数。
 
 ## 测试 CUDA 代码
 
