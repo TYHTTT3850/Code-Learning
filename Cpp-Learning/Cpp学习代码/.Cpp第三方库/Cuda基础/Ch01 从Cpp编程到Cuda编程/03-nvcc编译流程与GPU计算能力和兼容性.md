@@ -11,7 +11,7 @@
 
 `nvidia-smi` 中的 `CUDA Version` 表示驱动报告最大的 CUDA 支持版本，本机实际调用的编译器版本由 `nvcc --version` 确认。
 
-`nvcc --list-gpu-arch` 列出当前 nvcc 支持的虚拟架构 `compute_XY`，`nvcc --list-gpu-code` 列出当前 nvcc 支持的真实架构 `sm_XY` 。
+`nvcc --list-gpu-arch` 列出当前 nvcc 编译时支持指定的虚拟架构 `compute_XY`，`nvcc --list-gpu-code` 列出当前 nvcc 编译时支持指定的真实架构 `sm_XY` 。
 
 # nvcc 如何把 .cu 编译成可执行程序
 
